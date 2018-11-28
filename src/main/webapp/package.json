@@ -1,0 +1,15 @@
+{
+  "name": "mapa-conceitual",
+  "private" : true,
+  "version": "0.1.0",
+  "description": "Mapa Conceitual - Single-Page Application",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/projeto-ontologia/ontologia-mapa-conceitual"
+  },
+  "author": "araujodavid",
+  "dependencies": {
+    "bower": "1.7.9"
+  }
+}

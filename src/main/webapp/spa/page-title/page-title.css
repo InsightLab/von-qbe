@@ -1,0 +1,24 @@
+
+.page-title {
+    width: 90%;
+	max-width: 1200px;
+    margin: 30px auto;
+    text-align: left;
+}
+
+.page-title label {
+	text-transform: none;
+	font-size: 18px;
+	color: #aaa;
+}
+
+.page-title h1 {
+	margin: 0 auto;
+	font-size: 44px;
+	font-weight: lighter;
+	text-transform: none;
+	color: #777;
+}
+
+
+

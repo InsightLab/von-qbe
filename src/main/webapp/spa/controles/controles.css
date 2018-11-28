@@ -1,0 +1,120 @@
+.botao-conceitos, 
+.botao-provedores, 
+.botao-gestores, 
+.botao-check, 
+.botao-logout, 
+.botao-fundamentacao {
+	position: fixed;
+    z-index: 999999;
+    top: 165px;
+    width: 45px;
+    height: 45px;    
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 3px 5px rgba(0,0,0, 0.4);
+    transform-origin: center 80%;
+    transition: 0.35s;
+}
+
+body.scrolling .botao-conceitos, 
+body.scrolling .botao-provedores, 
+body.scrolling .botao-gestores, 
+body.scrolling .botao-check {
+    top: 75px;
+    right: 40px;
+}
+
+.botao-creditos {
+	position: fixed;
+    z-index: 999999;
+    bottom: 10px;
+    right: 30px;
+    width: 70px;
+    height: 25px;
+    transform-origin: center 80%;
+    transition: all 0.2s;
+    font-family: 'petrobras';
+    font-size: 18px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    cursor: pointer;
+}
+
+.botao-glossarios {
+	position: fixed;
+    z-index: 999999;
+    bottom: 10px;
+    left: 30px;
+    width: 155px;
+    height: 25px;
+    transform-origin: center 80%;
+    transition: all 0.2s;
+    font-family: 'petrobras';
+    font-size: 18px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    cursor: pointer;
+}
+
+.botao-conceitos {
+	right: 280px;
+	background: #3299BB url(../../img/conceitos.png) no-repeat 50% 40%;
+}
+
+body.scrolling .botao-conceitos {
+	top: 80px;
+	transition: top 0.5s;
+}
+
+.botao-provedores {
+	right: 220px;
+	background: #FF9900 url(../../img/operacionais.png) no-repeat 45% 45%;
+}
+
+body.scrolling .botao-provedores {
+	top: 140px;
+	transition: top 0.5s;
+}
+
+.botao-gestores {
+	right: 160px;
+	background: #a3a3a3 url(../../img/provedores.png) no-repeat 52.5% 58%;
+}
+
+body.scrolling .botao-gestores {
+	top: 200px;
+	transition: top 0.5s;
+}
+
+.botao-check {
+	right: 100px;
+	background: #a3a3a3 url(../../img/estatistica.png) no-repeat 52.5% 58%;
+}
+
+body.scrolling .botao-check {
+	top: 260px;
+	transition: top 0.5s;
+}
+
+.botao-fundamentacao {
+	right: 40px;
+	background: #a3a3a3 url(../../img/run.png) no-repeat 50% 54%;
+    background-size: 70%;
+}
+
+.botao-logout {
+	top: 275px;
+	background: #a3a3a3 url(../../img/logout-32.png) no-repeat 58% 55%;
+}
+
+.botao-provedores:hover,
+.botao-conceitos:hover,
+.botao-gestores:hover,
+.botao-check:hover,
+.botao-fundamentacao:hover,
+.botao-logout:hover {
+	cursor: pointer;
+	box-shadow: 0 4px 5px rgba(0,0,0, 0.7);
+}

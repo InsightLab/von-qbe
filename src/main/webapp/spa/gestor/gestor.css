@@ -1,0 +1,90 @@
+
+#page-gestor .tarja {
+	padding: 10px 0;
+	margin-bottom: 40px;
+	background: #f2f2f2;
+}
+
+
+
+#page-gestor .table {
+	margin:  0 auto;
+	padding: 0;
+	max-width: 1350px;
+}
+
+#page-gestor .row {
+	padding: 8px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+#page-gestor .row:nth-child(even) {
+	background: #f5f5f5;
+}
+
+#page-gestor .cell {
+	display: inline-block;
+	width: 19%;
+	text-align: center;
+	vertical-align: middle;
+	color: #41864C;
+	color: #888;
+}
+
+
+
+
+#page-gestor .table .cell b {
+	display: block;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+
+
+
+#page-gestor .first {
+	font-weight: lighter !important;
+	font-size: 18px !important;
+	color: #aaa;
+}
+
+
+
+
+
+/*#page-gestor .icon {
+    margin:  3px auto 5px auto;
+    width:  15px;
+    height:  4px;
+    background: #ccc;
+    border-radius: 50px;
+}*/
+
+#page-gestor .header .cell {
+	padding-bottom: 25px;
+	font-size: 24px;
+}
+
+#page-gestor .header .cell span {
+	font-weight: bold;
+	font-size: 20px;
+	color: #777;
+}
+
+#page-gestor .header .img {
+	background: url(../../img/right-arrow.svg) no-repeat 50% 100%;
+}
+#page-gestor .header .img.i4 {
+	background-image: url(../../img/right-arrow-last.svg);
+}
+
+#page-gestor  .cell.i.i0 { color: #247fd5 }
+#page-gestor  .cell.i.i1 { color: #4C98E0 }
+#page-gestor  .cell.i.i2 { color: #78b1e7 }
+#page-gestor  .cell.i.i3 { color: #a3caef }
+#page-gestor  .cell.i.i4 { color: #59c489 }
+
+#page-gestor .table.caixas .cell {
+	vertical-align: top;
+}
