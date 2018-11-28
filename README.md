@@ -4,7 +4,7 @@ Von-QBE is a Ontology-Based Query-by-Example system that operates over a relatio
 
 ## Running
 
-To execute this system, first you need to install at your local maven repository both [Linked-Graphast]() and [RoR] modules(all in [InsightLab]() repository.
+To execute this system, first you need to install at your local maven repository both [Linked-Graphast](https://github.com/InsightLab/linked-graphast) and [RoR](https://github.com/InsightLab/rdf-over-rdbms) modules(all in [InsightLab](https://github.com/InsightLab) repository.
 Second, you need to provide 3 files(which must be at home directory) to run the application:
 
 * **ontologiaXML.owl** - the ontology schema that represents the relational data that will be queried;
