@@ -1,4 +1,4 @@
-package org.insightlab.vonqbe.service.impl;
+package br.ufc.insightlab.vonqbe.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import br.ufc.insightlab.linkedgraphast.modules.fragmentexpansor.FragmentExpanso
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBEFragmentExtractor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBESparqlBuilder;
 import br.ufc.insightlab.linkedgraphast.parser.NTripleParser;
-import org.insightlab.vonqbe.service.QBEService;
+import br.ufc.insightlab.vonqbe.service.QBEService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

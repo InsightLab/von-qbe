@@ -1,4 +1,4 @@
-package org.insightlab.vonqbe.controller;
+package br.ufc.insightlab.vonqbe.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,11 +8,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.insightlab.vonqbe.entity.WebResultItem;
-import org.insightlab.vonqbe.service.QBEService;
-import org.insightlab.vonqbe.service.RORService;
-import org.insightlab.vonqbe.service.impl.QBEServiceImpl;
-import org.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -22,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
+import br.ufc.insightlab.vonqbe.entity.WebResultItem;
+import br.ufc.insightlab.vonqbe.service.QBEService;
+import br.ufc.insightlab.vonqbe.service.RORService;
+import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
+import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 
 @RestController
 public class QBEController {
@@ -71,8 +71,6 @@ public class QBEController {
 			for(ResultQuery r : results)
 				resultsList.add(new WebResultItem(r));
 			
-//			resultsList = getfromFile();
-			
 			System.out.println(resultsList);
 			
 			logger.info("Retornando {} resultados", resultsList.size());
@@ -85,33 +83,4 @@ public class QBEController {
 		}
 	}
 	
-	private List<WebResultItem> getfromFile() {
-		List<WebResultItem> list = new ArrayList<WebResultItem>();
-		
-		try {
-			List<String> lines = Files.readAllLines(Paths.get("/Users/lucasperes/Downloads/queryResults.csv"));
-			String[] header = lines.remove(0).split("\t");
-			
-			for(String line : lines) {
-				ResultQuery result = new ResultQuery(0);
-				int i = 0;
-				for(String field : line.split("\t")) {
-					if(field.startsWith("http"))
-						field = "<"+field+">";
-					if(field=="")
-						field = " ";
-					result.addValue(header[i], field);
-					i += 1;
-				}
-				
-				list.add(new WebResultItem(result));
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return list;
-	}
 }

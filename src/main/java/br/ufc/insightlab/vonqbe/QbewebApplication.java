@@ -1,4 +1,4 @@
-package org.insightlab.vonqbe;
+package br.ufc.insightlab.vonqbe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

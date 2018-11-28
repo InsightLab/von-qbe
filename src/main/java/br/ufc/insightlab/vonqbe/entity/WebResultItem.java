@@ -1,4 +1,4 @@
-package org.insightlab.vonqbe.entity;
+package br.ufc.insightlab.vonqbe.entity;
 
 import java.io.Serializable;
 import java.util.HashMap;

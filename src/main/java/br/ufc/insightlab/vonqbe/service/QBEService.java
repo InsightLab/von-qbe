@@ -1,4 +1,4 @@
-package org.insightlab.vonqbe.service;
+package br.ufc.insightlab.vonqbe.service;
 
 import java.util.List;
 
