@@ -54,11 +54,16 @@ public class QBEServiceImpl implements QBEService {
 		LinkedGraph fragment = extractor.generateFragment(text);
 		
 		List<String> suggestions = new ArrayList<>();
-		
-		Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator(); 
-		
-		while(it.hasNext()) suggestions.add(it.next());
-		logger.info("Suggestions: "+suggestions);
+
+		try {
+			Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator();
+			while(it.hasNext()) suggestions.add(it.next());
+			logger.info("Suggestions: "+suggestions);
+		}
+		catch(Exception e){
+			logger.info("No suggestions found");
+		}
+
 		return suggestions;
 	}
 

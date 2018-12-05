@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
@@ -61,14 +62,14 @@ public class QBEController {
 		try {
 			sparql = this.qbeService.query(text) + " LIMIT 30";
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return new ArrayList<WebResultItem>();
+			return new ArrayList<>();
 		}
 		logger.info(sparql);
 		try {
 			
 			ResultQuerySet results = this.rorService.run(sparql);
 			
-			List<WebResultItem> resultsList = new LinkedList<WebResultItem>();
+			List<WebResultItem> resultsList = new LinkedList<>();
 			
 			for(ResultQuery r : results)
 				resultsList.add(new WebResultItem(r));
