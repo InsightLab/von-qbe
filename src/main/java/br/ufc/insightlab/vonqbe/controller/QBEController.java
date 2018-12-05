@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -32,7 +33,8 @@ public class QBEController {
 	}
 	
 	private QBEService qbeService = new QBEServiceImpl();
-	private RORService rorService = new RORServiceImpl();
+//	private RORService rorService = new RORServiceImpl();
+	private RORService rorService = new DummyRORServiceImpl();
 
     private static Logger logger = LoggerFactory.getLogger(QBEController.class);
 	
