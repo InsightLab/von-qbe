@@ -1,0 +1,63 @@
+#search-field input,
+#search-field div {
+	display: inline-block;
+	max-width: 80%;
+	vertical-align: middle;
+}
+
+#input-search {
+    background: #fafafa url(../../img/search.png) no-repeat 12px center
+}
+
+#run {
+	width: 45px;
+    height: 45px;    
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 3px 5px rgba(0,0,0, 0.4);
+    /* transform-origin: center 80%; */
+    transition: 0.35s;
+    
+    background: #a3a3a3 url(../../img/run.png) no-repeat 50% 54%;
+    background-size: 70%;
+    
+    margin-left: 10px;
+    float: right;
+
+    cursor: pointer;
+}
+
+
+#input-search {
+	width: 100%;
+	padding: 5px 20px 6px 40px;
+	font-size: 18px;
+	color: #555;
+	background: #fafafa url(../../img/search.png) no-repeat 12px center;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	transition: all 0.2s;
+}
+
+#search-results {
+	width: 100%;
+	height: auto;
+	font-size: 18px;
+	color: #555;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	opacity: 0;
+	line-height: 18px;
+}
+
+#search-results > div {
+	width: 100%;
+	padding: 6px;
+	text-align: left;
+	line-height: 18px;
+}
+
+#search-results > div:hover {
+	cursor: pointer;
+	font-weight: bold;
+}

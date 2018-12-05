@@ -3,7 +3,7 @@ package br.ufc.insightlab.vonqbe.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightlab.graphast.structure.DefaultGraphStructure;
+import br.ufc.insightlab.graphast.structure.DefaultGraphStructure;
 import br.ufc.insightlab.linkedgraphast.model.graph.LinkedGraph;
 import br.ufc.insightlab.linkedgraphast.modules.fragmentexpansor.FragmentExpansor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBEFragmentExtractor;
@@ -54,11 +54,16 @@ public class QBEServiceImpl implements QBEService {
 		LinkedGraph fragment = extractor.generateFragment(text);
 		
 		List<String> suggestions = new ArrayList<>();
-		
-		Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator(); 
-		
-		while(it.hasNext()) suggestions.add(it.next());
-		logger.info("Suggestions: "+suggestions);
+
+		try {
+			Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator();
+			while(it.hasNext()) suggestions.add(it.next());
+			logger.info("Suggestions: "+suggestions);
+		}
+		catch(Exception e){
+			logger.info("No suggestions found");
+		}
+
 		return suggestions;
 	}
 

@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
@@ -32,7 +34,8 @@ public class QBEController {
 	}
 	
 	private QBEService qbeService = new QBEServiceImpl();
-	private RORService rorService = new RORServiceImpl();
+//	private RORService rorService = new RORServiceImpl();
+	private RORService rorService = new DummyRORServiceImpl();
 
     private static Logger logger = LoggerFactory.getLogger(QBEController.class);
 	
@@ -59,14 +62,14 @@ public class QBEController {
 		try {
 			sparql = this.qbeService.query(text) + " LIMIT 30";
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return new ArrayList<WebResultItem>();
+			return new ArrayList<>();
 		}
 		logger.info(sparql);
 		try {
 			
 			ResultQuerySet results = this.rorService.run(sparql);
 			
-			List<WebResultItem> resultsList = new LinkedList<WebResultItem>();
+			List<WebResultItem> resultsList = new LinkedList<>();
 			
 			for(ResultQuery r : results)
 				resultsList.add(new WebResultItem(r));
