@@ -5,27 +5,30 @@ import './Results.css'
 export class Results extends Component{
 
     render(){
-        const header = this.props.header.map(h => <td>{h}</td>)
-        const rows = this.props.children.map((child,i) => {
-            let values = child.values;
+        const headerValues = Object.keys(this.props.results[0].values)
+        const headerElements = headerValues.map((h,i) => <td key={i}>{h}</td>)
+        const rows = this.props.results.map((element,i) => {
+            let values = element.values;
+
             return (
                 <tr className="nome" key={i}>
-                    {this.props.header.map((h) => <td>{values[h]}</td>)}
+                    {headerValues.map((h) => <td>{values[h]}</td>)}
                 </tr>
             );
         });
         return (
             <div id="results">
-                <table>
+                {this.props.results.length > 0 &&<table>
                     <thead>
                         <tr className="nome">
-                            {header}
+                            {headerElements}
                         </tr>
                     </thead>
                     <tbody>
                         {rows}
                     </tbody>
-                </table>
+                </table>}
+                {this.props.results.length === 0 && <h3>No results found</h3>}
             </div>
         );
     }

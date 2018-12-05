@@ -43,9 +43,7 @@ export class QBEContainer extends Component{
             "isRequesting": true
         });
 
-        axios.get('http://localhost:8080/query?text='+text).then(response => {
-            console.log(response.data)
-            
+        axios.get('http://localhost:8080/query?text='+text).then(response => {            
             this.setState({
                 "text": text,
                 "suggestions": [],
@@ -78,7 +76,7 @@ export class QBEContainer extends Component{
                     </div>
                 </div>
                 {this.state.results && 
-                <Results header={Object.keys(this.state.results[0].values)}>
+                <Results results={this.state.results}>
                     {this.state.results}
                 </Results>
                 }
