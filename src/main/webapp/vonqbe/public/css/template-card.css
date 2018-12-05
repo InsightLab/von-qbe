@@ -1,0 +1,598 @@
+
+.template-card .card {
+	width: 75%;
+	max-width: 1100px;
+	padding: 1px 0 0 0;
+	margin: auto;
+	margin-top: 50px;
+	text-align: left;
+	background: #e5e5e5;
+	border-left: 10px solid #ddd;
+	box-shadow: 0 3px 5px rgba(0,0,0, 0.1);
+	transition: all 0.5s;
+}
+.template-card .card.is-hidden {
+	opacity: 0;
+	transform: translate(0,30px);
+}
+
+.template-card .card.c1 { border-left-color: #59c489 }
+.template-card .card.c2 { border-left-color: #59c489 }
+.template-card .card.c3 { border-left-color: #a3caef }
+.template-card .card.c9 { border-left-color: #59c489 }
+
+
+.template-card h1 {
+	font-family: petrobras;
+	font-weight: normal;
+	color: #555;
+}
+
+.template-card p {
+	font-family: 'petrobras';
+}
+
+.template-card b.gestao,
+.template-card b.gestor {
+	font-family: 'petrobras';
+	color: #999999;
+	font-size: 22px;
+}
+
+.template-card .card .main {
+	position: relative;
+	width: calc(100% + 100px);
+	margin: 20px -50px 0 -50px;
+	padding: 20px 30px 50px 30px;
+	background: #eee url(../img/card-background.png) no-repeat 300px top;
+	box-shadow: 0 5px 20px rgba(0,0,0, 0.2);
+}
+
+.template-card .card .main div.funcional {
+	position: absolute;
+	top: 10px;
+    right: -15px;
+	width: 30px;
+	height: 30px;
+	line-height: 34px;
+	background: #878787;
+	font-weight: 600;
+	color: #ffffff;
+	text-align: center;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+}
+
+.template-card .card .main.expansao {
+	background: #eee url(../img/card-background-maior.png) repeat-y 210px top;
+}
+
+.template-card .card.extended .main {
+	box-shadow: 0 4px 15px rgba(0,0,0, 0.15);
+}
+
+.template-card .card.c1 .main { background-color: #59c489 }
+.template-card .card.c2 .main { background-color: #59c489 }
+.template-card .card.c3 .main { background-color: #a3caef }
+.template-card .card.c9 .main { background-color: #59c489 }
+
+
+.template-card .card .gallery,
+.template-card .card .routes {
+	display: inline-block;
+	vertical-align: top;
+	width: 290px;
+	margin-top:  10px;
+	padding-top: 30px;
+}
+.template-card .card .routes {
+	height: 100%;
+	font-family: 'petrobras';
+	color: #555555;
+}
+
+.template-card .card .routes .route {
+	margin-bottom: 10px;
+}
+
+.template-card .card .routes .route.hierarquia:HOVER {
+	cursor: pointer;
+	text-decoration: underline;	
+}
+
+.template-card .card .routes .route > texto,
+.template-card .card .routes .route > classe {
+	display: block;
+	width: 100%;
+}
+
+.template-card .card .routes .route > texto {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.template-card .card .routes .route > classe {
+	font-size: 12px;	
+    margin-top: 2px;
+}
+
+.template-card .card .gallery.count0 {
+	opacity: 0;
+}
+.template-card .card .gallery .images {
+	display: inline-block;
+	width:  256px;
+	height: 256px;
+	padding: 10px;
+	background: #fff;
+	box-shadow: 0 3px 7px rgba(0,0,0, 0.2);
+}
+.template-card .card .gallery img {
+	position: absolute;
+	z-index:  9;
+	width:  236px;
+	height: 236px;
+	cursor: default;
+	opacity: 0;
+	transform: scale(1.08,1.08);
+	transition: none;
+}
+.template-card .card .gallery img.selected {
+	z-index: 99;
+	opacity: 1;
+	transform: scale(1,1);
+	transition: all 0.6s;
+}
+
+.template-card .card .navigator {
+	padding: 5px 0 0 10px;
+	width: 50%;
+	text-align: left;
+}
+.template-card .card .navigator button {
+	display: inline-block;
+	width:  10px;
+	height: 10px;
+	margin:  0 2px;
+	padding: 0;
+	cursor: pointer;
+	background: rgba(0,0,0, 0.1);
+	border: 0;
+	border-radius: 50%;
+	transition: all 0.3s;
+	/*box-shadow: 0 1px 0 rgba(255,255,255, 0.5);*/
+}
+.template-card .card .navigator button:hover {
+	background: rgba(0,0,0, 0.2);
+}
+.template-card .card .navigator button:active {
+	background: rgba(0,0,0, 0.3);
+	transform: scale(0.75,0.75);
+	transition: none;
+}
+.template-card .card .navigator button.selected {
+	background: rgba(0,0,0, 0.3);
+}
+
+
+
+.template-card .card .description {
+	display: inline-block;
+	vertical-align: top;
+	width: calc(100% - 310px);
+}
+
+
+
+.template-card .card .description h1 {
+	margin: 10px 0 20px 2%;
+}
+.template-card .card.c1 .description h1 { color: #59c489 }
+.template-card .card.c2 .description h1 { color: #59c489 }
+.template-card .card.c3 .description h1 { color: #a3caef }
+.template-card .card.c9 .description h1 { color: #59c489 }
+
+.template-card .card .description .container {
+	margin-left: 15%;
+	width: 90%;
+}
+
+.template-card .card .dictionary {
+	text-align: right;
+	margin-bottom: 10px;
+	border-bottom:  2px solid #ccc;
+}
+.template-card .card.c1 .dictionary { border-bottom-color: #59c489 }
+.template-card .card.c2 .dictionary { border-bottom-color: #59c489 }
+.template-card .card.c3 .dictionary { border-bottom-color: #a3caef }
+.template-card .card.c9 .dictionary { border-bottom-color: #59c489 }
+
+.template-card .card .dictionary .name {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 5px 15px 5px 15px;
+	text-align: right;
+	font-size: 15px;
+	font-style: italic;
+	color: #bbb;
+}
+.template-card .card .dictionary button {
+	display: inline-block;
+	vertical-align: middle;
+	width: 18px;
+	height:22px;
+	padding: 0;
+	margin:  0;
+	cursor: pointer;
+	opacity: 0.2;
+	background: url(../img/arrow.png) no-repeat center;
+	border: 0;
+	transition: opacity 0.2s;
+}
+.template-card .card .dictionary button.previous {
+	transform: scale(-1,1);
+}
+.template-card .card .dictionary button:hover {
+	opacity: 0.4;
+}
+.template-card .card .dictionary button:active {
+	opacity: 0.3;
+	transition: none;
+}
+.template-card .card .dictionary button.previous:active {
+	transform: scale(-1.3,1.3);
+}
+.template-card .card .dictionary button.next:active {
+	transform: scale(1.3,1.3);
+}
+
+.template-card .card .dictionary div {
+	float: right;
+	margin-top: -17px;
+	background: #fafafa;
+}
+
+
+
+
+
+.template-card .card .dictionary-content {
+	font-family: petrobras;
+	padding: 10px 0 0 0;
+	line-height: 1.4;
+	color: #555;
+	transition: all 0.4s;
+}
+.template-card .card .dictionary-content.is-hidden {
+	opacity: 0;
+	transform: translate(0,10px);
+	transition: none;
+}
+.template-card .card .dictionary-content p {
+	margin: 0 0 8px 0;
+}
+
+
+.template-card .card .dictionary-content .properties {
+	width: 100%;
+}
+
+.template-card .card .dictionary-content .property {
+	float: left;
+	margin-right: 50px;
+}
+
+.template-card .card .btn-plus {
+	position: relative;
+	float: right;
+	display: inline-block;
+	margin: -30px 50px 0 0;
+	padding:  0;
+	width:  56px;
+	height: 56px;
+	font-size: 45px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	color: #fff;
+	background: #aaa;
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 3px 5px rgba(0,0,0, 0.4);
+	transition: all 0.3s;
+}
+.template-card .card .btn-plus:hover {
+	box-shadow: 0 3px 8px rgba(0,0,0, 0.5);
+}
+.template-card .card .btn-plus:active {
+	margin-top: -28px;
+	box-shadow: 0 2px 4px rgba(0,0,0, 0.3);
+	transition: none;
+}
+.template-card .card.c1 .btn-plus { background-color: #59c489 }
+.template-card .card.c2 .btn-plus { background-color: #59c489 }
+.template-card .card.c3 .btn-plus { background-color: #a3caef }
+.template-card .card.c9 .btn-plus { background-color: #59c489 }
+
+.template-card .card .btn-plus b {
+	display: inline-block;
+	padding: 0;
+	margin:  0;
+	line-height: 1;
+	width:   40px;
+	height:  40px;
+	font-weight: normal;
+	transform-origin: center;
+	transition: all 0.3s;
+}
+.template-card .card.extended .btn-plus {
+	background: #ccc;
+}
+.template-card .card.extended .btn-plus b {
+	transform: rotateZ(135deg) translate(-1px,2px);
+}
+
+
+
+.template-card .card .sistemas {
+	padding: 30px 0;
+}
+.template-card .card .sistemas button {
+	display: inline-block;
+	padding: 2px 7px 3px 7px;
+	margin-right: 5px;
+	font-size: 14px;
+	text-align: center;
+	font-family: monospace;
+	color: #888;
+	background: none;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+}
+
+/* .template-card .card .sistemas button.c0 { background-color: #247fd5 } */
+/* .template-card .card .sistemas button.c1 { background-color: #4C98E0 } */
+/* .template-card .card .sistemas button.c2 { background-color: #78b1e7 } */
+
+.template-card .card .panel-resumo {
+	width: 70%;
+	margin: 0 auto;
+	text-align: center;
+	transition: all 0.2s;
+}
+.template-card .card .panel-resumo span {
+	display: inline-block;
+	padding: 7px 0 15px 0;
+	cursor: pointer;
+	opacity: 0.5;
+}
+.template-card .card .panel-resumo span:hover {
+	opacity: 0.6;
+}
+.template-card .card .panel-resumo span:active {
+	opacity: 0.4;
+}
+
+.template-card .card .panel-relacoes {
+	max-height: 0;
+	overflow-y: hidden;
+	opacity: 0;
+	transition: all 0.2s;
+}
+
+.template-card .card.extended .panel-resumo {
+	opacity: 0;
+	cursor: default;
+	pointer-events: none;
+}
+
+.template-card .card .panel-relacoes {
+	margin-top: -15px;
+	transform: translate(0,-10px);
+}
+.template-card .card.extended .panel-relacoes {
+	height: auto;
+	max-height: 500px;
+	opacity: 1;
+	padding: 0 0 10px 0;
+}
+
+
+
+
+
+
+.template-card .card .panel-relacoes .group {
+	padding: 0 10px 20px 10px;
+}
+.template-card .card .panel-relacoes .group-name {
+	padding: 0 0 5px 0;
+	font-family: 'sans-serif';
+	font-style: italic;
+	font-size: 18px;
+	color: #555;
+}
+.template-card .card .panel-relacoes .group .buttons {
+	padding-left: 20px;
+}
+
+.template-card .btn-relacao {
+	display: inline-block;
+	margin:  3px  3px 3px  0;
+	padding: 5px 20px 6px 20px;
+	text-align: center;
+	font-family: petrobras;
+	font-size: 16px;
+	font-weight: normal;
+	cursor: pointer;
+	color: rgba(255,255,255, 0.8);
+	background: #ccc;
+	border: 0;
+	border-radius: 33px;
+	box-shadow: 0 2px 3px rgba(0,0,0, 0.2);
+	transition: all 0.2s;
+}
+.template-card .btn-relacao:hover {
+	color: #fff;
+	box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+}
+.template-card .btn-relacao:active {
+	color: rgba(255,255,255, 0.8);
+	box-shadow: 0 1px 3px rgba(0,0,0, 0.3);
+	transform: translate(0,1px);
+	transition: none;
+}
+.template-card .btn-relacao.c1 { background: #59c489 }
+.template-card .btn-relacao.c2 { background: #59c489 }
+.template-card .btn-relacao.c3 { background: #a3caef }
+.template-card .btn-relacao.c9 { background: #59c489 }
+
+
+
+
+
+
+
+
+
+.template-card .card.expanded .footer .panel {
+	display: none;
+}
+.template-card .card.expanded .footer.in-resumo   .panel-resumo { display: block }
+.template-card .card.expanded .footer.in-relacao  .panel-resumo { display: block }
+.template-card .card.expanded .footer.in-relacoes .panel-resumo { display: block }
+
+
+.template-card .panel-resumo {
+	padding: 10px 0;
+}
+
+
+
+
+.template-card .panel-relacoes .controller {
+	display: block;
+	width: 80%;
+	padding-top: 3px;
+	margin: 0 100px 10px 100px;
+	text-align: center;
+}
+.template-card .panel-relacoes .controller button {
+	display: inline-block;
+	width:  12px;
+	height: 12px;
+	margin:  0 3px;
+	padding: 0;
+	cursor: pointer;
+	background: rgba(0,0,0, 0.1);
+	border: 0;
+	border-radius: 50%;
+	transition: all 0.3s;
+}
+.template-card .panel-relacoes .controller button:hover {
+	background: rgba(0,0,0, 0.2);
+}
+.template-card .panel-relacoes .controller button:active {
+	background: rgba(0,0,0, 0.3);
+	transform: scale(0.8,0.8);
+	transition: none;
+}
+.template-card .panel-relacoes .controller button.selected {
+	background: rgba(0,0,0, 0.3);
+}
+
+
+
+
+
+
+.template-card .view.links {
+	padding: 0 3%;
+}
+
+.template-card .view.graph {
+	width:  100%;
+	height: 450px;
+	padding:  0;
+}
+
+
+
+
+
+.template-card .panel-relacoes button.btn-controller-links { background: rgba(0,0,0, 0.3) }
+.template-card .panel-relacoes button.btn-controller-graph { background: rgba(0,0,0, 0.1) }
+.template-card .panel-relacoes .view.links { display: block }
+.template-card .panel-relacoes .view.graph { display: none }
+
+.template-card .panel-relacoes.in-graph button.btn-controller-links { background: rgba(0,0,0, 0.1) }
+.template-card .panel-relacoes.in-graph button.btn-controller-graph { background: rgba(0,0,0, 0.3) }
+.template-card .panel-relacoes.in-graph .view.links { display: none }
+.template-card .panel-relacoes.in-graph .view.graph { display: block }
+
+
+
+
+
+.template-card .panel-relacao {
+	display: none;
+	text-align: center;
+	padding: 5px 0 30px 0;
+	pointer-events: none;
+}
+.template-card .panel-relacao .relation-name {
+	display: block;
+	padding: 10px 0 5px 0;
+	font-family: 'sans-serif';
+	font-style: italic;
+	font-size: 18px;
+	color: #555;
+}
+.template-card .card.in-relation .panel-relacao {
+	display: block;
+	width: 50%;
+	margin: 0 auto;
+}
+
+.template-card .panel-relacao .btn-container {
+	display: inline-block;
+}
+.template-card .panel-relacao .btn-container .btn-relacao {
+	background: #ccc;
+	box-shadow: none;
+}
+.template-card .panel-relacao .btn-container .pin {
+	position: absolute;
+	z-index:  1111;
+	display: inline-block;
+	width:   8px;
+	height: 91px;
+	margin: -5px 0 0 -4px;
+	background: #ccc;
+	transition: all 0.5s;
+}
+
+.template-card .panel-relacao.c1 .color { background: #59c489 }
+.template-card .panel-relacao.c2 .color { background: #59c489 }
+.template-card .panel-relacao.c3 .color { background: #a3caef }
+.template-card .panel-relacao.c9 .color { background: #59c489 }
+
+
+.template-card .card.in-relation .panel-resumo {
+	display: none;
+}
+.template-card .card.extended .panel-relacao {
+	display: none;
+}
+
+
+
+
+
+
+
+
