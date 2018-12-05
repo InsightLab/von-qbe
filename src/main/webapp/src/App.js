@@ -17,9 +17,6 @@ class App extends Component {
       
       <div id="status-bar">
         <div className="width">
-          <div className="path" id="links">
-              <button></button>
-          </div>
         </div>
       </div>
       
