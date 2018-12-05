@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import {Suggestions} from './Suggestions/Suggestions'
+import PropTypes from 'prop-types';
+
+import './SearchField.css'
 
 const WAIT_INTERVAL = 1000;
 
@@ -60,4 +63,12 @@ export class SearchField extends Component{
             </form>
         );
     }
+}
+
+SearchField.propTypes = {
+    onSubmit: PropTypes.func,
+    handleTextChange: PropTypes.func,
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    suggestions: PropTypes.array,
 }

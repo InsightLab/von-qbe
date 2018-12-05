@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {SearchField} from './SearchField/SearchField'
-import {Results} from './Results/Results'
-import './QBE.css'
+import {QBE} from './QBE'
 
 export class QBEContainer extends Component{
 
@@ -56,31 +54,15 @@ export class QBEContainer extends Component{
 
     render() {
         return (
-            <div id="page-hierarquia">
-                <div className="page-title">
-                    <label id="page-label"> </label>
-                    <h1 id="page-title"> </h1>
-                </div>
-                <div className="tarja">
-                    <div className="table">
-                        <div id="hierarquia-navegacao" className="row header">
-                            <SearchField 
-                            onClick={this.handleSuggestionClick} 
-                            text={this.state.text} 
-                            suggestions={this.state.suggestions}
-                            handleTextChange={this.handleTextChange}
-                            onSubmit={this.handleSubmit}
-                            disabled={this.state.disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
-                {this.state.results && 
-                <Results results={this.state.results}>
-                    {this.state.results}
-                </Results>
-                }
-            </div>
+            <QBE 
+            handleSuggestionClick={this.handleSuggestionClick}
+            handleTextChange={this.handleTextChange}
+            handleSubmit={this.handleSubmit}
+            text={this.state.text}
+            suggestions={this.state.suggestions}
+            disabled={this.state.disabled}
+            results={this.state.results}
+            />
         );
     }
 
