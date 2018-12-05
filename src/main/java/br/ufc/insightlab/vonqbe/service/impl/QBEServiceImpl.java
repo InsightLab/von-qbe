@@ -3,7 +3,7 @@ package br.ufc.insightlab.vonqbe.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightlab.graphast.structure.DefaultGraphStructure;
+import br.ufc.insightlab.graphast.structure.DefaultGraphStructure;
 import br.ufc.insightlab.linkedgraphast.model.graph.LinkedGraph;
 import br.ufc.insightlab.linkedgraphast.modules.fragmentexpansor.FragmentExpansor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBEFragmentExtractor;
