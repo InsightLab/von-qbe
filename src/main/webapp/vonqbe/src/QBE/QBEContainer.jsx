@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {SearchField} from './SearchField/SearchField'
+import {Results} from './Results/Results'
 import './QBE.css'
 
 export class QBEContainer extends Component{
@@ -76,6 +77,11 @@ export class QBEContainer extends Component{
                         </div>
                     </div>
                 </div>
+                {this.state.results && 
+                <Results header={Object.keys(this.state.results[0].values)}>
+                    {this.state.results}
+                </Results>
+                }
             </div>
         );
     }
