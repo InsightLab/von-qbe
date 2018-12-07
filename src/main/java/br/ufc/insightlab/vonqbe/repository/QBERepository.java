@@ -1,4 +1,4 @@
-package br.ufc.insightlab.vonqbe.controller;
+package br.ufc.insightlab.vonqbe.repository;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
@@ -16,7 +16,7 @@ public class QBERepository {
 
     private static Logger logger = LoggerFactory.getLogger(QBERepository.class);
 
-    private static Map<String, QBERepository> controlers;
+    private static Map<String, QBERepository> containers;
 
     private QBEService qbeService;
     private RORService rorService;
@@ -26,26 +26,30 @@ public class QBERepository {
 //        rorService = new RORServiceImpl(mappingPath, owlPath);
         rorService = new DummyRORServiceImpl();
 
-        if(controlers == null)
+        if(containers == null)
             init();
 
-        controlers.put(name, this);
+        containers.put(name, this);
     }
 
     public static QBERepository createRepository(String name, String mappingPath, String owlPath, String ntPath){
         return new QBERepository(name, mappingPath, owlPath, ntPath);
     }
 
+    public static Set<String> getDatabases(){
+        return containers.keySet();
+    }
+
     public static void init(){
-        controlers = new HashMap<>();
+        containers = new HashMap<>();
     }
 
     public static QBERepository getRepository(String name){
-        return controlers.get(name);
+        return containers.get(name);
     }
 
     public static boolean containsControler(String name){
-        return controlers.containsKey(name);
+        return containers.containsKey(name);
     }
 
     public List<String> helper(String text){

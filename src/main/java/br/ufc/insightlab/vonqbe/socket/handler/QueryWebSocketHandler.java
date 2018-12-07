@@ -2,7 +2,7 @@ package br.ufc.insightlab.vonqbe.socket.handler;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
-import br.ufc.insightlab.vonqbe.controller.QBERepository;
+import br.ufc.insightlab.vonqbe.repository.QBERepository;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.socket.messages.QueryMessageFactory;
 import org.json.JSONObject;
