@@ -13,18 +13,21 @@ public class QueryMessageFactory {
         JSONObject obj = new JSONObject();
         obj.put("sparql", sparql);
         obj.put("time", time);
+        obj.put("statusId",1);
         return new TextMessage(obj.toString());
     }
 
     public static TextMessage generateRunMessage(long time){
         JSONObject obj = new JSONObject();
         obj.put("time", time);
+        obj.put("statusId",2);
         return new TextMessage(obj.toString());
     }
 
     public static TextMessage generateResultsMessage(List<WebResultItem> items, long time){
         JSONObject obj = new JSONObject();
         obj.put("time", time);
+        obj.put("statusId",3);
         JSONArray arr = new JSONArray();
 
         for(WebResultItem wi : items){
