@@ -19,22 +19,13 @@ import br.ufc.insightlab.vonqbe.service.RORService;
 public class RORServiceImpl implements RORService {
 
 	private static Logger logger = LoggerFactory.getLogger(RORServiceImpl.class);
-	
-	private final String OWL = "ontologiaXML.owl";
-	private final String OBDA = "mapping.odba";
+
 	private OntopROR ror;
 	
-	public RORServiceImpl() {		
+	public RORServiceImpl(String obda, String owl) {
 		try {
-
-			String path = System.getProperty("user.home");
-			if(!path.endsWith("/"))
-				path += "/";
-
-			String owl = path + this.OWL;
             logger.info("[ROR API] Arquivo OWL: {}", owl);
 
-			String obda = path + this.OBDA;
             logger.info("[ROR API] Arquivo obda: {}", obda);
 
 			this.ror = new OntopROR(owl, obda);
