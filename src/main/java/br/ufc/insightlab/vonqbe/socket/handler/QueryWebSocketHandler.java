@@ -26,7 +26,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws InterruptedException, IOException {
-
+        logger.info("Receiving query: {}",message.getPayload());
         JSONObject msg = new JSONObject(message.getPayload());
         String database = msg.get("database").toString();
         String text = msg.get("text").toString();
