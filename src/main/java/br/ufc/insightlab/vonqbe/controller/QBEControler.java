@@ -3,6 +3,7 @@ package br.ufc.insightlab.vonqbe.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import br.ufc.insightlab.vonqbe.repository.QBERepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -37,6 +38,11 @@ public class QBEControler {
 		else{
 			return controler.helper(text);
 		}
+	}
+
+	@RequestMapping(value="/databases", method= RequestMethod.GET)
+	public List<String> getDatabases(){
+    	return new LinkedList<>(QBERepository.getDatabases());
 	}
 	
 	@RequestMapping("/query")
