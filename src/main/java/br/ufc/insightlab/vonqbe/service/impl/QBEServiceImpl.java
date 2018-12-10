@@ -25,19 +25,13 @@ import scala.collection.Iterator;
 //@ApplicationScoped
 public class QBEServiceImpl implements QBEService {
 
-	private static Logger logger = LoggerFactory.getLogger(QBEServiceImpl.class);	
-	private final String NT = "schema.nt";
+	private static Logger logger = LoggerFactory.getLogger(QBEServiceImpl.class);
 //	private final String NT = "nobel_dump_schema.nt";
 	private LinkedGraph schema;
 	private VonQBEFragmentExtractor extractor;
 	private VonQBESparqlBuilder sparqlBuilder;
 	
-	public QBEServiceImpl() {
-		String path = System.getProperty("user.home");
-		if(!path.endsWith("/"))
-		    path += "/";
-
-		String nt = path + this.NT;
+	public QBEServiceImpl(String nt) {
         logger.info("[QBE API] Schema file: {}", nt);
         
         schema = new LinkedGraph(new DefaultGraphStructure());
