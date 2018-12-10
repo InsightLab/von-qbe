@@ -4,3 +4,9 @@
     margin: 0 auto;
     margin-bottom: 30px;
 }
+
+#sparql-step{
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}

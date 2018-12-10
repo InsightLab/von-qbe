@@ -38,9 +38,7 @@ export class QBEContainer extends Component{
     }
 
     handleTextChange(text){
-        console.log(text);
-        
-        this.setState({
+                this.setState({
             "text": text,
             "suggestions": undefined
         })
@@ -48,11 +46,13 @@ export class QBEContainer extends Component{
 
     handleSocketMessage(msg){
         let data = JSON.parse(msg.data);
-
         let id = parseInt(data.statusId);
 
         if(id < 3)
-            this.setState({"queryStatus": id});
+            if(data.sparql)
+                this.setState({"queryStatus": id, "sparql": data.sparql});
+            else
+                this.setState({"queryStatus": id});
         else
             this.setState({
                 "suggestions": [],
@@ -70,7 +70,8 @@ export class QBEContainer extends Component{
             "disabled": true,
             "isRequesting": true,
             "queryStatus": 0,
-            "results": undefined
+            "results": undefined,
+            "sparql": undefined
         });
 
         // axios.get('http://localhost:8080/query?text='+text).then(response => {            
@@ -100,13 +101,14 @@ export class QBEContainer extends Component{
             disabled={this.state.disabled}
             results={this.state.results}
             queryStatus={this.state.queryStatus}
+            sparql={this.state.sparql}
             />
         );
     }
 
     componentDidUpdate(){
         if(this.state.text !== "" && !this.state.suggestions && !this.state.isRequesting){
-            axios.get('http://localhost:8080/helper?text='+this.state.text+"&database="+"imdb").then(response => {
+            axios.get('http://localhost:8080/helper?text='+this.state.text+"&database=imdb").then(response => {
                 this.setState({"suggestions": response.data});
             });
         }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {SearchField} from './SearchField/SearchField'
 import {ProgressStatus} from './ProgressStatus/ProgressStatus'
 import {Results} from './Results/Results'
@@ -29,8 +28,14 @@ export class QBE extends Component{
                         </div>
                     </div>
                 </div>
-                {(this.props.queryStatus !== undefined) && <ProgressStatus status={this.props.queryStatus} />}
+                
+                {(this.props.queryStatus !== undefined) && 
+                <ProgressStatus 
+                status={this.props.queryStatus} 
+                sparql={this.props.sparql}
+                />}
                 {this.props.results && 
+                
                 <Results results={this.props.results}>
                     {this.props.results}
                 </Results>
@@ -48,5 +53,6 @@ QBE.propTypes = {
     suggestions: PropTypes.array,
     disabled: PropTypes.bool,
     results: PropTypes.array,
-    queryStatus: PropTypes.number
+    queryStatus: PropTypes.number,
+    sparql: PropTypes.string
 }
