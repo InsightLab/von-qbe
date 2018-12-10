@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 import {SearchField} from './SearchField/SearchField'
 import {Results} from './Results/Results'
 import PropTypes from 'prop-types'
