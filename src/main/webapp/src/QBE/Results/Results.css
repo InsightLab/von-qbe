@@ -1,7 +1,13 @@
 #results {
 	text-align: center;
-	width: 100%;
+	max-width: 80%;
 	color: black;
+	margin: 0 auto;
+}
+
+#results div {
+	text-align: right;
+	margin-bottom: 10px;
 }
 
 #results table {

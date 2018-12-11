@@ -6,6 +6,7 @@
     "antd": "^3.11.0",
     "axios": "^0.18.0",
     "react": "^16.6.3",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1"
   },

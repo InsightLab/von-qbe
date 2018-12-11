@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Modal} from 'antd';
+import {Modal, Button} from 'antd'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 export class SPARQL extends Component{
 
@@ -12,7 +13,7 @@ export class SPARQL extends Component{
             visible={this.props.visible}
             onOk={this.props.handleOk}
             onCancel={this.props.handleCancel}
-            footer={null}
+            footer={<CopyToClipboard text={this.props.sparql}><Button>Copy Sparql</Button></CopyToClipboard>}
           >
             {lines}
           </Modal>)
