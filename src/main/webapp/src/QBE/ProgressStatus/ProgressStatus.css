@@ -1,0 +1,12 @@
+#progress-status{
+    max-width: 80%;
+    text-align: left;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+#sparql-step{
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
