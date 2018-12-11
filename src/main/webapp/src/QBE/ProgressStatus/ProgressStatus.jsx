@@ -47,7 +47,7 @@ export class ProgressStatus extends Component{
                     status={
                         (this.props.status < 1) ? "wait" : 
                         ((this.props.status === 0) ? "process" : "finish")} 
-                    title="Sparql Generation" 
+                    title="SPARQL Generation" 
                     icon={<Icon type={(this.props.status === 0) ? "loading" : "form"} />} 
                     onClick={this.showModal}
                 />

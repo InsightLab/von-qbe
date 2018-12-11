@@ -12,6 +12,7 @@ export class SPARQL extends Component{
             visible={this.props.visible}
             onOk={this.props.handleOk}
             onCancel={this.props.handleCancel}
+            footer={null}
           >
             {lines}
           </Modal>)
