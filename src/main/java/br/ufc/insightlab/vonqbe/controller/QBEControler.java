@@ -3,7 +3,6 @@ package br.ufc.insightlab.vonqbe.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import br.ufc.insightlab.vonqbe.repository.QBERepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
+import br.ufc.insightlab.vonqbe.repository.QBERepository;
 
 @RestController
 public class QBEControler {
@@ -49,7 +49,6 @@ public class QBEControler {
 	public List<WebResultItem> query(String database, String text) {
 		logger.info("database: {}, text: {}",database, text);
 		QBERepository controler = QBERepository.getRepository(database);
-
 		if(controler == null){
 			logger.error("Database {} not found!");
 			return new LinkedList<>();
@@ -59,4 +58,6 @@ public class QBEControler {
 		}
 
 	}
+	
+	
 }

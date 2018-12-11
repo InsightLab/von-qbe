@@ -65,7 +65,6 @@
 		    <groupId>br.ufc.insightlab</groupId>
 		    <artifactId>ror</artifactId>
 		    <version>1.0.0</version>
-        
 		</dependency>  
 
 
