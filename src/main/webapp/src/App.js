@@ -127,11 +127,7 @@ class App extends Component {
     ServiceApiQBE.listDatabases().then(
       (response) =>{
         const database = response.data;
-        if (database.length > 0){
-          this.setState({optionsDatabases: database, selectDataBase: database[0]});      
-        }else{
-          this.setState({optionsDatabases: database});
-        }
+        this.setState({optionsDatabases: database});
       }
     );
   }
@@ -139,7 +135,8 @@ class App extends Component {
   handleAddDatabase=( database )=>{
     const {optionsDatabases} = this.state;
     this.setState({
-      optionsDatabases: [...optionsDatabases, database]
+      optionsDatabases: [...optionsDatabases, database],
+      selectDataBase: database
     })
   }
 }

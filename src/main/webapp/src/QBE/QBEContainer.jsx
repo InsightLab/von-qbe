@@ -9,8 +9,7 @@ export class QBEContainer extends Component{
         super(props)
 
         this.state = {
-            "text": "",
-            "suggestions": ['abc1','abc2','abc3']
+            "text": ""
         }
         
         this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
