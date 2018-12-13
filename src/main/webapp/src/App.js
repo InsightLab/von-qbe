@@ -79,7 +79,7 @@ class App extends Component {
       </div>
       
       <div id="page">
-        <QBEContainer />
+        {selectDataBase && <QBEContainer database={selectDataBase}/>}
       </div>
     </div>
     );

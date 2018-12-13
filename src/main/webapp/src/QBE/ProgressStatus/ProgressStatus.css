@@ -5,8 +5,10 @@
     margin-bottom: 30px;
 }
 
-#sparql-step{
-    font-weight: bold;
+#sparql-step .ant-steps-item-content .ant-steps-item-title{
     cursor: pointer;
+}
+
+#sparql-step .ant-steps-item-content .ant-steps-item-title:hover{
     text-decoration: underline;
 }

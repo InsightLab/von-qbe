@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import axios from 'axios'
 import {QBE} from './QBE'
 
@@ -84,7 +85,7 @@ export class QBEContainer extends Component{
         //     }); 
         // });
         
-        let msg = {"database":"imdb", "text": text}
+        let msg = {"database":this.props.database, "text": text}
         this.sendMessage(this.socket,JSON.stringify(msg))
 
 
@@ -108,10 +109,14 @@ export class QBEContainer extends Component{
 
     componentDidUpdate(){
         if(this.state.text !== "" && !this.state.suggestions && !this.state.isRequesting){
-            axios.get('http://localhost:8080/helper?text='+this.state.text+"&database=imdb").then(response => {
+            axios.get(`http://localhost:8080/helper?text=${this.state.text}&database=${this.props.database}`).then(response => {
                 this.setState({"suggestions": response.data});
             });
         }
     }
 
+}
+
+QBEContainer.propTypes = {
+    database: PropTypes.string,
 }

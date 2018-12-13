@@ -55,12 +55,12 @@ Form.create()(
                   }],
                 })(
                 <Input 
-                  placeholder="Name Database" onChange={ (e) => this.handleChange(e, 'name')}
+                  placeholder="Database Name" onChange={ (e) => this.handleChange(e, 'name')}
                   />
               )}
             </FormItem>
             <FormItem
-              label="Mapping"
+              label="Mapping File (.odba)"
               >
               <div className="dropbox">
                 {getFieldDecorator('file1', {
@@ -77,7 +77,7 @@ Form.create()(
               </div>
             </FormItem>
             <FormItem
-              label="Ontologia"
+              label="RDF/XML Ontology Schema (.xml, .owl, .rdf)"
               >
               <div className="dropbox">
                 {getFieldDecorator('file2', {
@@ -95,7 +95,7 @@ Form.create()(
               </div>
             </FormItem>
             <FormItem
-              label="Schema"
+              label="N-Triple Ontology Schema (.nt)"
               >
               <div className="dropbox">
                 {getFieldDecorator('file3', {
