@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
-
+import PropTypes from 'prop-types'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import {Button} from 'antd';
 import './Results.css'
 
 export class Results extends Component{
@@ -19,10 +20,21 @@ export class Results extends Component{
                 </tr>
             );
         });
+
+        let willRender = this.props.results.length > 0;
+
+        let copyText = 
+            headerValues.join("\t")+"\n" +
+            this.props.results.map((element,i) => {
+                let values = element.values;
+                return headerValues.map((h,i) => values[h]).join("\t")
+            }).join("\n");
+
         
         return (
             <div id="results">
-                {this.props.results.length > 0 &&<table>
+            <CopyToClipboard text={copyText}><div><Button>Copy results</Button></div></CopyToClipboard>
+                {willRender &&<table>
                     <thead>
                         <tr className="nome">
                             {headerElements}
@@ -32,7 +44,7 @@ export class Results extends Component{
                         {rows}
                     </tbody>
                 </table>}
-                {this.props.results.length === 0 && <h3>No results found</h3>}
+                {!willRender && <h3>No results found</h3>}
             </div>
         );
     }
