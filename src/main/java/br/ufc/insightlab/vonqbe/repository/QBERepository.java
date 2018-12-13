@@ -5,8 +5,8 @@ import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
-import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
+import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +23,8 @@ public class QBERepository {
 
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
-//        rorService = new RORServiceImpl(mappingPath, owlPath);
-        rorService = new DummyRORServiceImpl();
+        rorService = new RORServiceImpl(mappingPath, owlPath);
+//        rorService = new DummyRORServiceImpl();
 
         if(containers == null)
             init();
@@ -37,11 +37,18 @@ public class QBERepository {
     }
 
     public static Set<String> getDatabases(){
+
+        if(containers == null)
+            init();
+
         return containers.keySet();
     }
 
     public static void init(){
         containers = new HashMap<>();
+
+
+
     }
 
     public static QBERepository getRepository(String name){
@@ -58,7 +65,7 @@ public class QBERepository {
 
     public String getSPARQL(String text){
         try{
-            return qbeService.query(text);
+            return qbeService.query(text)+"LIMIT 30";
         }
         catch(Exception e){
             return "";
@@ -85,7 +92,7 @@ public class QBERepository {
     }
 
     public List<WebResultItem> runQuery(String text){
-        return mapResults(applyQuery(getSPARQL(text)));
+        return mapResults(applyQuery(getSPARQL(text)+"LIMIT 30"));
     }
 
 

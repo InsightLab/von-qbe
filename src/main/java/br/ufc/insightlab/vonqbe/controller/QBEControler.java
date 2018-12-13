@@ -18,16 +18,21 @@ import br.ufc.insightlab.vonqbe.repository.QBERepository;
 public class QBEControler {
 
     private static Logger logger = LoggerFactory.getLogger(QBEControler.class);
-    private static String diretorio = "./von-qbe-databases/";
+    private static String directory = "./von-qbe-databases/";
 
     public QBEControler(){
-    	File file = new File(diretorio);
+    	File file = new File(directory);
     	File afile[] = file.listFiles();
     	int i = 0;
     	for (int j = afile.length; i < j; i++) {
-    		File arquivos = afile[i];
-    		String[] nameFiles = listFilesDirectory(diretorio+arquivos.getName());
-    		QBERepository.createRepository(arquivos.getName(), nameFiles[0], nameFiles[1], nameFiles[2]);
+    		try {
+				File files = afile[i];
+				String[] nameFiles = listFilesDirectory(directory + files.getName());
+				QBERepository.createRepository(files.getName(), nameFiles[0], nameFiles[1], nameFiles[2]);
+			}
+			catch(Exception e){
+    			logger.warn("Failed to load database {}. Error: {}", afile[i].getName(), e.getMessage());
+			}
     	}
 	}
 	

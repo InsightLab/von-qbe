@@ -24,12 +24,12 @@ public class RORServiceImpl implements RORService {
 	
 	public RORServiceImpl(String obda, String owl) {
 		try {
-            logger.info("[ROR API] Arquivo OWL: {}", owl);
+            logger.info("[ROR API] OWL file: {}", owl);
 
-            logger.info("[ROR API] Arquivo obda: {}", obda);
+            logger.info("[ROR API] OBDA file: {}", obda);
 
 			this.ror = new OntopROR(owl, obda);
-			logger.info("[ROR API] Mapeamentos carregados com sucesso!");
+			logger.info("[ROR API] Mappings loaded successfully!");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			System.out.println(e);
