@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,8 @@ import br.ufc.insightlab.vonqbe.service.FileStorageService;
 @RestController
 public class FileController {
 
+	private static Logger logger = LoggerFactory.getLogger(FileController.class);
+
     @Autowired
     private FileStorageService fileStorageService;
     
@@ -34,12 +38,15 @@ public class FileController {
     	
     
         String fileNameFile1 = nameFile(file1);
+        logger.info("Receiving file {}",fileNameFile1);
         String fileDownloadUri1 = uriFile( name, fileNameFile1 ); 
         
         String fileNameFile2 = nameFile(file2);
+		logger.info("Receiving file {}",fileNameFile2);
         String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
         
         String fileNameFile3 = nameFile(file3);
+		logger.info("Receiving file {}",fileNameFile3);
         String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
         
         
@@ -49,15 +56,15 @@ public class FileController {
         retorno.setName(name);
         
     	/*File 1*/
-        retorno.setFile1( new UploadFileResponse(fileNameFile1, fileDownloadUri1,
+        retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
         		file1.getContentType(), file1.getSize()));
         
         /* File2 */
-        retorno.setFile2( new UploadFileResponse(fileNameFile2, fileDownloadUri2,
+        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
         		file2.getContentType(), file2.getSize()));
         
         /* File3 */
-        retorno.setFile3( new UploadFileResponse(fileNameFile3, fileDownloadUri3,
+        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
         		file3.getContentType(), file3.getSize()));
 
 

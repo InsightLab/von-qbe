@@ -28,7 +28,10 @@ public class QBEControler {
     		try {
 				File files = afile[i];
 				String[] nameFiles = listFilesDirectory(directory + files.getName());
-				QBERepository.createRepository(files.getName(), nameFiles[0], nameFiles[1], nameFiles[2]);
+				QBERepository.createRepository(files.getName(),
+						files+"/mapping.odba",
+						files+"/schema.owl",
+						files+"/schema.nt");
 			}
 			catch(Exception e){
     			logger.warn("Failed to load database {}. Error: {}", afile[i].getName(), e.getMessage());
