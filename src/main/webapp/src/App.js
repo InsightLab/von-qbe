@@ -5,6 +5,7 @@ import { Dropdown, Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import {UploadModal} from './QBE/Upload/Modal';
 import { QBEContainer } from './QBE/QBEContainer'
+import { ServiceApiQBE } from './Services/QBE';
 
 
 class App extends Component {
@@ -12,13 +13,8 @@ class App extends Component {
   state = { 
     visible: false, 
     loading: false,
-    selectDataBase: { key: '1', name: 'Database One'},
-    optionsDatabases: 
-    [ 
-      { key: '1', name: 'Database One'}, 
-      { key: '2', name: 'Database Two'},
-     { key: '3', name: 'Database Tree'}
-    ]
+    selectDataBase: '',
+    optionsDatabases: [],
   };
 
   handleOpenModal = (e) =>{
@@ -32,10 +28,10 @@ class App extends Component {
         <Menu.Item key='modal' onClick={this.handleOpenModal}>
           <Icon type="plus" />New Database
         </Menu.Item>
-        {optionsDatabases.map(  ( database ) =>{
+        {optionsDatabases.map(  ( database, key ) =>{
           return( 
-            <Menu.Item key={database.key}>
-              {database.name}
+            <Menu.Item key={key}>
+              {database}
             </Menu.Item>);
         })}
       </Menu>
@@ -61,7 +57,7 @@ class App extends Component {
                     <div style={{cursor: 'pointer', color: '#fff'}}><b>Databases</b><Icon type="down" /></div>
                   {/* </a> */}
                 </Dropdown>
-                <label style={{ color: '#fff'}}>{selectDataBase.name}</label>
+                <label style={{ color: '#fff'}}>{selectDataBase}</label>
               </div>
             </div>
           </div>
@@ -73,8 +69,10 @@ class App extends Component {
             <UploadModal 
               onOk={this.handleOk} 
               onCancel={this.handleCancel} 
+              onSucess={this.handleSucess}
               loading={this.state.loading} 
-              visible={this.state.visible}/>
+              visible={this.state.visible}
+              onAddBase={this.handleAddDatabase}/>
           </div>
         </div>
 
@@ -95,9 +93,9 @@ class App extends Component {
   }
 
   handleSelectDatabase = (e) =>{
-    const { optionsDatabases } = this.state; 
     if (e.key === 'modal') return;
-    const database = optionsDatabases.find( ( value ) => ( e.key === value.key) );
+    const { optionsDatabases } = this.state;
+    const database = optionsDatabases[e.key];
     //console.log(database)
     this.setState({
       selectDataBase: database
@@ -106,19 +104,43 @@ class App extends Component {
   }
 
   handleCancel = (e) => {
-    console.log(e);
+    //console.log(e);
     this.setState({
-      visible: false,
+      visible: false,   
     });
   }
 
   handleOk = (e) =>{
-    console.log(e);
     this.setState({
-      //visible: false,
       loading: true
     });
+  }
 
+  handleSucess = () =>{
+    this.setState({
+      loading: false,
+      visible: false,
+    });
+  }
+
+  componentWillMount(){
+    ServiceApiQBE.listDatabases().then(
+      (response) =>{
+        const database = response.data;
+        if (database.length > 0){
+          this.setState({optionsDatabases: database, selectDataBase: database[0]});      
+        }else{
+          this.setState({optionsDatabases: database});
+        }
+      }
+    );
+  }
+
+  handleAddDatabase=( database )=>{
+    const {optionsDatabases} = this.state;
+    this.setState({
+      optionsDatabases: [...optionsDatabases, database]
+    })
   }
 }
 

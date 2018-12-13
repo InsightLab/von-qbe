@@ -1,5 +1,6 @@
 package br.ufc.insightlab.vonqbe.controller;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,13 +18,17 @@ import br.ufc.insightlab.vonqbe.repository.QBERepository;
 public class QBEControler {
 
     private static Logger logger = LoggerFactory.getLogger(QBEControler.class);
-    private static String home = System.getProperty("user.home")+"/";
+    private static String diretorio = "./von-qbe-databases/";
 
     public QBEControler(){
-    	QBERepository.createRepository("imdb",
-				home+"mapping.odba",
-				home+"ontologiaXML.owl",
-				home+"schema.nt");
+    	File file = new File(diretorio);
+    	File afile[] = file.listFiles();
+    	int i = 0;
+    	for (int j = afile.length; i < j; i++) {
+    		File arquivos = afile[i];
+    		String[] nameFiles = listFilesDirectory(diretorio+arquivos.getName());
+    		QBERepository.createRepository(arquivos.getName(), nameFiles[0], nameFiles[1], nameFiles[2]);
+    	}
 	}
 	
 	@RequestMapping(value="/helper", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,6 +62,19 @@ public class QBEControler {
 			return controler.runQuery(text);
 		}
 
+	}
+	
+	private  String[] listFilesDirectory( String diretorio ) {
+		String[] retorno = new String[3];
+		File file = new File(diretorio);
+    	File afile[] = file.listFiles();
+    	int i = 0;
+    	for (int j = afile.length; i < j; i++) {
+    		File arquivos = afile[i];
+    		retorno[i] = diretorio+"/"+arquivos.getName();
+    		//System.out.println();
+       	}
+		return retorno;
 	}
 	
 	

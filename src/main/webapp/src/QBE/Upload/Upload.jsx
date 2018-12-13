@@ -5,49 +5,17 @@ import {
 //import reqwest from 'reqwest';
 
 export class UploadUi extends Component {
+  
   state = {
     fileList: [],
     uploading: false,
-  }
-
-  handleUpload = () => {
-    const { fileList } = this.state;
-    const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append('files[]', file);
-    });
-
-    this.setState({
-      uploading: true,
-    });
-
-    // You can use any AJAX library you like
-    /*reqwest({
-      url: '//jsonplaceholder.typicode.com/posts/',
-      method: 'post',
-      processData: false,
-      data: formData,
-      success: () => {
-        this.setState({
-          fileList: [],
-          uploading: false,
-        });
-        message.success('upload successfully.');
-      },
-      error: () => {
-        this.setState({
-          uploading: false,
-        });
-        message.error('upload failed.');
-      },
-    });*/
-    this.setState({
-      uploading: false,
-    });
+    defaultFileList:[]
   }
 
   render() {
-    const { /*uploading,*/ fileList } = this.state;
+    const {  fileList, defaultFileList } = this.state;
+    //const { fileList } = this.props;
+    const { onChangeFile } = this.props; 
     const props = {
       onRemove: (file) => {
         this.setState((state) => {
@@ -60,6 +28,7 @@ export class UploadUi extends Component {
         });
       },
       beforeUpload: (file) => {
+        onChangeFile(file);
         this.setState(state => ({
           fileList: [...state.fileList, file],
         }));
@@ -86,5 +55,19 @@ export class UploadUi extends Component {
         </Button> */}
       </div>
     );
+
   }
+  componentDidUpdate(){
+
+    if (!this.props.visible){
+      console.log('teste');
+      this.setState({
+        fileList: [],
+      uploading: false,
+      defaultFileList:[]
+      })
+    }
+
+  }
+
 }

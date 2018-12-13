@@ -7,17 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +16,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufc.insightlab.vonqbe.model.ReturnListFilesUpload;
 import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
+import br.ufc.insightlab.vonqbe.repository.QBERepository;
 import br.ufc.insightlab.vonqbe.service.FileStorageService;
 
 @RestController
 public class FileController {
-
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -75,6 +64,15 @@ public class FileController {
         changeDirecotryFile(file1, name);
         changeDirecotryFile(file2, name);
         changeDirecotryFile(file3, name);
+        
+        String home = "./von-qbe-databases/" + name +"/";
+        QBERepository.createRepository(name,
+        		/*Mapping*/
+				home+file1.getOriginalFilename(),
+				/*Ontologia*/
+				home+file2.getOriginalFilename(),
+				/*Schema*/
+				home+file3.getOriginalFilename());
     
         
  
@@ -90,7 +88,7 @@ public class FileController {
                 .collect(Collectors.toList());
     }*/
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    /*@GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -112,7 +110,7 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-    }
+    }*/
     
     public String nameFile( MultipartFile file) {
     	return fileStorageService.storeFile(file);
