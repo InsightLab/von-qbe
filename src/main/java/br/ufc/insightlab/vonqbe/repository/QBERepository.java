@@ -5,6 +5,7 @@ import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
+import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
@@ -23,8 +24,8 @@ public class QBERepository {
 
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
-        rorService = new RORServiceImpl(mappingPath, owlPath);
-//        rorService = new DummyRORServiceImpl();
+//        rorService = new RORServiceImpl(mappingPath, owlPath);
+        rorService = new DummyRORServiceImpl();
 
         if(containers == null)
             init();
