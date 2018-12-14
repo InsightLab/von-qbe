@@ -1,15 +1,15 @@
 #!/bin/bash
 
-VONQBEPORT=${1:-8080}
+PORT=${1:-8080}
+IP=${2:-localhost}
 export VONQBEPORT
 
-echo "REACT_APP_VONQBEPORT=$VONQBEPORT"
-echo "REACT_APP_VONQBEPORT=$VONQBEPORT" > src/main/webapp/.env
+printf "REACT_APP_PORT=$PORT\nREACT_APP_IP=$IP\n"
+printf "REACT_APP_PORT=$PORT\nREACT_APP_IP=$IP" > src/main/webapp/.env
 
 cd src/main/webapp
 npm install
 npm run build
 
 cd ../../../
-./run-server.sh $VONQBEPORT
-
+./run-server.sh $PORT
