@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import axios from 'axios'
 import {QBE} from './QBE'
+import {ServiceApiQBE} from '../Services/QBE';
 
 export class QBEContainer extends Component{
 
@@ -17,7 +18,7 @@ export class QBEContainer extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSocketMessage = this.handleSocketMessage.bind(this);
 
-        this.socket = new WebSocket("ws://localhost:8080/query/websocket")
+        this.socket = new WebSocket(`${ServiceApiQBE.getSocketURL()}/query/websocket`)
         this.socket.onmessage = this.handleSocketMessage;
     }
 
@@ -108,7 +109,7 @@ export class QBEContainer extends Component{
 
     componentDidUpdate(){
         if(this.state.text !== "" && !this.state.suggestions && !this.state.isRequesting){
-            axios.get(`http://localhost:8080/helper?text=${this.state.text}&database=${this.props.database}`).then(response => {
+            ServiceApiQBE.getSuggestions(this.state.text, this.props.database).then(response => {
                 this.setState({"suggestions": response.data});
             });
         }

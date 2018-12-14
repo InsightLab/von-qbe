@@ -6,4 +6,12 @@ export const ServiceApiQBE = {
     return api.get("databases");
   },
 
+  getSuggestions: (text, database) => {
+    return api.get(`helper?text=${text}&database=${database}`)
+  },
+
+  getSocketURL: () => {
+    return api.defaults.baseURL.replace("http://","ws://");
+  }
+
 };
