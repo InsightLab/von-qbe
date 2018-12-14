@@ -37,6 +37,7 @@ Form.create()(
       file1: null,
       file2: null,
       file3: null,
+      clearFiles: true
     }
 
     render() {
@@ -87,6 +88,7 @@ Form.create()(
                     onChangeFile={(file) => this.handleSetFile(file, 'file1')} 
                     filelist={file1}
                     accept=".odba"
+                    clear={this.state.clearFiles}
                     />
                 )}
               </div>
@@ -106,6 +108,7 @@ Form.create()(
                     onChangeFile={(file) => this.handleSetFile(file, 'file2')} 
                     filelist={file2}
                     accept=".xml,.owl,.rdf"
+                    clear={this.state.clearFiles}
                     />
                 )}
               </div>
@@ -125,6 +128,7 @@ Form.create()(
                     onChangeFile={(file) => this.handleSetFile(file, 'file3')}
                     filelist={file3}
                     accept=".nt"
+                    clear={this.state.clearFiles}
                     />
                 )}
               </div>
@@ -160,6 +164,10 @@ Form.create()(
             this.emptyState();
             onSucess();
             success();
+            this.setState({
+              clearFiles: true,
+              visible: false
+            });
           })
         .catch((error) => {
           //message.error();
@@ -184,13 +192,13 @@ Form.create()(
     
 
     handleChange = (e, name)=>{
-      var campoSendoAlterado = {};
+      var campoSendoAlterado = {"clearFiles": false};
       campoSendoAlterado[name] = e.target.value;
       this.setState(campoSendoAlterado);
     }
 
     handleSetFile = ( value, name ) =>{
-      var campoSendoAlterado = {};
+      var campoSendoAlterado = {"clearFiles": false};
       campoSendoAlterado[name] = value;
       this.setState(campoSendoAlterado);
     }

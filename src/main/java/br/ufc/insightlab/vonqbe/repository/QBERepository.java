@@ -31,12 +31,12 @@ public class QBERepository {
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
         
-        try {
-			rorService = new RORServiceImpl(mappingPath, owlPath);
-		} catch (Exception ex) {
-			throw new ErrorFileMessage(ex.getCause().getMessage());
-		}
-//        rorService = new DummyRORServiceImpl();
+//        try {
+//			rorService = new RORServiceImpl(mappingPath, owlPath);
+//		} catch (Exception ex) {
+//			throw new ErrorFileMessage(ex.getCause().getMessage());
+//		}
+        rorService = new DummyRORServiceImpl();
 
         if(containers == null)
             init();

@@ -12,6 +12,11 @@ export class UploadUi extends Component {
     uploading: false
   }
 
+  componentWillReceiveProps(newProps){
+    if(newProps.clear)
+      this.setState({fileList: []});  
+  }
+
   render() {
     const {  fileList } = this.state;
     //const { fileList } = this.props;
@@ -62,4 +67,5 @@ export class UploadUi extends Component {
 
 UploadUi.propTypes = {
   accept: PropTypes.string,
+  clear: PropTypes.bool
 }
