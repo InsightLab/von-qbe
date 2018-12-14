@@ -8,12 +8,11 @@ export class UploadUi extends Component {
   
   state = {
     fileList: [],
-    uploading: false,
-    defaultFileList:[]
+    uploading: false
   }
 
   render() {
-    const {  fileList, defaultFileList } = this.state;
+    const {  fileList } = this.state;
     //const { fileList } = this.props;
     const { onChangeFile } = this.props; 
     const props = {
@@ -57,17 +56,5 @@ export class UploadUi extends Component {
     );
 
   }
-  componentDidUpdate(){
-
-    if (!this.props.visible){
-      console.log('teste');
-      this.setState({
-        fileList: [],
-      uploading: false,
-      defaultFileList:[]
-      })
-    }
-
-  }
-
+ 
 }

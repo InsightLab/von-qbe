@@ -1,6 +1,7 @@
 package br.ufc.insightlab.vonqbe.controller;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,12 +27,14 @@ public class QBEControler {
     	int i = 0;
     	for (int j = afile.length; i < j; i++) {
     		try {
-				File files = afile[i];
-				String[] nameFiles = listFilesDirectory(directory + files.getName());
-				QBERepository.createRepository(files.getName(),
-						files+"/mapping.odba",
-						files+"/schema.owl",
-						files+"/schema.nt");
+				File files = afile[i];			
+				if (Files.isDirectory(files.toPath())) {
+					//String[] nameFiles = listFilesDirectory(directory + files.getName());
+					QBERepository.createRepository(files.getName(),
+							files+"/mapping.odba",
+							files+"/schema.owl",
+							files+"/schema.nt");
+				}
 			}
 			catch(Exception e){
     			logger.warn("Failed to load database {}. Error: {}", afile[i].getName(), e.getMessage());
@@ -72,7 +75,7 @@ public class QBEControler {
 
 	}
 	
-	private  String[] listFilesDirectory( String diretorio ) {
+	/*private  String[] listFilesDirectory( String diretorio ) {
 		String[] retorno = new String[3];
 		File file = new File(diretorio);
     	File afile[] = file.listFiles();
@@ -83,7 +86,7 @@ public class QBEControler {
     		//System.out.println();
        	}
 		return retorno;
-	}
+	}*/
 	
 	
 }

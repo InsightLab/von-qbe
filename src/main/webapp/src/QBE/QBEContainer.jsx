@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
-import axios from 'axios'
 import {QBE} from './QBE'
 import {ServiceApiQBE} from '../Services/QBE';
 

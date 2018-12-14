@@ -31,60 +31,59 @@ public class FileController {
     
     @PostMapping("/uploadFile")
     public ReturnListFilesUpload uploadFile(
-    		String name, 
+    		@RequestParam("name") String name, 
     		@RequestParam("file1") MultipartFile file1, 
     		@RequestParam("file2") MultipartFile file2,
-    		@RequestParam("file3") MultipartFile file3) {
+    		@RequestParam("file3") MultipartFile file3) 
+    {
+   
     	
-    
-        String fileNameFile1 = nameFile(file1);
-        logger.info("Receiving file {}",fileNameFile1);
-        String fileDownloadUri1 = uriFile( name, fileNameFile1 ); 
-        
-        String fileNameFile2 = nameFile(file2);
-		logger.info("Receiving file {}",fileNameFile2);
-        String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
-        
-        String fileNameFile3 = nameFile(file3);
-		logger.info("Receiving file {}",fileNameFile3);
-        String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
-        
-        
-        ReturnListFilesUpload retorno =  new ReturnListFilesUpload();
-        
-        /* Name database*/
-        retorno.setName(name);
-        
-    	/*File 1*/
-        retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
-        		file1.getContentType(), file1.getSize()));
-        
-        /* File2 */
-        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
-        		file2.getContentType(), file2.getSize()));
-        
-        /* File3 */
-        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
-        		file3.getContentType(), file3.getSize()));
+	        String fileNameFile1 = nameFile(file1);
+	        logger.info("Receiving file {}",fileNameFile1);
+	        String fileDownloadUri1 = uriFile( name, fileNameFile1 ); 
+	        
+	        String fileNameFile2 = nameFile(file2);
+			logger.info("Receiving file {}",fileNameFile2);
+	        String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
+	        
+	        String fileNameFile3 = nameFile(file3);
+			logger.info("Receiving file {}",fileNameFile3);
+	        String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
+	        
+	        
+	        ReturnListFilesUpload retorno =  new ReturnListFilesUpload();
+	        
+	        /* Name database*/
+	        retorno.setName(name);
+	        
+	    	/*File 1*/
+	        retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
+	        		file1.getContentType(), file1.getSize()));
+	        
+	        /* File2 */
+	        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
+	        		file2.getContentType(), file2.getSize()));
+	        
+	        /* File3 */
+	        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
+	        		file3.getContentType(), file3.getSize()));
+	
+	        String home = "./von-qbe-databases/";
+    		
+	        QBERepository.createRepository(name,
+	        		/*Mapping*/
+					home+file1.getOriginalFilename(),
+					/*Ontologia*/
+					home+file2.getOriginalFilename(),
+					/*Schema*/
+					home+file3.getOriginalFilename()); 
+	
+	        changeDirecotryFile(file1, name);
+	        changeDirecotryFile(file2, name);
+	        changeDirecotryFile(file3, name);        	      
+	 
+	        return retorno;
 
-
-        changeDirecotryFile(file1, name);
-        changeDirecotryFile(file2, name);
-        changeDirecotryFile(file3, name);
-        
-        String home = "./von-qbe-databases/" + name +"/";
-        QBERepository.createRepository(name,
-        		/*Mapping*/
-				home+file1.getOriginalFilename(),
-				/*Ontologia*/
-				home+file2.getOriginalFilename(),
-				/*Schema*/
-				home+file3.getOriginalFilename());
-    
-        
- 
-        return retorno;
-        
     }
 
     /*@PostMapping("/uploadMultipleFiles")
@@ -119,27 +118,29 @@ public class FileController {
                 .body(resource);
     }*/
     
-    public String nameFile( MultipartFile file) {
+    private String nameFile( MultipartFile file) {
     	return fileStorageService.storeFile(file);
     }
     
-    public String uriFile( String name, String fileName ) {
+    private String uriFile( String name, String fileName ) {
     	return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/von-qbe-databases/" + name + "/")
                 .path(fileName)
                 .toUriString();
     }
     
-    public void changeDirecotryFile(MultipartFile file, String name) {
-    	 // copia os dados
+    private void changeDirecotryFile(MultipartFile file, String name) {
+    	
+    	// copy
         InputStream in;
-        // escreve os dados
+        // write
         OutputStream out;
     	try{
 			 
 		    File toFile = new File("./von-qbe-databases/"+file.getOriginalFilename());
 		 
-		                File fromFile = new File("./von-qbe-databases/" + name +"/" + file.getOriginalFilename());
+		    File fromFile = new File("./von-qbe-databases/" + name +"/" + file.getOriginalFilename());
+		    
 		    //validation 
 		    if(!fromFile.exists()){
 		        if(!fromFile.getParentFile().exists()){

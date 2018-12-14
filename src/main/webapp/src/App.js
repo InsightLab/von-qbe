@@ -70,6 +70,7 @@ class App extends Component {
               onOk={this.handleOk} 
               onCancel={this.handleCancel} 
               onSucess={this.handleSucess}
+              onFail={this.handleFail}
               loading={this.state.loading} 
               visible={this.state.visible}
               onAddBase={this.handleAddDatabase}/>
@@ -120,6 +121,13 @@ class App extends Component {
     this.setState({
       loading: false,
       visible: false,
+    });
+  }
+
+  handleFail = () =>{
+    this.setState({
+      loading: false,
+      visible: true,
     });
   }
 

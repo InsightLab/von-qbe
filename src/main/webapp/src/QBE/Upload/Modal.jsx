@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
-import { Modal, Button, Input, Form } from 'antd';
+import { Modal, Button, Input, Form, message } from 'antd';
 import {UploadUi} from './Upload';
 import {ServiceApiFile} from '../../Services/File';
 import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
 
+const success = () => {
+  message.success();
+  message.success('Success Operation');
+};
+
+const errorMessage = ( message ) => {
+  message.error();
+  message.error(message);
+};
+
 export const UploadModal = 
 Form.create()(
   class extends Component {
 
+
+    
     static propTypes = {
       onOk: PropTypes.func,
       onSucess: PropTypes.func,
+      onFail: PropTypes.func,
       onCancel: PropTypes.func,
       loading: PropTypes.bool,
       visible: PropTypes.bool,
@@ -117,7 +130,7 @@ Form.create()(
     }
 
     handleButtonOk = () =>{
-      const {onOk, onSucess, onAddBase} = this.props;
+      const {onOk, onSucess, onAddBase, onFail} = this.props;
       const { setFields } = this.props.form;
       const{ name, file1, file2, file3} = this.state;
 
@@ -134,16 +147,36 @@ Form.create()(
       if (this.validateFile(file1 , file2, file3))return;
      
       onOk();
-      ServiceApiFile.addFile( {name, file1, file2, file3}).then(
-        ( response ) =>{
-          const nameDatabase = response.data.name;
-          onAddBase(nameDatabase);
-          this.emptyState();
-          onSucess();
-        }
-      );
+      ServiceApiFile.addFile( {name, file1, file2, file3})
+        .then(
+          ( response ) =>{
+            const nameDatabase = response.data.name;
+            onAddBase(nameDatabase);
+            this.emptyState();
+            onSucess();
+            success();
+          })
+        .catch((error) => {
+          //message.error();
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            errorMessage(error.response.data.message);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error);
+          } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error);
+          }
+          onFail();
+      });
       //this.forceUpdate();
     }
+
+    
 
     handleChange = (e, name)=>{
       var campoSendoAlterado = {};

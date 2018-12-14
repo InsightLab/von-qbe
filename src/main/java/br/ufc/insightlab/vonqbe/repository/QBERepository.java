@@ -1,5 +1,14 @@
 package br.ufc.insightlab.vonqbe.repository;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
@@ -7,11 +16,6 @@ import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
 import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
-import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 public class QBERepository {
 
@@ -24,7 +28,12 @@ public class QBERepository {
 
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
-//        rorService = new RORServiceImpl(mappingPath, owlPath);
+        
+        /*try {
+			rorService = new RORServiceImpl(mappingPath, owlPath);
+		} catch (Exception ex) {
+			throw new ErrorFileMessage(ex.getCause().getMessage());
+		}*/
         rorService = new DummyRORServiceImpl();
 
         if(containers == null)
