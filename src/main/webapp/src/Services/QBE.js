@@ -7,7 +7,7 @@ export const ServiceApiQBE = {
   },
 
   getSuggestions: (text, database) => {
-    return api.get(`helper?text=${text}&database=${database}`)
+    return api.get(`helper?text=${encodeURIComponent(text)}&database=${database}`);
   },
 
   getSocketURL: () => {
