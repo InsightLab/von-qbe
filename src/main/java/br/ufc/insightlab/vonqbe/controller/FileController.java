@@ -68,9 +68,9 @@ public class FileController {
         		file3.getContentType(), file3.getSize()));
 
 
-        changeDirecotryFile(file1, name);
-        changeDirecotryFile(file2, name);
-        changeDirecotryFile(file3, name);
+        changeDirecotryFile(file1, name, "mapping.odba");
+        changeDirecotryFile(file2, name, "schema.owl");
+        changeDirecotryFile(file3, name, "schema.nt");
         
         String home = "./von-qbe-databases/" + name +"/";
         QBERepository.createRepository(name,
@@ -130,7 +130,7 @@ public class FileController {
                 .toUriString();
     }
     
-    public void changeDirecotryFile(MultipartFile file, String name) {
+    public void changeDirecotryFile(MultipartFile file, String folder, String newFileName) {
     	 // copia os dados
         InputStream in;
         // escreve os dados
@@ -139,7 +139,7 @@ public class FileController {
 			 
 		    File toFile = new File("./von-qbe-databases/"+file.getOriginalFilename());
 		 
-		                File fromFile = new File("./von-qbe-databases/" + name +"/" + file.getOriginalFilename());
+		                File fromFile = new File("./von-qbe-databases/" + folder +"/" + newFileName);
 		    //validation 
 		    if(!fromFile.exists()){
 		        if(!fromFile.getParentFile().exists()){
