@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Upload, Button, Icon, //message,
 } from 'antd';
@@ -38,7 +39,7 @@ export class UploadUi extends Component {
 
     return (
       <div>
-        <Upload {...props}>
+        <Upload {...props} accept={this.props.accept}>
           <Button>
             <Icon type="upload" /> Select File
           </Button>
@@ -57,4 +58,8 @@ export class UploadUi extends Component {
 
   }
  
+}
+
+UploadUi.propTypes = {
+  accept: PropTypes.string,
 }

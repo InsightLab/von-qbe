@@ -11,9 +11,9 @@ const success = () => {
   message.success('Success Operation');
 };
 
-const errorMessage = ( message ) => {
+const errorMessage = ( msg ) => {
   message.error();
-  message.error(message);
+  message.error(msg,10);
 };
 
 export const UploadModal = 
@@ -85,7 +85,9 @@ Form.create()(
                   <UploadUi 
                     visible
                     onChangeFile={(file) => this.handleSetFile(file, 'file1')} 
-                    filelist={file1}/>
+                    filelist={file1}
+                    accept=".odba"
+                    />
                 )}
               </div>
             </FormItem>
@@ -103,6 +105,7 @@ Form.create()(
                     visible
                     onChangeFile={(file) => this.handleSetFile(file, 'file2')} 
                     filelist={file2}
+                    accept=".xml,.owl,.rdf"
                     />
                 )}
               </div>
@@ -120,7 +123,9 @@ Form.create()(
                   <UploadUi 
                     visible
                     onChangeFile={(file) => this.handleSetFile(file, 'file3')}
-                    filelist={file3}/>
+                    filelist={file3}
+                    accept=".nt"
+                    />
                 )}
               </div>
             </FormItem>
