@@ -16,6 +16,7 @@ import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
+import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 
@@ -31,12 +32,12 @@ public class QBERepository {
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
         
-//        try {
-//			rorService = new RORServiceImpl(mappingPath, owlPath);
-//		} catch (Exception ex) {
-//			throw new ErrorFileMessage(ex.getCause().getMessage());
-//		}
-        rorService = new DummyRORServiceImpl();
+        try {
+			rorService = new RORServiceImpl(mappingPath, owlPath);
+		} catch (Exception ex) {
+			throw new ErrorFileMessage(ex.getCause().getMessage());
+		}
+//        rorService = new DummyRORServiceImpl();
 
         if(containers == null)
             init();
