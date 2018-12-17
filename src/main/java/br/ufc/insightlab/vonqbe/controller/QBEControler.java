@@ -70,13 +70,14 @@ public class QBEControler {
 	@RequestMapping("/query")
 	public List<WebResultItem> query(String database, String text) {
 		logger.info("database: {}, text: {}",database, text);
+		String textDecoder= decoderText(text);
 		QBERepository controler = QBERepository.getRepository(database);
 		if(controler == null){
 			logger.error("Database {} not found!");
 			return new LinkedList<>();
 		}
 		else{
-			return controler.runQuery(text);
+			return controler.runQuery(textDecoder);
 		}
 
 	}
