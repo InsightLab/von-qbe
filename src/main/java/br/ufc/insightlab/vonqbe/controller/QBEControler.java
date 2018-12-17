@@ -1,6 +1,8 @@
 package br.ufc.insightlab.vonqbe.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
+import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
 import br.ufc.insightlab.vonqbe.repository.QBERepository;
 
 @RestController
@@ -44,7 +47,10 @@ public class QBEControler {
 	
 	@RequestMapping(value="/helper", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<String> helper(String database, String text) {
-		logger.info("database: {}, text: {}",database, text);
+		
+		String textDecoder = decoderText(text);
+		
+		logger.info("database: {}, text: {}",database, textDecoder);
 		QBERepository controler = QBERepository.getRepository(database);
 
 		if(controler == null){
@@ -52,7 +58,7 @@ public class QBEControler {
 			return new LinkedList<>();
 		}
 		else{
-			return controler.helper(text);
+			return controler.helper(textDecoder);
 		}
 	}
 
@@ -87,6 +93,20 @@ public class QBEControler {
        	}
 		return retorno;
 	}*/
+	
+	
+	protected String decoderText( String text) {
+		String textDecoder = text;
+		try {
+			textDecoder = URLDecoder.decode(text, "UTF-8");
+		} catch (UnsupportedEncodingException ex) {
+			// TODO Auto-generated catch block
+			 throw new ErrorFileMessage(ex.getCause().getMessage());
+		}
+		
+		return textDecoder;
+		
+	}
 	
 	
 }

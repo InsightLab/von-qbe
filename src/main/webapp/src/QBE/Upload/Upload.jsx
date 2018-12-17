@@ -7,6 +7,11 @@ import {
 
 export class UploadUi extends Component {
   
+  static propTypes = {
+    accept: PropTypes.string,
+    clear: PropTypes.bool,
+  };
+
   state = {
     fileList: [],
     uploading: false
@@ -49,23 +54,9 @@ export class UploadUi extends Component {
             <Icon type="upload" /> Select File
           </Button>
         </Upload>
-        {/* <Button
-          type="primary"
-          onClick={this.handleUpload}
-          disabled={fileList.length === 0}
-          loading={uploading}
-          style={{ marginTop: 16 }}
-        >
-          {uploading ? 'Uploading' : 'Start Upload' }
-        </Button> */}
       </div>
     );
 
   }
  
-}
-
-UploadUi.propTypes = {
-  accept: PropTypes.string,
-  clear: PropTypes.bool
 }

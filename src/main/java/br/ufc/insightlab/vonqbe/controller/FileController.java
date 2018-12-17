@@ -36,56 +36,54 @@ public class FileController {
     		@RequestParam("file2") MultipartFile file2,
     		@RequestParam("file3") MultipartFile file3) 
     {
-   
     	
-	        String fileNameFile1 = nameFile(file1);
-	        logger.info("Receiving file {}",fileNameFile1);
-	        String fileDownloadUri1 = uriFile( name, fileNameFile1 ); 
-	        
-	        String fileNameFile2 = nameFile(file2);
-			logger.info("Receiving file {}",fileNameFile2);
-	        String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
-	        
-	        String fileNameFile3 = nameFile(file3);
-			logger.info("Receiving file {}",fileNameFile3);
-	        String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
-	        
-	        
-	        ReturnListFilesUpload retorno =  new ReturnListFilesUpload();
-	        
-	        /* Name database*/
-	        retorno.setName(name);
-	        
-	    	/*File 1*/
-	        retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
-	        		file1.getContentType(), file1.getSize()));
-	        
-	        /* File2 */
-	        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
-	        		file2.getContentType(), file2.getSize()));
-	        
-	        /* File3 */
-	        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
-	        		file3.getContentType(), file3.getSize()));
-	
-	        String home = "./von-qbe-databases/";
-    		
-	        QBERepository.createRepository(name,
-	        		/*Mapping*/
-					home+file1.getOriginalFilename(),
-					/*Ontologia*/
-					home+file2.getOriginalFilename(),
-					/*Schema*/
-					home+file3.getOriginalFilename()); 
-	
-	        changeDirecotryFile(file1, name, "mapping.odba");
-        	changeDirecotryFile(file2, name, "schema.owl");
-       		changeDirecotryFile(file3, name, "schema.nt");
-            
-	 
-	        return retorno;
-
+        String fileNameFile1 = nameFile(file1);
+        logger.info("Receiving file {}",fileNameFile1);
+        String fileDownloadUri1 = uriFile( name, fileNameFile1 ); 
         
+        String fileNameFile2 = nameFile(file2);
+		logger.info("Receiving file {}",fileNameFile2);
+        String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
+        
+        String fileNameFile3 = nameFile(file3);
+		logger.info("Receiving file {}",fileNameFile3);
+        String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
+        
+        
+        ReturnListFilesUpload retorno =  new ReturnListFilesUpload();
+        
+        /* Name database*/
+        retorno.setName(name);
+        
+    	/*File 1*/
+        retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
+        		file1.getContentType(), file1.getSize()));
+        
+        /* File2 */
+        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
+        		file2.getContentType(), file2.getSize()));
+        
+        /* File3 */
+        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
+        		file3.getContentType(), file3.getSize()));
+
+        String home = "./von-qbe-databases/";
+		
+        QBERepository.createRepository(name,
+        		/*Mapping*/
+				home+file1.getOriginalFilename(),
+				/*Ontologia*/
+				home+file2.getOriginalFilename(),
+				/*Schema*/
+				home+file3.getOriginalFilename()); 
+
+        changeDirecotryFile(file1, name, "mapping.odba");
+    	changeDirecotryFile(file2, name, "schema.owl");
+   		changeDirecotryFile(file3, name, "schema.nt");
+        
+ 
+        return retorno;
+   
     }
 
     /*@PostMapping("/uploadMultipleFiles")
@@ -132,9 +130,8 @@ public class FileController {
     }
     
     	
-    	// copy
     public void changeDirecotryFile(MultipartFile file, String folder, String newFileName) {
-    	 // copia os dados
+    	 // copy
         InputStream in;
         // write
         OutputStream out;

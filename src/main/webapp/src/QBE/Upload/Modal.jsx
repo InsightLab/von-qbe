@@ -20,8 +20,6 @@ export const UploadModal =
 Form.create()(
   class extends Component {
 
-
-    
     static propTypes = {
       onOk: PropTypes.func,
       onSucess: PropTypes.func,
@@ -41,7 +39,6 @@ Form.create()(
     }
 
     render() {
-
       const { onCancel, loading, visible} = this.props;
       const { getFieldDecorator } = this.props.form;
       const { file1, file2, file3 } = this.state;
