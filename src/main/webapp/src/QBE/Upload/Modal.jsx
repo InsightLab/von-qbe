@@ -34,14 +34,13 @@ Form.create()(
       name: '',
       file1: null,
       file2: null,
-      file3: null,
       clearFiles: true
     }
 
     render() {
       const { onCancel, loading, visible} = this.props;
       const { getFieldDecorator } = this.props.form;
-      const { file1, file2, file3 } = this.state;
+      const { file1, file2 } = this.state;
 
       return (
         <Modal
@@ -91,7 +90,7 @@ Form.create()(
               </div>
             </FormItem>
             <FormItem
-              label="RDF/XML Ontology Schema (.xml, .owl, .rdf)"
+              label="RDF/XML Ontology Schema (.nt, .xml, .owl, .rdf)"
               >
               <div className="dropbox">
                 {getFieldDecorator('file2', {
@@ -104,27 +103,7 @@ Form.create()(
                     visible
                     onChangeFile={(file) => this.handleSetFile(file, 'file2')} 
                     filelist={file2}
-                    accept=".xml,.owl,.rdf"
-                    clear={this.state.clearFiles}
-                    />
-                )}
-              </div>
-            </FormItem>
-            <FormItem
-              label="N-Triple Ontology Schema (.nt)"
-              >
-              <div className="dropbox">
-                {getFieldDecorator('file3', {
-                   rules: [{
-                    required: true,
-                    message: 'Please input File 3',
-                  }],
-                })(
-                  <UploadUi 
-                    visible
-                    onChangeFile={(file) => this.handleSetFile(file, 'file3')}
-                    filelist={file3}
-                    accept=".nt"
+                    accept=".nt,.xml,.owl,.rdf"
                     clear={this.state.clearFiles}
                     />
                 )}
@@ -138,7 +117,7 @@ Form.create()(
     handleButtonOk = () =>{
       const {onOk, onSucess, onAddBase, onFail} = this.props;
       const { setFields } = this.props.form;
-      const{ name, file1, file2, file3} = this.state;
+      const{ name, file1, file2} = this.state;
 
       if ( !name ){
         setFields({
@@ -150,10 +129,10 @@ Form.create()(
         return;
       };
 
-      if (this.validateFile(file1 , file2, file3))return;
+      if (this.validateFile(file1 , file2))return;
      
       onOk();
-      ServiceApiFile.addFile( {name, file1, file2, file3})
+      ServiceApiFile.addFile( {name, file1, file2})
         .then(
           ( response ) =>{
             const nameDatabase = response.data.name;
@@ -202,16 +181,15 @@ Form.create()(
 
     emptyState = () =>{
       const { setFields } = this.props.form;
-      setFields({name: {value: null}, file1: {value: null}, file2: {value: null}, file3: {value:null}});
+      setFields({name: {value: null}, file1: {value: null}, file2: {value: null}});
       this.setState({
         name: '',
         file1: null,
         file2: null,
-        file3: null,
       })
     }
     
-    validateFile=( file1, file2, file3)=>{
+    validateFile=( file1, file2)=>{
       const { setFields } = this.props.form;
       if ( !file1 ){  
         setFields({
@@ -224,14 +202,6 @@ Form.create()(
       if ( !file2 ){  
         setFields({
           file2: {
-            errors: [new Error('Please input file')],
-          },
-        });
-        return true;
-      }
-      if ( !file3 ){  
-        setFields({
-          file3: {
             errors: [new Error('Please input file')],
           },
         });

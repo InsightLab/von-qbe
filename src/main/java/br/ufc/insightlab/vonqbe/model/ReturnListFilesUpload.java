@@ -8,8 +8,7 @@ public class ReturnListFilesUpload {
 	
 	public UploadFileResponse file2;
 	
-	public UploadFileResponse file3;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -27,12 +26,6 @@ public class ReturnListFilesUpload {
 	}
 	public void setFile2(UploadFileResponse file2) {
 		this.file2 = file2;
-	}
-	public UploadFileResponse getFile3() {
-		return file3;
-	}
-	public void setFile3(UploadFileResponse file3) {
-		this.file3 = file3;
 	}
 	
 
