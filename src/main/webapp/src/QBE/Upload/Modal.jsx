@@ -4,16 +4,13 @@ import {UploadUi} from './Upload';
 import {ServiceApiFile} from '../../Services/File';
 import PropTypes from 'prop-types';
 
+import './Modal.css';
+
 const FormItem = Form.Item;
 
 const success = () => {
   message.success();
   message.success('Success Operation');
-};
-
-const errorMessage = ( msg ) => {
-  message.error();
-  message.error(msg,10);
 };
 
 export const UploadModal = 
@@ -34,8 +31,15 @@ Form.create()(
       name: '',
       file1: null,
       file2: null,
-      clearFiles: true
+      clearFiles: true,
+      error: undefined
     }
+
+    errorMessage = ( msg ) => {
+      // message.error();
+      // message.error(msg,10);
+      this.setState({error: msg})
+    };
 
     render() {
       const { onCancel, loading, visible} = this.props;
@@ -110,6 +114,7 @@ Form.create()(
               </div>
             </FormItem>
           </Form>
+          {this.state.error && <div id="error">{this.state.error}</div>}
         </Modal>
       )
     }
@@ -148,16 +153,18 @@ Form.create()(
         .catch((error) => {
           //message.error();
           if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            errorMessage(error.response.data.message);
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              this.errorMessage("SERVER ERROR: "+error.response.data.message);
           } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(error);
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error);
+              this.errorMessage("Something went wrong at HTTP requisition. Check the console log for details")
           } else {
               // Something happened in setting up the request that triggered an Error
+              this.errorMessage("Something went wrong. Check the console log for details")
               console.log('Error', error);
           }
           onFail();
@@ -186,6 +193,7 @@ Form.create()(
         name: '',
         file1: null,
         file2: null,
+        error: undefined
       })
     }
     
