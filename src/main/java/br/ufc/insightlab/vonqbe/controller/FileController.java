@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,8 @@ public class FileController {
 
 	private static Logger logger = LoggerFactory.getLogger(FileController.class);
 
+	static final String home = "./von-qbe-databases/";
+
     @Autowired
     private FileStorageService fileStorageService;
     
@@ -33,8 +38,7 @@ public class FileController {
     public ReturnListFilesUpload uploadFile(
     		@RequestParam("name") String name, 
     		@RequestParam("file1") MultipartFile file1, 
-    		@RequestParam("file2") MultipartFile file2,
-    		@RequestParam("file3") MultipartFile file3) 
+    		@RequestParam("file2") MultipartFile file2)
     {
     	
         String fileNameFile1 = nameFile(file1);
@@ -43,11 +47,7 @@ public class FileController {
         
         String fileNameFile2 = nameFile(file2);
 		logger.info("Receiving file {}",fileNameFile2);
-        String fileDownloadUri2 = uriFile( name, fileNameFile2 ); 
-        
-        String fileNameFile3 = nameFile(file3);
-		logger.info("Receiving file {}",fileNameFile3);
-        String fileDownloadUri3 = uriFile( name, fileNameFile3 ); 
+        String fileDownloadUri2 = uriFile( name, fileNameFile2 );
         
         
         ReturnListFilesUpload retorno =  new ReturnListFilesUpload();
@@ -58,65 +58,58 @@ public class FileController {
     	/*File 1*/
         retorno.setFile1( new UploadFileResponse("mapping.odba", fileDownloadUri1,
         		file1.getContentType(), file1.getSize()));
-        
-        /* File2 */
-        retorno.setFile2( new UploadFileResponse("schema.owl", fileDownloadUri2,
-        		file2.getContentType(), file2.getSize()));
-        
-        /* File3 */
-        retorno.setFile3( new UploadFileResponse("schema.nt", fileDownloadUri3,
-        		file3.getContentType(), file3.getSize()));
-
-        String home = "./von-qbe-databases/";
-		
-        QBERepository.createRepository(name,
-        		/*Mapping*/
-				home+file1.getOriginalFilename(),
-				/*Ontologia*/
-				home+file2.getOriginalFilename(),
-				/*Schema*/
-				home+file3.getOriginalFilename()); 
 
         changeDirecotryFile(file1, name, "mapping.odba");
-    	changeDirecotryFile(file2, name, "schema.owl");
-   		changeDirecotryFile(file3, name, "schema.nt");
-        
- 
-        return retorno;
+
+		/* File2 */
+        if(fileNameFile2.endsWith(".nt")) {
+			retorno.setFile2(new UploadFileResponse("schema.nt", fileDownloadUri2,
+					file2.getContentType(), file2.getSize()));
+			changeDirecotryFile(file2, name, "schema.nt");
+
+
+			Model model = ModelFactory.createDefaultModel();
+			model.read(home+name+"/schema.nt","NT");
+			try {
+				model.write(new FileOutputStream(new File(home+name+"/schema.owl")), "RDF/XML");
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+        else {
+			retorno.setFile2(new UploadFileResponse("schema.owl", fileDownloadUri2,
+					file2.getContentType(), file2.getSize()));
+			changeDirecotryFile(file2, name, "schema.owl");
+
+			Model model = ModelFactory.createDefaultModel();
+			model.read(home+name+"/schema.owl","RDF/XML");
+			try {
+				model.write(new FileOutputStream(new File(home+name+"/schema.nt")), "NT");
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			QBERepository.createRepository(name,
+					/*Mapping*/
+					home + name + "/mapping.odba",
+					/*Ontologia*/
+					home + name + "/schema.owl",
+					/*Schema*/
+					home + name + "/schema.nt");
+
+
+			return retorno;
+		} catch (Exception e){
+			FileSystemUtils.deleteRecursively(new File(home+name));
+        	throw e;
+		}
    
     }
 
-    /*@PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file ,""))
-                .collect(Collectors.toList());
-    }*/
-
-    /*@GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }*/
     
     private String nameFile( MultipartFile file) {
     	return fileStorageService.storeFile(file);
@@ -130,7 +123,7 @@ public class FileController {
     }
     
     	
-    public void changeDirecotryFile(MultipartFile file, String folder, String newFileName) {
+    private void changeDirecotryFile(MultipartFile file, String folder, String newFileName) {
     	 // copy
         InputStream in;
         // write

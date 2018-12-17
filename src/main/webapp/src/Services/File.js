@@ -7,7 +7,6 @@ export const ServiceApiFile = {
     data.append("name", name);
     data.append("file1", file1);
     data.append("file2", file2);
-    data.append("file3", file3);
     return api.post("uploadFile", data);
   },
 
