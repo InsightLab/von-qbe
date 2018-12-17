@@ -45,7 +45,7 @@ body.page-loading #page {
 	transition: 0.3s;
 }
 body.scrolling #header {
-	height: 50px;
+	height: 100px;
 }
 #header .title {
 	margin: 10px auto 0 auto;
