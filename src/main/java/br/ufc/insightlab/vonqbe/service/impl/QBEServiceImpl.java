@@ -45,6 +45,7 @@ public class QBEServiceImpl implements QBEService {
 
 	@Override
 	public List<String> helper(String text) {
+		
 		LinkedGraph fragment = extractor.generateFragment(text);
 		
 		List<String> suggestions = new ArrayList<>();
@@ -57,7 +58,7 @@ public class QBEServiceImpl implements QBEService {
 		catch(Exception e){
 			logger.info("No suggestions found");
 		}
-
+		
 		return suggestions;
 	}
 

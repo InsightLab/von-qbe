@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Suggestions} from './Suggestions/Suggestions';
+import {Input} from 'antd';
 import PropTypes from 'prop-types';
 
 import './SearchField.css';
@@ -12,7 +13,8 @@ export class SearchField extends Component{
     super(props);
 
     this.state = {
-      inputValue: props.text
+      inputValue: props.text,
+      number: 30,
     };
 
     this.handleChangValue = this.handleChangValue.bind(this);
@@ -26,6 +28,7 @@ export class SearchField extends Component{
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
     suggestions: PropTypes.array,
+    onChangeLimit: PropTypes.func,
   };
 
   componentWillReceiveProps(nextProps){
@@ -37,7 +40,7 @@ export class SearchField extends Component{
     let text = e.target.value;
     this.setState({inputValue: text});
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => { this.triggerChange(text)}, WAIT_INTERVAL);
+    this.timer = setTimeout(() => { this.triggerChange({text})}, WAIT_INTERVAL);
   }
 
   handleSubmit(e){
@@ -46,8 +49,9 @@ export class SearchField extends Component{
     this.props.onSubmit(this.state.inputValue)
   }
 
-  triggerChange(text){
+  triggerChange({text, isViewSugestion}){
     this.props.handleTextChange(text);
+    this.props.onChangeLimit(this.state.number, isViewSugestion);
   }
 
   render(){
@@ -61,13 +65,41 @@ export class SearchField extends Component{
           onChange={this.handleChangValue}
           disabled={(this.props.disabled) ? "disabled" : ""}
           />
+
         <input id="run" type="submit" value="" title="Click to execute the search."/>
+        
+        <Input
+          type="text"
+          title="Limit"
+          placeholder="Limit" 
+          value={this.state.number}
+          onChange={this.handleNumberChange}
+          style={{ width: '5%', height: 40, marginLeft: 10 }}
+          />
+
         {(this.props.suggestions && this.props.suggestions.length > 0) && 
           <Suggestions>
               {this.props.suggestions.map((item,i) => <div key={i} onClick={this.props.onClick}>{item}</div>)}
           </Suggestions>
         }
+
+      
+      
       </form>
     );
   }
+
+  handleNumberChange = (e) => {
+    const number = parseInt(e.target.value || 0, 10);
+    if (Number.isNaN(number)) {
+      return;
+    }
+    if (!('value' in this.props)) {
+      this.setState({ number });
+    }
+    clearTimeout(this.timer);
+    const mostrar = false;
+    this.timer = setTimeout(() => { this.triggerChange({text: this.state.inputValue, isViewSugestion: mostrar})}, WAIT_INTERVAL);
+  }
+
 }

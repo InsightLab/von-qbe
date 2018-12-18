@@ -11,7 +11,7 @@ export const ServiceApiQBE = {
     //return api.get(`helper?text=${encodeURIComponent(text)}&database=${database}`);
     return api.get("helper", { params: {
       text: encodeURIComponent(text),
-      database
+      database,
     }});
   },
 

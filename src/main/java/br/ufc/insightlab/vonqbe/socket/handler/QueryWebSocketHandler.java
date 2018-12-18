@@ -29,7 +29,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
         JSONObject msg = new JSONObject(message.getPayload());
         String database = msg.get("database").toString();
         String text = msg.get("text").toString();
-
+        int limit = Integer.parseInt(msg.get("limit").toString());
         logger.info("database: {}, text: {}",database, text);
         QBERepository controler = QBERepository.getRepository(database);
 
@@ -46,7 +46,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
                 end = 0;
 
         start = System.currentTimeMillis();
-        String sparql = controler.getSPARQL(text);
+        String sparql = controler.getSPARQL(text, limit);
         end = System.currentTimeMillis();
 
         session.sendMessage(QueryMessageFactory.generateSPARQLMessage(sparql, end-start));

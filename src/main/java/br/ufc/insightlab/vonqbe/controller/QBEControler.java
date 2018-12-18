@@ -46,7 +46,7 @@ public class QBEControler {
 	}
 	
 	@RequestMapping(value="/helper", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<String> helper(String database, String text) {
+	public List<String> helper(String database, String text ) {
 		
 		String textDecoder = decoderText(text);
 		
@@ -60,6 +60,7 @@ public class QBEControler {
 		else{
 			return controler.helper(textDecoder);
 		}
+		
 	}
 
 	@RequestMapping(value="/databases", method= RequestMethod.GET)
@@ -68,7 +69,8 @@ public class QBEControler {
 	}
 	
 	@RequestMapping("/query")
-	public List<WebResultItem> query(String database, String text) {
+	public List<WebResultItem> query(String database, String text, int limit) {
+		
 		logger.info("database: {}, text: {}",database, text);
 		String textDecoder= decoderText(text);
 		QBERepository controler = QBERepository.getRepository(database);
@@ -77,7 +79,7 @@ public class QBEControler {
 			return new LinkedList<>();
 		}
 		else{
-			return controler.runQuery(textDecoder);
+			return controler.runQuery(textDecoder, limit);
 		}
 
 	}
