@@ -4,11 +4,31 @@ Von-QBE is a Ontology-Based Query-by-Example system that operates over a relatio
 
 ## Running
 
-To execute this system, first you need to install at your local maven repository both [Linked-Graphast](https://github.com/InsightLab/linked-graphast) and [RoR](https://github.com/InsightLab/rdf-over-rdbms) modules(all in [InsightLab](https://github.com/InsightLab) repository.
-Second, you need to provide 3 files(which must be at home directory) to run the application:
+To run the application, you must have installed:
 
-* **ontologiaXML.owl** - the ontology schema that represents the relational data that will be queried;
-* **mapping.odba** - the mappings from the ontology schema to the relational database, using [Ontop syntax](https://github.com/ontop/ontop/wiki/ontopOBDAModel), and the JDBC connection parameters;
-* **schema.nt** - the ontology schema in N-Triple format.
+* Java 8
+* Maven
+* SBT
+* Nodejs
+* NPM
 
-Once the modules are installed and all the files are in the correct place, you can run QbewebApplication(which will run on port 8080) or generate the *.war* and deploy into a server.
+To execute this system first you need to install at your local maven repository both [Linked-Graphast](https://github.com/InsightLab/linked-graphast) and [RoR](https://github.com/InsightLab/rdf-over-rdbms).
+
+At the first time you run the system(or every time that anything is changed at the front-end), you will need to run:
+
+`./build-and-run port host`
+
+Where:
+
+* **port**: the port where the application will run (default: 8080);
+* **host**: the host where the server will run (public IP, local networl IP or localhost[default])
+
+If you had already made one build, you can just run the server:
+`./run-server port`
+
+Note that the port must be the same specified at the **build-and-run** script, since the React front-end has been built configuring the requests to that port and host.
+
+After the system is up, you can configure the databases and ontologies that you want to connect. To add a database, you need to upload 2 files:
+
+* **mapping file** - the mappings from the ontology schema to the relational database, using [Ontop syntax](https://github.com/ontop/ontop/wiki/ontopOBDAModel), and the JDBC connection parameters. You can check a [example](https://github.com/InsightLab/von-qbe/blob/develop/src/main/resources/mapping.odba) at the resources folder
+* **ontology schema file** - the ontology schema. Now, Von-QBE supports nt, rdf, xml and owl formats.
