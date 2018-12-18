@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
+import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +31,12 @@ public class QBERepository {
     private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
         qbeService = new QBEServiceImpl(ntPath);
         
-        /*try {
+        try {
 			rorService = new RORServiceImpl(mappingPath, owlPath);
 		} catch (Exception ex) {
 			throw new ErrorFileMessage(ex.getCause().getMessage());
-		}*/
-        rorService = new DummyRORServiceImpl();
+		}
+//        rorService = new DummyRORServiceImpl();
 
         if(containers == null)
             init();
