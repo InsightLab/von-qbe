@@ -3,7 +3,7 @@ package br.ufc.insightlab.vonqbe.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightlab.graphast.structure.DefaultGraphStructure;
+import br.ufc.insightlab.graphast.structure.DefaultGraphStructure;
 import br.ufc.insightlab.linkedgraphast.model.graph.LinkedGraph;
 import br.ufc.insightlab.linkedgraphast.modules.fragmentexpansor.FragmentExpansor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBEFragmentExtractor;
@@ -25,19 +25,13 @@ import scala.collection.Iterator;
 //@ApplicationScoped
 public class QBEServiceImpl implements QBEService {
 
-	private static Logger logger = LoggerFactory.getLogger(QBEServiceImpl.class);	
-	private final String NT = "schema.nt";
+	private static Logger logger = LoggerFactory.getLogger(QBEServiceImpl.class);
 //	private final String NT = "nobel_dump_schema.nt";
 	private LinkedGraph schema;
 	private VonQBEFragmentExtractor extractor;
 	private VonQBESparqlBuilder sparqlBuilder;
 	
-	public QBEServiceImpl() {
-		String path = System.getProperty("user.home");
-		if(!path.endsWith("/"))
-		    path += "/";
-
-		String nt = path + this.NT;
+	public QBEServiceImpl(String nt) {
         logger.info("[QBE API] Schema file: {}", nt);
         
         schema = new LinkedGraph(new DefaultGraphStructure());
@@ -51,14 +45,20 @@ public class QBEServiceImpl implements QBEService {
 
 	@Override
 	public List<String> helper(String text) {
+		
 		LinkedGraph fragment = extractor.generateFragment(text);
 		
 		List<String> suggestions = new ArrayList<>();
+
+		try {
+			Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator();
+			while(it.hasNext()) suggestions.add(it.next());
+			logger.info("Suggestions: "+suggestions);
+		}
+		catch(Exception e){
+			logger.info("No suggestions found");
+		}
 		
-		Iterator<String> it = FragmentExpansor.apply(schema, fragment).iterator(); 
-		
-		while(it.hasNext()) suggestions.add(it.next());
-		logger.info("Suggestions: "+suggestions);
 		return suggestions;
 	}
 

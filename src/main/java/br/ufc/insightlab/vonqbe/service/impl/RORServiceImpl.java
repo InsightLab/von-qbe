@@ -19,30 +19,18 @@ import br.ufc.insightlab.vonqbe.service.RORService;
 public class RORServiceImpl implements RORService {
 
 	private static Logger logger = LoggerFactory.getLogger(RORServiceImpl.class);
-	
-	private final String OWL = "ontologiaXML.owl";
-	private final String OBDA = "mapping.odba";
+
 	private OntopROR ror;
 	
-	public RORServiceImpl() {		
-		try {
+	public RORServiceImpl(String obda, String owl) throws Exception{
 
-			String path = System.getProperty("user.home");
-			if(!path.endsWith("/"))
-				path += "/";
+            logger.info("[ROR API] OWL file: {}", owl);
 
-			String owl = path + this.OWL;
-            logger.info("[ROR API] Arquivo OWL: {}", owl);
-
-			String obda = path + this.OBDA;
-            logger.info("[ROR API] Arquivo obda: {}", obda);
+            logger.info("[ROR API] OBDA file: {}", obda);
 
 			this.ror = new OntopROR(owl, obda);
-			logger.info("[ROR API] Mapeamentos carregados com sucesso!");
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			System.out.println(e);
-		}
+			logger.info("[ROR API] Mappings loaded successfully!");
+		
 	}
 
 	@Override

@@ -1,0 +1,41 @@
+#results {
+	text-align: center;
+	max-width: 80%;
+	color: black;
+	margin: 0 auto;
+}
+
+#results div {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+#results table {
+	margin: 0 auto;
+	
+	border-collapse:separate; 
+  	/* border-spacing: 10px 10px; */
+  	
+  	background-color: black;
+}
+
+#results thead tr{
+	background: #e5e5e5;
+}
+
+#results table tr{
+	display: table-row !important;
+}
+
+#results table tbody tr{
+	background: white;
+}
+
+#results table tbody tr:nth-child(even){
+	background: #f2f2f2;
+}
+
+#results table tr td{
+	text-align: center;
+	padding: 15px 10px;
+}
