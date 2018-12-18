@@ -10,6 +10,8 @@ export class QBEContainer extends Component{
 
     this.state = {
       text: "",
+      limit: null,
+      isViewSugestion: true,
     }
     
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this);
@@ -48,6 +50,12 @@ export class QBEContainer extends Component{
     })
   }
 
+  handleLimitChange = ( limit ) =>{
+    this.setState({
+      limit
+    })
+  }
+
   handleSocketMessage(msg){
     let data = JSON.parse(msg.data);
     let id = parseInt(data.statusId);
@@ -67,7 +75,7 @@ export class QBEContainer extends Component{
       }); 
   }
 
-  handleSubmit(text){
+  handleSubmit(text, isViewSugestion){
     this.setState({
       text: text,
       suggestions: undefined,
@@ -76,6 +84,7 @@ export class QBEContainer extends Component{
       queryStatus: 0,
       results: undefined,
       sparql: undefined,
+      isViewSugestion
     });
 
     // axios.get('http://localhost:8080/query?text='+text).then(response => {            
@@ -88,7 +97,7 @@ export class QBEContainer extends Component{
     //     }); 
     // });
     
-    let msg = {"database":this.props.database, "text": text};
+    let msg = {"database":this.props.database, "text": text, "limit": this.state.limit };
     this.sendMessage(this.socket,JSON.stringify(msg));
 
   }
@@ -98,8 +107,10 @@ export class QBEContainer extends Component{
       <QBE 
         handleSuggestionClick={this.handleSuggestionClick}
         handleTextChange={this.handleTextChange}
+        onChangeLimit={this.handleLimitChange}
         handleSubmit={this.handleSubmit}
         text={this.state.text}
+        limit={this.state.limit}
         suggestions={this.state.suggestions}
         disabled={this.state.disabled}
         results={this.state.results}
@@ -112,6 +123,7 @@ export class QBEContainer extends Component{
   componentDidUpdate(){
     if(this.state.text !== "" && !this.state.suggestions && !this.state.isRequesting){
       ServiceApiQBE.getSuggestions(this.state.text, this.props.database).then(response => {
+        if (this.state.isViewSugestion)  
           this.setState({suggestions: response.data});
       });
     }

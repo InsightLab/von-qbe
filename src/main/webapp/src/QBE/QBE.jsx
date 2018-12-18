@@ -11,14 +11,16 @@ export class QBE extends Component{
     handleSuggestionClick: PropTypes.func,
     handleTextChange: PropTypes.func,
     handleSubmit: PropTypes.func,
+    onChangeLimit: PropTypes.func,
     text: PropTypes.string,
+    limit: PropTypes.number,
     suggestions: PropTypes.array,
     disabled: PropTypes.bool,
     results: PropTypes.array,
     queryStatus: PropTypes.number,
     sparql: PropTypes.string
   };
-
+  
   render() {
     return (
       <div id="page-hierarquia">
@@ -29,14 +31,17 @@ export class QBE extends Component{
         <div className="tarja">
           <div className="table">
             <div id="hierarquia-navegacao" className="row header">
-                <SearchField 
+              <SearchField 
                 onClick={this.props.handleSuggestionClick} 
                 text={this.props.text} 
+                limit={this.props.limit}
                 suggestions={this.props.suggestions}
                 handleTextChange={this.props.handleTextChange}
                 onSubmit={this.props.handleSubmit}
+                onChangeLimit={this.props.onChangeLimit}
                 disabled={this.props.disabled}
-                />
+              />
+              
             </div>
           </div>
         </div>
@@ -56,4 +61,6 @@ export class QBE extends Component{
       </div>
     );
   }
+
+ 
 }

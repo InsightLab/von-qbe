@@ -16,7 +16,6 @@ import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
-import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 
@@ -60,8 +59,6 @@ public class QBERepository {
     public static void init(){
         containers = new HashMap<>();
 
-
-
     }
 
     public static QBERepository getRepository(String name){
@@ -75,10 +72,15 @@ public class QBERepository {
     public List<String> helper(String text){
         return qbeService.helper(text);
     }
+    
+    public String getSPARQL(String text, int limit){
 
-    public String getSPARQL(String text){
-        try{
-            return qbeService.query(text)+"LIMIT 30";
+    	try{
+        	if (limit <= 0) { 
+        		return qbeService.query(text);
+        	}else {
+        		 return qbeService.query(text)+"LIMIT " + limit;
+        	}
         }
         catch(Exception e){
             return "";
@@ -104,8 +106,8 @@ public class QBERepository {
 
     }
 
-    public List<WebResultItem> runQuery(String text){
-        return mapResults(applyQuery(getSPARQL(text)+"LIMIT 30"));
+    public List<WebResultItem> runQuery(String text, int limit){
+        return mapResults(applyQuery(getSPARQL(text, limit)));
     }
 
 
