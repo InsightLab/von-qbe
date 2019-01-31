@@ -1,0 +1,32 @@
+from alpine
+
+copy start.sh ./
+
+#installing packages
+RUN apk update
+run apk add bash
+RUN apk fetch openjdk8
+RUN apk add openjdk8
+run apk add --update nodejs nodejs-npm
+run apk add --update maven
+run apk add --update git
+
+#downloading repos
+run git clone https://github.com/InsightLab/von-qbe
+run cd von-qbe && git checkout docker
+
+ARG ip=localhost
+ENV IP ${ip}
+
+ARG port="8897"
+ENV VONQBEPORT ${port}
+
+EXPOSE ${port}
+
+#building application
+run cd von-qbe && ./build.sh
+
+run chmod +x start.sh
+
+#run von-qbe
+cmd ["./start.sh"]
