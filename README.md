@@ -32,3 +32,6 @@ After the system is up, you can configure the databases and ontologies that you 
 
 * **mapping file** - the mappings from the ontology schema to the relational database, using [Ontop syntax](https://github.com/ontop/ontop/wiki/ontopOBDAModel), and the JDBC connection parameters. You can check a [example](https://github.com/InsightLab/von-qbe/blob/develop/src/main/resources/mapping.odba) at the resources folder
 * **ontology schema file** - the ontology schema. Now, Von-QBE supports nt, rdf, xml and owl formats.
+
+## Docker
+To deploy Von-QBE on a docker container, go to the [docker folder](https://github.com/InsightLab/von-qbe/tree/develop/docker).
