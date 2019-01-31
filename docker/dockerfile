@@ -14,6 +14,7 @@ run apk add --update git
 #downloading repos
 run git clone https://github.com/InsightLab/von-qbe
 run cd von-qbe && git checkout docker
+
 ARG ip=localhost
 ENV IP ${ip}
 
@@ -21,6 +22,9 @@ ARG port="8897"
 ENV VONQBEPORT ${port}
 
 EXPOSE ${port}
+
+#building application
+run cd von-qbe && ./build.sh
 
 run chmod +x start.sh
 
