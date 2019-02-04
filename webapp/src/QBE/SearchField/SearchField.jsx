@@ -14,7 +14,7 @@ export class SearchField extends Component{
 
     this.state = {
       inputValue: props.text,
-      number: 30,
+      number: props.limit,
     };
 
     this.handleChangValue = this.handleChangValue.bind(this);

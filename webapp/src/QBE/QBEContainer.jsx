@@ -10,7 +10,7 @@ export class QBEContainer extends Component{
 
     this.state = {
       text: "",
-      limit: null,
+      limit: 30,
       isViewSugestion: true,
     }
     
