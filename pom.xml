@@ -6,7 +6,7 @@
 	<groupId>br.ufc.insightlab</groupId>
 	<artifactId>vonqbe</artifactId>
 	<version>2.0.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>Von-QBE</name>
 	<description>Ontology-Based Query By Example</description>
@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>br.ufc.insightlab</groupId>
 			<artifactId>linked-graphast_2.11</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 		
 		
@@ -109,6 +109,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>-Xmx10G -Xms4G</jvmArguments>
+				</configuration>
 			</plugin>
 			
 			<plugin>
@@ -121,10 +124,27 @@
 				</configuration>
 		  	</plugin>
 		  	
-		  	<plugin>
-		       <groupId>org.apache.maven.plugins</groupId>
-		       <artifactId>maven-war-plugin</artifactId>
-		     </plugin>
+		  	<!--<plugin>-->
+		       <!--<groupId>org.apache.maven.plugins</groupId>-->
+		       <!--<artifactId>maven-war-plugin</artifactId>-->
+		     <!--</plugin>-->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>br.ufc.insightlab.vonqbe.Main</mainClass>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
