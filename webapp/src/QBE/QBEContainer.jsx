@@ -72,6 +72,7 @@ export class QBEContainer extends Component{
         isRequesting: false,
         queryStatus: id,
         results: data.results,
+        isViewSugestion: true
       }); 
   }
 

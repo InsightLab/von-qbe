@@ -65,6 +65,6 @@ public class QBEServiceImpl implements QBEService {
 
 	@Override
 	public String query(String text) {
-		return sparqlBuilder.generateSPARQL(text, true);
+		return sparqlBuilder.generateSPARQL(text, false);
 	}
 }

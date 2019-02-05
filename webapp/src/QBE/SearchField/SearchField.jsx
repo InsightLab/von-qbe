@@ -46,7 +46,7 @@ export class SearchField extends Component{
   handleSubmit(e){
     e.preventDefault();
     e.stopPropagation();
-    this.props.onSubmit(this.state.inputValue)
+    this.props.onSubmit(this.state.inputValue, false)
   }
 
   triggerChange({text, isViewSugestion}){

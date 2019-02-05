@@ -16,7 +16,7 @@ public class QbewebApplication {
 	public static void main(String[] args) {
 		System.out.println("Total memory: "+Runtime.getRuntime().totalMemory()/1024.0/1024.0/1024.0);
 		System.out.println("Free memory: "+Runtime.getRuntime().freeMemory()/1024.0/1024.0/1024.0);
-		Figer.init("src/main/resources/figer.conf");
+//		Figer.init("src/main/resources/figer.conf");
 		SpringApplication.run(QbewebApplication.class, args);
 	}
 }
