@@ -15,11 +15,13 @@ export class SearchField extends Component{
     this.state = {
       inputValue: props.text,
       number: props.limit,
+      isUsingNER: false
     };
 
     this.handleChangValue = this.handleChangValue.bind(this);
     this.triggerChange = this.triggerChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
   static propTypes = {
@@ -46,12 +48,19 @@ export class SearchField extends Component{
   handleSubmit(e){
     e.preventDefault();
     e.stopPropagation();
-    this.props.onSubmit(this.state.inputValue, false)
+    this.props.onSubmit(this.state.inputValue, this.state.isUsingNER ,false)
   }
 
   triggerChange({text, isViewSugestion}){
     this.props.handleTextChange(text);
     this.props.onChangeLimit(this.state.number, isViewSugestion);
+  }
+
+  handleCheckboxChange(e){
+      var isChecked = e.target.checked;
+      if (!(isChecked  === this.state.isUsingNER)){
+        this.setState({isUsingNER : isChecked});
+      } 
   }
 
   render(){
@@ -65,6 +74,14 @@ export class SearchField extends Component{
           onChange={this.handleChangValue}
           disabled={(this.props.disabled) ? "disabled" : ""}
           />
+
+        <label id="label-ner">
+          NER :
+          <input
+            id="checkbox-ner"
+            type="checkbox"
+            onChange={this.handleCheckboxChange} />
+        </label>
 
         <input id="run" type="submit" value="" title="Click to execute the search."/>
         

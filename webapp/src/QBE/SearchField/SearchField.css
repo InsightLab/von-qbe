@@ -61,3 +61,12 @@
 	cursor: pointer;
 	font-weight: bold;
 }
+
+#label-ner{
+	margin-left: 10px;
+}
+
+#checkbox-ner{
+	margin-left: 5px;
+	margin-bottom: 4px;
+}
