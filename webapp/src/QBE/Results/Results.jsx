@@ -10,6 +10,29 @@ export class Results extends Component{
     results: PropTypes.array
   };
 
+  reverseString(s){
+    return s.split("").reverse().join("")
+  }
+
+  clearURI(uri){
+    let reverseURI = this.reverseString(uri)
+    let clean = ""
+    let i = 1
+    while(i < reverseURI.length && reverseURI[i] != '/' && reverseURI[i] != '#'){
+      clean += reverseURI[i]
+      i += 1
+    }
+
+    return this.reverseString(clean)
+
+  }
+
+  generateTableCell(value){
+    if(value.startsWith("<http://"))
+      return <a href={value.substring(1, value.length - 1)}>{this.clearURI(value)}</a>
+    else return value
+  }
+
   render(){
     //take the values keys from the first result, defining the table's header 
     let willRender = this.props.results.length > 0;
@@ -25,7 +48,7 @@ export class Results extends Component{
 
       return (
         <tr className="nome" key={i}>
-            {headerValues.map((h,i) => <td key={i}>{values[h]}</td>)}
+            {headerValues.map((h,i) => <td key={i}>{this.generateTableCell(values[h])}</td>)}
         </tr>
       );
     });
