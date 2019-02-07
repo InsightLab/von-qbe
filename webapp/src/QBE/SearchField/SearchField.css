@@ -51,7 +51,6 @@
 }
 
 #search-results > div {
-	width: 100%;
 	padding: 6px;
 	text-align: left;
 	line-height: 18px;
@@ -62,8 +61,16 @@
 	font-weight: bold;
 }
 
+#ner{
+	text-align: left;
+	padding: 15px 15px 0px 0px;
+	font-size: 15px;
+	width: 100%;
+	margin-left: -60px;
+}
+
 #label-ner{
-	margin-left: 10px;
+	margin-left: 8px;
 }
 
 #checkbox-ner{

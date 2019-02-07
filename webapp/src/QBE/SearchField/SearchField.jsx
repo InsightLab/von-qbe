@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Suggestions} from './Suggestions/Suggestions';
-import {Input} from 'antd';
+import {Input}  from 'antd';
 import PropTypes from 'prop-types';
 
 import './SearchField.css';
@@ -75,14 +75,6 @@ export class SearchField extends Component{
           disabled={(this.props.disabled) ? "disabled" : ""}
           />
 
-        <label id="label-ner">
-          NER :
-          <input
-            id="checkbox-ner"
-            type="checkbox"
-            onChange={this.handleCheckboxChange} />
-        </label>
-
         <input id="run" type="submit" value="" title="Click to execute the search."/>
         
         <Input
@@ -100,7 +92,18 @@ export class SearchField extends Component{
           </Suggestions>
         }
 
-      
+        <br />
+
+        <div id="ner">
+
+              <Input
+                  id="checkbox-ner"
+                  type="checkbox"
+                  onChange={this.handleCheckboxChange} />
+            <div id="label-ner">
+              Using NER
+          </div>
+        </div>
       
       </form>
     );
