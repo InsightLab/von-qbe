@@ -73,13 +73,13 @@ public class QBERepository {
         return qbeService.helper(text);
     }
     
-    public String getSPARQL(String text, int limit){
+    public String getSPARQL(String text, int limit, boolean withNER){
 
     	try{
         	if (limit <= 0) { 
-        		return qbeService.query(text);
+        		return qbeService.query(text, withNER);
         	}else {
-        		 return qbeService.query(text)+"LIMIT " + limit;
+        		 return qbeService.query(text, withNER)+"LIMIT " + limit;
         	}
         }
         catch(Exception e){
@@ -106,8 +106,8 @@ public class QBERepository {
 
     }
 
-    public List<WebResultItem> runQuery(String text, int limit){
-        return mapResults(applyQuery(getSPARQL(text, limit)));
+    public List<WebResultItem> runQuery(String text, int limit, boolean withNER){
+        return mapResults(applyQuery(getSPARQL(text, limit, withNER)));
     }
 
 
