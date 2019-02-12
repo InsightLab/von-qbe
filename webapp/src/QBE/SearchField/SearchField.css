@@ -61,12 +61,14 @@
 	font-weight: bold;
 }
 
+#label-limit{
+	margin-left: 20px;
+	font-size: 15px;
+}
+
 #ner{
 	text-align: left;
-	padding: 15px 15px 0px 0px;
 	font-size: 15px;
-	width: 100%;
-	margin-left: -60px;
 }
 
 #label-ner{
@@ -74,6 +76,12 @@
 }
 
 #checkbox-ner{
-	margin-left: 5px;
 	margin-bottom: 4px;
+}
+
+#input-options{
+	width: 100%;
+	text-align: left;
+	padding: 15px 15px 0px 0px;
+	margin-left: -10%;
 }

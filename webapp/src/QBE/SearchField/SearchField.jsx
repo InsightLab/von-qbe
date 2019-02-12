@@ -75,8 +75,9 @@ export class SearchField extends Component{
           disabled={(this.props.disabled) ? "disabled" : ""}
           />
 
-        <input id="run" type="submit" value="" title="Click to execute the search."/>
-        
+        <div id="label-limit">
+          Limit:
+        </div>
         <Input
           type="text"
           title="Limit"
@@ -84,7 +85,9 @@ export class SearchField extends Component{
           value={this.state.number}
           onChange={this.handleNumberChange}
           style={{ width: '5%', height: 40, marginLeft: 10 }}
-          />
+        />
+
+        <input id="run" type="submit" value="" title="Click to execute the search."/>
 
         {(this.props.suggestions && this.props.suggestions.length > 0) && 
           <Suggestions>
@@ -93,18 +96,21 @@ export class SearchField extends Component{
         }
 
         <br />
+        <div id="input-options">
 
-        <div id="ner">
+          <div id="ner">
 
-              <Input
-                  id="checkbox-ner"
-                  type="checkbox"
-                  onChange={this.handleCheckboxChange} />
+            <Input
+               id="checkbox-ner"
+               type="checkbox"
+               onChange={this.handleCheckboxChange} 
+            />
             <div id="label-ner">
-              Using NER
+                Using NER
+            </div>
+
           </div>
         </div>
-      
       </form>
     );
   }
