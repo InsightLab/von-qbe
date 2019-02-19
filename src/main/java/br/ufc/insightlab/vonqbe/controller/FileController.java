@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufc.insightlab.vonqbe.model.ReturnListFilesUpload;
 import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
-import br.ufc.insightlab.vonqbe.repository.QBERepository;
+import br.ufc.insightlab.vonqbe.repository.ODBAQBERepository;
 import br.ufc.insightlab.vonqbe.service.FileStorageService;
 
 @RestController
@@ -93,7 +93,7 @@ public class FileController {
 		}
 
 		try {
-			QBERepository.createRepository(name,
+			ODBAQBERepository.createODBAQBERepository(name,
 					/*Mapping*/
 					home + name + "/mapping.odba",
 					/*Ontologia*/

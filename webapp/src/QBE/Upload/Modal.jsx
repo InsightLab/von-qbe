@@ -27,12 +27,18 @@ Form.create()(
       onAddBase: PropTypes.func
     };
 
-    state = {
+    constructor(props){
+        super(props);
+    this.state = {
       name: '',
       file1: null,
       file2: null,
+      isUsingVirtuoso: false,
       clearFiles: true,
       error: undefined
+    }
+
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
     errorMessage = ( msg ) => {
@@ -40,6 +46,14 @@ Form.create()(
       // message.error(msg,10);
       this.setState({error: msg})
     };
+
+    handleCheckboxChange(e){
+        var isChecked = e.target.checked;
+        if (!(isChecked  === this.state.isUsingVirtuoso)){
+            this.setState({isUsingVirtuoso : isChecked});
+        }
+    };
+
 
     render() {
       const { onCancel, loading, visible} = this.props;
@@ -58,7 +72,8 @@ Form.create()(
               Save
             </Button>
           ]}>
-          <Form>
+           <div id="checkbox-virtuoso"><input type="checkbox" onChange={this.handleCheckboxChange}/> Virtuoso</div>
+          <Form hidden={this.state.isUsingVirtuoso}>
             <FormItem
               label="Name"
             >
@@ -68,7 +83,7 @@ Form.create()(
                     message: 'Please input your name',
                   }],
                 })(
-                <Input 
+                <Input
                   placeholder="Database Name" onChange={ (e) => this.handleChange(e, 'name')}
                   />
               )}

@@ -19,7 +19,7 @@ import br.ufc.insightlab.vonqbe.service.RORService;
 import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
 import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 
-public class QBERepository {
+public abstract class QBERepository {
 
     private static Logger logger = LoggerFactory.getLogger(QBERepository.class);
 
@@ -28,25 +28,13 @@ public class QBERepository {
     private QBEService qbeService;
     private RORService rorService;
 
-    private QBERepository(String name, String mappingPath, String owlPath, String ntPath){
-        qbeService = new QBEServiceImpl(ntPath);
-        
-        try {
-			rorService = new RORServiceImpl(mappingPath, owlPath);
-		} catch (Exception ex) {
-			throw new ErrorFileMessage(ex.getCause().getMessage());
-		}
-//        rorService = new DummyRORServiceImpl();
+    // public QBEService getQBEService(){
+    //     return this.qbeService;
+    // }
 
-        if(containers == null)
-            init();
-
-        containers.put(name, this);
-    }
-
-    public static QBERepository createRepository(String name, String mappingPath, String owlPath, String ntPath){
-        return new QBERepository(name, mappingPath, owlPath, ntPath);
-    }
+    // public RORService getRORService(){
+    //     return this.rorService;
+    // }
 
     public static Set<String> getDatabases(){
 
@@ -61,6 +49,13 @@ public class QBERepository {
 
     }
 
+    public void insertRepository(String name, QBERepository repository){
+        if(containers == null)
+            init();
+
+        containers.put(name, this);
+    }
+
     public static QBERepository getRepository(String name){
         return containers.get(name);
     }
@@ -69,46 +64,7 @@ public class QBERepository {
         return containers.containsKey(name);
     }
 
-    public List<String> helper(String text){
-        return qbeService.helper(text);
-    }
-    
-    public String getSPARQL(String text, int limit){
+    public abstract List<String> helper(String textDecoder);
 
-    	try{
-        	if (limit <= 0) { 
-        		return qbeService.query(text);
-        	}else {
-        		 return qbeService.query(text)+"LIMIT " + limit;
-        	}
-        }
-        catch(Exception e){
-            return "";
-        }
-    }
-
-    public ResultQuerySet applyQuery(String sparql){
-        try {
-            return this.rorService.run(sparql);
-        } catch (Exception e) {
-            logger.error(e.toString());
-            return new ResultQuerySet(null,null);
-        }
-    }
-
-    public List<WebResultItem> mapResults(ResultQuerySet results){
-        List<WebResultItem> resultsList = new LinkedList<>();
-
-        for(ResultQuery r : results)
-            resultsList.add(new WebResultItem(r));
-
-        return resultsList;
-
-    }
-
-    public List<WebResultItem> runQuery(String text, int limit){
-        return mapResults(applyQuery(getSPARQL(text, limit)));
-    }
-
-
+    public abstract List<WebResultItem> runQuery(String textDecoder, int limit) throws Exception;
 }

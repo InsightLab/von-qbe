@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
+import br.ufc.insightlab.vonqbe.repository.ODBAQBERepository;
 import br.ufc.insightlab.vonqbe.repository.QBERepository;
 
 @RestController
@@ -33,7 +34,7 @@ public class QBEControler {
 				File files = afile[i];			
 				if (Files.isDirectory(files.toPath())) {
 					//String[] nameFiles = listFilesDirectory(directory + files.getName());
-					QBERepository.createRepository(files.getName(),
+					ODBAQBERepository.createODBAQBERepository(files.getName(),
 							files+"/mapping.odba",
 							files+"/schema.owl",
 							files+"/schema.nt");
@@ -51,7 +52,7 @@ public class QBEControler {
 		String textDecoder = decoderText(text);
 		
 		logger.info("database: {}, text: {}",database, textDecoder);
-		QBERepository controler = QBERepository.getRepository(database);
+        QBERepository controler = ODBAQBERepository.getRepository(database);
 
 		if(controler == null){
 			logger.error("Database {} not found!");
@@ -69,11 +70,11 @@ public class QBEControler {
 	}
 	
 	@RequestMapping("/query")
-	public List<WebResultItem> query(String database, String text, int limit) {
+	public List<WebResultItem> query(String database, String text, int limit) throws Exception{
 		
 		logger.info("database: {}, text: {}",database, text);
 		String textDecoder= decoderText(text);
-		QBERepository controler = QBERepository.getRepository(database);
+		QBERepository controler = ODBAQBERepository.getRepository(database);
 		if(controler == null){
 			logger.error("Database {} not found!");
 			return new LinkedList<>();

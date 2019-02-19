@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jena.query.*;
+import java.util.Iterator;
+
+
 public class QueryWebSocketHandler extends TextWebSocketHandler{
 
     private static Logger logger = LoggerFactory.getLogger(QueryWebSocketHandler.class);
@@ -41,6 +45,8 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
 
             return ;
         }
+
+        
 
         long start = 0,
                 end = 0;

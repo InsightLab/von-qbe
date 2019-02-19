@@ -18,7 +18,7 @@ export class Results extends Component{
     let reverseURI = this.reverseString(uri)
     let clean = ""
     let i = 1
-    while(i < reverseURI.length && reverseURI[i] != '/' && reverseURI[i] != '#'){
+    while(i < reverseURI.length && reverseURI[i] !== '/' && reverseURI[i] !== '#'){
       clean += reverseURI[i]
       i += 1
     }
