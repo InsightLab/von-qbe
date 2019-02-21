@@ -29,7 +29,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
-            throws InterruptedException, IOException {
+            throws Exception {
         JSONObject msg = new JSONObject(message.getPayload());
         String database = msg.get("database").toString();
         String text = msg.get("text").toString();
@@ -58,7 +58,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
         session.sendMessage(QueryMessageFactory.generateSPARQLMessage(sparql, end-start));
 
         start = System.currentTimeMillis();
-        ResultQuerySet resultSet = controler.applyQuery(sparql);
+        Iterable<Object> resultSet = controler.applyQuery(sparql);
         end = System.currentTimeMillis();
 
         session.sendMessage(QueryMessageFactory.generateRunMessage(end-start));

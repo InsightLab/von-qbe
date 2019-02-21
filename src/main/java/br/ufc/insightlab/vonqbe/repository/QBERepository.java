@@ -67,4 +67,11 @@ public abstract class QBERepository {
     public abstract List<String> helper(String textDecoder);
 
     public abstract List<WebResultItem> runQuery(String textDecoder, int limit) throws Exception;
+    
+    public abstract String getSPARQL(String text, int limit);
+
+    //public abstract ResultQuerySet applyQuery(String sparql);
+    public abstract Iterable<Object> applyQuery(String sparql) throws Exception;
+
+    public abstract List<WebResultItem> mapResults(Iterable<Object> resultSet);
 }

@@ -1,10 +1,8 @@
 package br.ufc.insightlab.vonqbe.repository;
 
-import java.util.HashMap;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
 import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
@@ -12,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
@@ -34,7 +31,7 @@ public class ODBAQBERepository extends QBERepository {
         } catch (Exception ex) {
          throw new ErrorFileMessage(ex.getCause().getMessage());
         }
-       rorService = new DummyRORServiceImpl();
+       //rorService = new DummyRORServiceImpl();
         insertRepository(name, this);
     }
 
@@ -60,23 +57,27 @@ public class ODBAQBERepository extends QBERepository {
         }
     }
 
-    public ResultQuerySet applyQuery(String sparql){
+    //public ResultQuerySet applyQuery(String sparql){
+    public Iterable<Object> applyQuery(String sparql){
         try {
-            return this.rorService.run(sparql);
+            return (Iterable<Object>) rorService.run(sparql).iterator();
         } catch (Exception e) {
             logger.error(e.toString());
-            return new ResultQuerySet(null,null);
+            //return new ResultQuerySet(null,null);
+            return null;
         }
     }
 
-    public List<WebResultItem> mapResults(ResultQuerySet results){
+    //public List<WebResultItem> mapResults(ResultQuerySet results){
+    public List<WebResultItem> mapResults(Iterable<Object> results){
         List<WebResultItem> resultsList = new LinkedList<>();
 
-        for(ResultQuery r : results)
+        while(results.iterator().hasNext()){
+            ResultQuery r = (ResultQuery) results.iterator().next();
             resultsList.add(new WebResultItem(r));
+        }
 
         return resultsList;
-
     }
 
     public List<WebResultItem> runQuery(String text, int limit){
