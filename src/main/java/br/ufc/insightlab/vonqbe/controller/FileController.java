@@ -29,8 +29,7 @@ public class FileController {
 
 	private static Logger logger = LoggerFactory.getLogger(FileController.class);
 
-	static final String home = "./von-qbe-databases/";
-
+	private static String directory = "./von-qbe-databases/";
     @Autowired
     private FileStorageService fileStorageService;
     
@@ -69,9 +68,9 @@ public class FileController {
 
 
 			Model model = ModelFactory.createDefaultModel();
-			model.read(home+name+"/schema.nt","NT");
+			model.read(directory+name+"/schema.nt","NT");
 			try {
-				model.write(new FileOutputStream(new File(home+name+"/schema.owl")), "RDF/XML");
+				model.write(new FileOutputStream(new File(directory+name+"/schema.owl")), "RDF/XML");
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -83,9 +82,9 @@ public class FileController {
 			changeDirecotryFile(file2, name, "schema.owl");
 
 			Model model = ModelFactory.createDefaultModel();
-			model.read(home+name+"/schema.owl","RDF/XML");
+			model.read(directory+name+"/schema.owl","RDF/XML");
 			try {
-				model.write(new FileOutputStream(new File(home+name+"/schema.nt")), "NT");
+				model.write(new FileOutputStream(new File(directory+name+"/schema.nt")), "NT");
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -95,16 +94,16 @@ public class FileController {
 		try {
 			ODBAQBERepository.createODBAQBERepository(name,
 					/*Mapping*/
-					home + name + "/mapping.odba",
+					directory + name + "/mapping.odba",
 					/*Ontologia*/
-					home + name + "/schema.owl",
+					directory + name + "/schema.owl",
 					/*Schema*/
-					home + name + "/schema.nt");
+					directory + name + "/schema.nt");
 
 
 			return retorno;
 		} catch (Exception e){
-			FileSystemUtils.deleteRecursively(new File(home+name));
+			FileSystemUtils.deleteRecursively(new File(directory+name));
         	throw e;
 		}
    

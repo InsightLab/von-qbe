@@ -26,7 +26,6 @@ public abstract class QBERepository {
     private static Map<String, QBERepository> containers;
 
     private QBEService qbeService;
-    private RORService rorService;
 
     // public QBEService getQBEService(){
     //     return this.qbeService;
@@ -35,6 +34,11 @@ public abstract class QBERepository {
     // public RORService getRORService(){
     //     return this.rorService;
     // }
+
+
+    public QBERepository(String ntPath) {
+        this.qbeService = new QBEServiceImpl(ntPath);
+    }
 
     public static Set<String> getDatabases(){
 
@@ -64,8 +68,6 @@ public abstract class QBERepository {
         return containers.containsKey(name);
     }
 
-    public abstract List<String> helper(String textDecoder);
-
     public abstract List<WebResultItem> runQuery(String textDecoder, int limit) throws Exception;
     
     public abstract String getSPARQL(String text, int limit);
@@ -74,4 +76,8 @@ public abstract class QBERepository {
     public abstract Iterable<Object> applyQuery(String sparql) throws Exception;
 
     public abstract List<WebResultItem> mapResults(Iterable<Object> resultSet);
+
+    public List<String> helper(String text){
+        return qbeService.helper(text);
+    }
 }

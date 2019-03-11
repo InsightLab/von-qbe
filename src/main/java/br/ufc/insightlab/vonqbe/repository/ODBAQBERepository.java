@@ -24,7 +24,7 @@ public class ODBAQBERepository extends QBERepository {
     Logger logger = LoggerFactory.getLogger(ODBAQBERepository.class);
 
     public ODBAQBERepository(String name, String mappingPath, String owlPath, String ntPath){
-        qbeService = new QBEServiceImpl(ntPath);
+        super(ntPath);
 
         try {
          rorService = new RORServiceImpl(mappingPath, owlPath);
@@ -39,9 +39,7 @@ public class ODBAQBERepository extends QBERepository {
         return new ODBAQBERepository(name, mappingPath, owlPath, ntPath);
     }
 
-    public List<String> helper(String text){
-        return qbeService.helper(text);
-    }
+
 
     public String getSPARQL(String text, int limit){
 

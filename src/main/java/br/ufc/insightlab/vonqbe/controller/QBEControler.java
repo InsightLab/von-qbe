@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
+import br.ufc.insightlab.vonqbe.repository.VirtuosoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ import br.ufc.insightlab.vonqbe.repository.QBERepository;
 public class QBEControler {
 
     private static Logger logger = LoggerFactory.getLogger(QBEControler.class);
-    private static String directory = "./von-qbe-databases/";
+    public static String directory = "./von-qbe-databases/";
 
     public QBEControler(){
     	File file = new File(directory);
@@ -45,23 +46,42 @@ public class QBEControler {
 			}
     	}
 	}
-	
+
+	//TODO adaptar essa função para o tipo virtuoso
+	// como verificar se o banco é do tipo ODBA ou Virtuoso ???
+	// função p/ listar os bancos criados
+
 	@RequestMapping(value="/helper", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<String> helper(String database, String text ) {
+	public List<String> helper(String database, String text) {
 		
 		String textDecoder = decoderText(text);
 		
 		logger.info("database: {}, text: {}",database, textDecoder);
-        QBERepository controler = ODBAQBERepository.getRepository(database);
+		QBERepository controler;
 
-		if(controler == null){
-			logger.error("Database {} not found!");
-			return new LinkedList<>();
+		if(ODBAQBERepository.getRepository(database) != null){
+			controler = ODBAQBERepository.getRepository(database);
+
+			if(controler == null){
+				logger.error("Database {} not found!");
+				return new LinkedList<>();
+			}
+			else{
+				return controler.helper(textDecoder);
+			}
 		}
-		else{
-			return controler.helper(textDecoder);
+		else if (VirtuosoRepository.getRepository(database) != null){
+			controler = VirtuosoRepository.getRepository(database);
+
+			if(controler == null){
+				logger.error("Database {} not found!");
+				return new LinkedList<>();
+			}
+			else{
+				return controler.helper(textDecoder);
+			}
 		}
-		
+		return null;
 	}
 
 	@RequestMapping(value="/databases", method= RequestMethod.GET)

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
+import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
 import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,15 @@ public class VirtuosoRepository extends QBERepository{
     private String link;
     VirtuosoService virtuosoService;
 
-    public VirtuosoRepository(String name, String link){
+    public VirtuosoRepository(String name, String linkURL, String baseURI, String ntPath){
+        super(ntPath);
         this.link = link;
         virtuosoService = new VirtuosoService(link);
         insertRepository(name, this);
     }
 
-    public static QBERepository createVirtuosoRepository(String name, String link) {
-        return new VirtuosoRepository(name, link);
+    public static QBERepository createVirtuosoRepository(String name, String linkURL, String baseURI, String ntPath) {
+        return new VirtuosoRepository(name, linkURL, baseURI, ntPath);
     }
 
     //    public List<String> helper(String text){
@@ -65,7 +67,7 @@ public class VirtuosoRepository extends QBERepository{
         return mapResults(applyQuery(getSPARQL(text, limit)));
     }
 
-    public List<String> helper(String textDecoder) {
-        return null;
-    }
+//    public List<String> helper(String textDecoder) {
+//        return null;
+//    }
 }

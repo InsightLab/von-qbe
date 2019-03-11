@@ -31,7 +31,9 @@ Form.create()(
         super(props);
     this.state = {
       name: '',
-      databaseLink: '',
+      database_link: '',
+      database_uri: '',
+      squema: null,
       file1: null,
       file2: null,
       isUsingVirtuoso: false,
@@ -90,19 +92,53 @@ Form.create()(
                     )}
                 </FormItem>
                 <FormItem
-                    label="Database URI"
+                    label="Database URL"
                 >
-                    {getFieldDecorator('database_uri', {
+                    {getFieldDecorator('databaseURL', {
                         rules: [{
                             required: true,
                             message: 'Please input your database link',
                         }],
                     })(
                         <Input
-                            placeholder="Database Link" onChange={ (e) => this.handleChangeDatabase(e, 'databaseLink')}
+                            placeholder="Database Link" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURL')}
                         />
                     )}
                 </FormItem>
+                <FormItem
+                    label="Database URI"
+                >
+                    {getFieldDecorator('databaseURI', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input your database uri',
+                        }],
+                    })(
+                        <Input
+                            placeholder="Database Link" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURI')}
+                        />
+                    )}
+                </FormItem>
+                <FormItem
+              label="RDF/XML Ontology Schema (.nt, .xml, .owl, .rdf)"
+              >
+              <div className="dropbox">
+                {getFieldDecorator('file2', {
+                   rules: [{
+                    required: true,
+                    message: 'Please input your File 2',
+                  }],
+                })(
+                  <UploadUi 
+                    visible
+                    onChangeFile={(file) => this.handleSetFile(file, 'squema')} 
+                    filelist={file2}
+                    accept=".nt,.xml,.owl,.rdf"
+                    clear={this.state.clearFiles}
+                    />
+                )}
+              </div>
+            </FormItem>
             </Form>
             <Form hidden={this.state.isUsingVirtuoso}>
             <FormItem
@@ -222,7 +258,7 @@ Form.create()(
       }else{
           const {onOk, onSucess, onAddBase, onFail} = this.props;
           const {setFields} = this.props.form;
-          const {name, databaseLink} = this.state;
+          const {name, databaseURL, databaseURI, squema} = this.state;
 
           if (!name) {
               setFields({
@@ -234,22 +270,34 @@ Form.create()(
               return;
           }
 
-          if (!databaseLink) {
+          if (!databaseURL) {
               setFields({
                   name: {
                       value: null,
-                      errors: [new Error('Please input your name')],
+                      errors: [new Error('Please input your database link')],
                   },
               });
               return;
           }
 
+          if (!databaseURI) {
+            setFields({
+                name: {
+                    value: null,
+                    errors: [new Error('Please input your database URI')],
+                },
+            });
+            return;
+        }
+
+        if (this.validateFileNt(squema)) return;
+
           onOk();
-          ServiceApiFile.addVirtuoso({name, databaseLink}).then(
+          ServiceApiFile.addVirtuoso({name, databaseURL, databaseURI, squema}).then(
               (response) => {
                   const nameDatabase = response.data.name;
                   onAddBase(nameDatabase);
-                  this.emptyState();
+                  this.emptyStateVirtuoso();
                   onSucess();
                   success();
                   this.setState({
@@ -280,7 +328,6 @@ Form.create()(
     }
 
     
-
     handleChange = (e, name)=>{
       var campoSendoAlterado = {"clearFiles": false};
       campoSendoAlterado[name] = e.target.value;
@@ -310,6 +357,17 @@ Form.create()(
       })
     }
     
+    emptyStateVirtuoso = () =>{
+      const { setFields } = this.props.form;
+      setFields({name: {value: null}, databaseURL: {value: null}, databaseURI: {value:null}, squema: {value: null}});
+      this.setState({
+          name: '',
+          databaseURL: '',
+          databaseURI: '',
+          error: undefined
+      })
+    }
+
     validateFile=( file1, file2)=>{
       const { setFields } = this.props.form;
       if ( !file1 ){  
@@ -323,6 +381,19 @@ Form.create()(
       if ( !file2 ){  
         setFields({
           file2: {
+            errors: [new Error('Please input file')],
+          },
+        });
+        return true;
+      }
+      return false;
+    }
+
+    validateFileNt=( file1 )=>{
+      const { setFields } = this.props.form;
+      if ( !file1 ){  
+        setFields({
+          file1: {
             errors: [new Error('Please input file')],
           },
         });
