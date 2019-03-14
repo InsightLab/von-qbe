@@ -42,15 +42,12 @@ public class VirtuosoRepository extends QBERepository{
     //        return qbeService.helper(text);
     //    }
 
-    public String getSPARQL(String text, int limit){
-        return text + " LIMIT " + limit;
-    }
 
-
-    //public ResultSet applyQuery(String sparql) throws Exception {
-    public Iterable<Object> applyQuery(String sparql) throws Exception{
-        return (Iterable<Object>) virtuosoService.run(sparql);
-        //return l.iterator();
+    //public Iterable<Object> applyQuery(String sparql) throws Exception{
+    public QuerySolution applyQuery(String sparql) throws  Exception{
+        //QuerySolution
+        //return (Iterable<Object>) virtuosoService.run(sparql);
+        return virtuosoService.run(sparql);
     }
 
     public List<WebResultItem> mapResults(Iterable<Object> results){

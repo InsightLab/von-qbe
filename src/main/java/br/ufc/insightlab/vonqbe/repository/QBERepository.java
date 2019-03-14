@@ -70,7 +70,18 @@ public abstract class QBERepository {
 
     public abstract List<WebResultItem> runQuery(String textDecoder, int limit) throws Exception;
     
-    public abstract String getSPARQL(String text, int limit);
+    public String getSPARQL(String text, int limit){
+        try{
+            if (limit <= 0) {
+                return qbeService.query(text);
+            }else {
+                return qbeService.query(text)+"LIMIT " + limit;
+            }
+        }
+        catch(Exception e){
+            return "";
+        }
+    }
 
     //public abstract ResultQuerySet applyQuery(String sparql);
     public abstract Iterable<Object> applyQuery(String sparql) throws Exception;

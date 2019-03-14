@@ -211,6 +211,5 @@ public class VirtuosoController {
 
         //Imprime na Tela o Objeto JSON para vizualização
         System.out.println(obj);
-
     }
 }

@@ -39,22 +39,6 @@ public class ODBAQBERepository extends QBERepository {
         return new ODBAQBERepository(name, mappingPath, owlPath, ntPath);
     }
 
-
-
-    public String getSPARQL(String text, int limit){
-
-    	try{
-        	if (limit <= 0) {
-        		return qbeService.query(text);
-        	}else {
-        		 return qbeService.query(text)+"LIMIT " + limit;
-        	}
-        }
-        catch(Exception e){
-            return "";
-        }
-    }
-
     //public ResultQuerySet applyQuery(String sparql){
     public Iterable<Object> applyQuery(String sparql){
         try {

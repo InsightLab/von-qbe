@@ -14,6 +14,7 @@ public class VirtuosoService{
     }
 
     public ResultSet run(String sparql) {
+    //public QuerySolution run(String sparql){
 
         Query query = QueryFactory.create(sparql);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(link, query);
