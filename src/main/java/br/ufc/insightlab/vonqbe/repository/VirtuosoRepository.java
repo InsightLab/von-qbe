@@ -1,24 +1,12 @@
 package br.ufc.insightlab.vonqbe.repository;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
-import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
-import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.ufc.insightlab.ror.entities.ResultQuery;
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.VirtuosoService;
-import br.ufc.insightlab.vonqbe.service.RORService;
-import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
-import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 import org.apache.jena.query.*;
 
 public class VirtuosoRepository extends QBERepository{
@@ -27,10 +15,11 @@ public class VirtuosoRepository extends QBERepository{
     private String link;
     VirtuosoService virtuosoService;
 
+    // TODO onde q eu uso o baseURI na criação do banco Virtuoso
     public VirtuosoRepository(String name, String linkURL, String baseURI, String ntPath){
         super(ntPath);
-        this.link = link;
-        virtuosoService = new VirtuosoService(link);
+        this.link = linkURL;
+        virtuosoService = new VirtuosoService(linkURL);
         insertRepository(name, this);
     }
 
@@ -42,18 +31,22 @@ public class VirtuosoRepository extends QBERepository{
     //        return qbeService.helper(text);
     //    }
 
+    // TODO consertar essa função e todas as outras q tem Iterable<Object>
+    // applyQuery nn é uma função Iterable<Object> e sim QuerySolution
+    // apply query retorna virtuosoService.run(sparql) mas run do service é ResultSet
+    // tem q mudar no service tmb
 
     //public Iterable<Object> applyQuery(String sparql) throws Exception{
-    public QuerySolution applyQuery(String sparql) throws  Exception{
+    public Iterator<QuerySolution> applyQuery(String sparql) throws  Exception{
         //QuerySolution
         //return (Iterable<Object>) virtuosoService.run(sparql);
         return virtuosoService.run(sparql);
     }
 
-    public List<WebResultItem> mapResults(Iterable<Object> results){
+    public List<WebResultItem> mapResults(Iterator<QuerySolution> results){
         List<WebResultItem> resultsList = new LinkedList<>();
-        while(results.iterator().hasNext()) {
-            QuerySolution rs = (QuerySolution) results.iterator().next();
+        while(results.hasNext()) {
+            QuerySolution rs = results.next();
             resultsList.add(new WebResultItem(rs));
         }
         return resultsList;
@@ -64,7 +57,4 @@ public class VirtuosoRepository extends QBERepository{
         return mapResults(applyQuery(getSPARQL(text, limit)));
     }
 
-//    public List<String> helper(String textDecoder) {
-//        return null;
-//    }
 }

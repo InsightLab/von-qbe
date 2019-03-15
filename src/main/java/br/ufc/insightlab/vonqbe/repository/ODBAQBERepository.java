@@ -1,11 +1,13 @@
 package br.ufc.insightlab.vonqbe.repository;
 
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
 import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
+import org.apache.jena.query.QuerySolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +15,6 @@ import br.ufc.insightlab.ror.entities.ResultQuery;
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.QBEService;
 import br.ufc.insightlab.vonqbe.service.RORService;
-import br.ufc.insightlab.vonqbe.service.impl.DummyRORServiceImpl;
-import br.ufc.insightlab.vonqbe.service.impl.QBEServiceImpl;
 
 public class ODBAQBERepository extends QBERepository {
 
@@ -40,9 +40,11 @@ public class ODBAQBERepository extends QBERepository {
     }
 
     //public ResultQuerySet applyQuery(String sparql){
-    public Iterable<Object> applyQuery(String sparql){
+    public Iterator<QuerySolution> applyQuery(String sparql){
         try {
-            return (Iterable<Object>) rorService.run(sparql).iterator();
+            //Iterator<QuerySolution> iterator = (Iterator<QuerySolution>) rorService.run(sparql).iterator();
+            Iterator<QuerySolution> iterator = (Iterator<QuerySolution>) rorService.run(sparql);
+            return iterator;
         } catch (Exception e) {
             logger.error(e.toString());
             //return new ResultQuerySet(null,null);
@@ -51,11 +53,12 @@ public class ODBAQBERepository extends QBERepository {
     }
 
     //public List<WebResultItem> mapResults(ResultQuerySet results){
-    public List<WebResultItem> mapResults(Iterable<Object> results){
+    public List<WebResultItem> mapResults(Iterator<QuerySolution> results){
         List<WebResultItem> resultsList = new LinkedList<>();
 
-        while(results.iterator().hasNext()){
-            ResultQuery r = (ResultQuery) results.iterator().next();
+        //while(results.iterator().hasNext()){
+        while(results.hasNext()){
+            ResultQuery r = (ResultQuery) results.next();
             resultsList.add(new WebResultItem(r));
         }
 

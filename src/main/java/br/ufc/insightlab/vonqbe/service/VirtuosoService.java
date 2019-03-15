@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.jena.query.*;
 
+import java.util.Iterator;
+
 public class VirtuosoService{
 
     private static Logger logger = LoggerFactory.getLogger(VirtuosoService.class);
@@ -13,12 +15,14 @@ public class VirtuosoService{
         this.link = link;
     }
 
-    public ResultSet run(String sparql) {
-    //public QuerySolution run(String sparql){
+    //public ResultSet run(String sparql) {
+    public Iterator<QuerySolution> run(String sparql){
 
+        // ResultSet é um Iterator<QuerySolution>
         Query query = QueryFactory.create(sparql);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(link, query);
-        ResultSet results = qexec.execSelect();
+        //ResultSet results = qexec.execSelect();
+        Iterator<QuerySolution> results = qexec.execSelect();
 
         return results;
     }

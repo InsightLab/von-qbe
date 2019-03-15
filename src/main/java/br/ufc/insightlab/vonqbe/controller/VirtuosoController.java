@@ -5,6 +5,7 @@ import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
 import br.ufc.insightlab.vonqbe.repository.VirtuosoRepository;
 import br.ufc.insightlab.vonqbe.service.FileStorageService;
 import br.ufc.insightlab.vonqbe.service.VirtuosoService;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.*;
+import java.util.Iterator;
 
 @RestController
 public class VirtuosoController {
@@ -93,7 +95,8 @@ public class VirtuosoController {
 
         try {
             virtuosoService = new VirtuosoService(linkURL);
-            ResultSet results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
+            //ResultSet results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
+            Iterator<QuerySolution> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
             if (results == null) {
                 throw new Exception();
             }
