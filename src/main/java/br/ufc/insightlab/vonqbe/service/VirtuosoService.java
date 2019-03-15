@@ -10,9 +10,11 @@ public class VirtuosoService{
 
     private static Logger logger = LoggerFactory.getLogger(VirtuosoService.class);
     private String link;
+    private String uri;
 
-    public VirtuosoService(String link) {
+    public VirtuosoService(String link, String uri) {
         this.link = link;
+        this.uri = uri;
     }
 
     //public ResultSet run(String sparql) {

@@ -94,7 +94,7 @@ public class VirtuosoController {
 
 
         try {
-            virtuosoService = new VirtuosoService(linkURL);
+            virtuosoService = new VirtuosoService(linkURL, baseURI);
             //ResultSet results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
             Iterator<QuerySolution> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
             if (results == null) {

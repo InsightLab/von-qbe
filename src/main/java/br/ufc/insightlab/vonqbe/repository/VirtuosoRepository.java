@@ -13,13 +13,15 @@ public class VirtuosoRepository extends QBERepository{
 
     Logger logger = LoggerFactory.getLogger(VirtuosoRepository.class);
     private String link;
+    private String uri;
     VirtuosoService virtuosoService;
 
     // TODO onde q eu uso o baseURI na criação do banco Virtuoso
     public VirtuosoRepository(String name, String linkURL, String baseURI, String ntPath){
         super(ntPath);
         this.link = linkURL;
-        virtuosoService = new VirtuosoService(linkURL);
+        this.uri = baseURI;
+        virtuosoService = new VirtuosoService(linkURL, baseURI);
         insertRepository(name, this);
     }
 
