@@ -1,5 +1,7 @@
 package br.ufc.insightlab.vonqbe.controller;
 
+import br.ufc.insightlab.ror.entities.ResultQuery;
+import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.model.ReturnVirtuosoUpload;
 import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
 import br.ufc.insightlab.vonqbe.repository.VirtuosoRepository;
@@ -95,8 +97,8 @@ public class VirtuosoController {
 
         try {
             virtuosoService = new VirtuosoService(linkURL, baseURI);
-            //ResultSet results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
-            Iterator<QuerySolution> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
+            Iterable<ResultQuery> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
+            //Iterator<QuerySolution> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
             if (results == null) {
                 throw new Exception();
             }

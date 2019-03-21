@@ -46,8 +46,6 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
             return ;
         }
 
-        
-
         long start = 0,
                 end = 0;
 
@@ -58,8 +56,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
         session.sendMessage(QueryMessageFactory.generateSPARQLMessage(sparql, end-start));
 
         start = System.currentTimeMillis();
-        //Iterable<Object> resultSet = controler.applyQuery(sparql);
-        Iterator<QuerySolution> resultSet = controler.applyQuery(sparql);
+        Iterable<ResultQuery> resultSet = controler.applyQuery(sparql);
         end = System.currentTimeMillis();
 
         session.sendMessage(QueryMessageFactory.generateRunMessage(end-start));
@@ -113,7 +110,6 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
             return getfromFile().iterator();
         }
     }
-
 
     public ResultQuerySet run(String sparql) {
 

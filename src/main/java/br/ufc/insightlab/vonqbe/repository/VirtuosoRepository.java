@@ -2,12 +2,13 @@ package br.ufc.insightlab.vonqbe.repository;
 
 import java.util.*;
 
+import br.ufc.insightlab.ror.entities.ResultQuery;
+import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.ufc.insightlab.vonqbe.entity.WebResultItem;
 import br.ufc.insightlab.vonqbe.service.VirtuosoService;
-import org.apache.jena.query.*;
 
 public class VirtuosoRepository extends QBERepository{
 
@@ -16,7 +17,6 @@ public class VirtuosoRepository extends QBERepository{
     private String uri;
     VirtuosoService virtuosoService;
 
-    // TODO onde q eu uso o baseURI na criação do banco Virtuoso
     public VirtuosoRepository(String name, String linkURL, String baseURI, String ntPath){
         super(ntPath);
         this.link = linkURL;
@@ -29,31 +29,46 @@ public class VirtuosoRepository extends QBERepository{
         return new VirtuosoRepository(name, linkURL, baseURI, ntPath);
     }
 
-    //    public List<String> helper(String text){
-    //        return qbeService.helper(text);
-    //    }
 
-    // TODO consertar essa função e todas as outras q tem Iterable<Object>
+
     // applyQuery nn é uma função Iterable<Object> e sim QuerySolution
     // apply query retorna virtuosoService.run(sparql) mas run do service é ResultSet
     // tem q mudar no service tmb
 
-    //public Iterable<Object> applyQuery(String sparql) throws Exception{
-    public Iterator<QuerySolution> applyQuery(String sparql) throws  Exception{
-        //QuerySolution
-        //return (Iterable<Object>) virtuosoService.run(sparql);
-        return virtuosoService.run(sparql);
-    }
+//    public ResultQuerySet applyQuery(String sparql) {
+//    //public Iterator<QuerySolution> applyQuery(String sparql) throws  Exception{
+//        //QuerySolution
+//        //return (Iterable<Object>) virtuosoService.run(sparql);
+//        return virtuosoService.run(sparql);
+//    }
 
-    public List<WebResultItem> mapResults(Iterator<QuerySolution> results){
-        List<WebResultItem> resultsList = new LinkedList<>();
-        while(results.hasNext()) {
-            QuerySolution rs = results.next();
-            resultsList.add(new WebResultItem(rs));
+    public Iterable<ResultQuery> applyQuery(String sparql){
+
+        try {
+            //ResultQuery iterator = virtuosoService.run(sparql);
+            Iterable<ResultQuery> rs = virtuosoService.run(sparql);
+            return rs;
+        } catch (Exception e) {
+            logger.error(e.toString());
+            //return new ResultQuery(-1);
+            return new ResultQuerySet(null,null);
         }
-        return resultsList;
-
     }
+
+//    public List<WebResultItem> mapResults(ResultQuery results){
+//        List<WebResultItem> resultsList = new LinkedList<>();
+//
+//        int i = 1;
+//
+//        for(String k : results.getProjections()){
+//            ResultQuery rs = new ResultQuery(i);
+//            rs.addValue(k, results.getValue(k));
+//            resultsList.add(new WebResultItem(rs));
+//            i++;
+//        }
+//        return resultsList;
+//
+//    }
 
     public List<WebResultItem> runQuery(String text, int limit) throws Exception{
         return mapResults(applyQuery(getSPARQL(text, limit)));

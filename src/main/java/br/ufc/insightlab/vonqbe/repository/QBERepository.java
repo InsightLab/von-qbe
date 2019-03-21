@@ -2,7 +2,8 @@ package br.ufc.insightlab.vonqbe.repository;
 
 import java.util.*;
 
-import org.apache.jena.query.QuerySolution;
+import br.ufc.insightlab.ror.entities.ResultQuery;
+import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,11 +76,25 @@ public abstract class QBERepository {
         }
     }
 
-    //public abstract ResultQuerySet applyQuery(String sparql);
-    public abstract Iterator<QuerySolution> applyQuery(String sparql) throws Exception;
+    public abstract Iterable<ResultQuery> applyQuery(String sparql);
+    //public abstract Iterator<QuerySolution> applyQuery(String sparql) throws Exception;
 
-    //public abstract List<WebResultItem> mapResults(Iterable<Object> resultSet);
-    public abstract List<WebResultItem> mapResults(Iterator<QuerySolution> resultSet);
+    //public abstract List<WebResultItem> mapResults(Iterator<QuerySolution> resultSet);
+    //public abstract List<WebResultItem> mapResults(ResultQuery resultSet);
+    public List<WebResultItem> mapResults(Iterable<ResultQuery> results){
+        List<WebResultItem> resultsList = new LinkedList<>();
+
+        int i = 0;
+
+        for(ResultQuery result : results){
+            //resultsList.add(++i,new WebResultItem(result));
+            ((LinkedList<WebResultItem>) resultsList).addLast(new WebResultItem(result));
+        }
+
+        return resultsList;
+
+    }
+
 
     public List<String> helper(String text){
         return qbeService.helper(text);

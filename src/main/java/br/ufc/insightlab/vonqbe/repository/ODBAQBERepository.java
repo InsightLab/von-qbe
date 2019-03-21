@@ -1,13 +1,11 @@
 package br.ufc.insightlab.vonqbe.repository;
 
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.vonqbe.exception.ErrorFileMessage;
 import br.ufc.insightlab.vonqbe.service.impl.RORServiceImpl;
-import org.apache.jena.query.QuerySolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,31 +37,27 @@ public class ODBAQBERepository extends QBERepository {
         return new ODBAQBERepository(name, mappingPath, owlPath, ntPath);
     }
 
-    //public ResultQuerySet applyQuery(String sparql){
-    public Iterator<QuerySolution> applyQuery(String sparql){
+    public Iterable<ResultQuery> applyQuery(String sparql){
         try {
-            //Iterator<QuerySolution> iterator = (Iterator<QuerySolution>) rorService.run(sparql).iterator();
-            Iterator<QuerySolution> iterator = (Iterator<QuerySolution>) rorService.run(sparql);
-            return iterator;
+            Iterable<ResultQuery> iterator = (Iterable<ResultQuery>) rorService.run(sparql);
+            ResultQuerySet rs = (ResultQuerySet) iterator.iterator();
+            //ResultQuery rq = rs.iterator().next();
+
+//            while (iterator.iterator().hasNext()){
+//
+//                for (String projection : iterator.iterator().next().getProjections()){
+//                    rq.addValue(projection, iterator.iterator().next().getValue(projection));
+//                }
+//            }
+
+            return rs;
         } catch (Exception e) {
             logger.error(e.toString());
-            //return new ResultQuerySet(null,null);
-            return null;
+            return new ResultQuerySet(null,null);
+            //return new ResultQuery(0);
         }
     }
 
-    //public List<WebResultItem> mapResults(ResultQuerySet results){
-    public List<WebResultItem> mapResults(Iterator<QuerySolution> results){
-        List<WebResultItem> resultsList = new LinkedList<>();
-
-        //while(results.iterator().hasNext()){
-        while(results.hasNext()){
-            ResultQuery r = (ResultQuery) results.next();
-            resultsList.add(new WebResultItem(r));
-        }
-
-        return resultsList;
-    }
 
     public List<WebResultItem> runQuery(String text, int limit){
         return mapResults(applyQuery(getSPARQL(text, limit)));
