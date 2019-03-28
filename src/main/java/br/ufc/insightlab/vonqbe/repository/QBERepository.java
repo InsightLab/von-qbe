@@ -3,7 +3,6 @@ package br.ufc.insightlab.vonqbe.repository;
 import java.util.*;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,15 +17,6 @@ public abstract class QBERepository {
     private static Map<String, QBERepository> containers;
 
     private QBEService qbeService;
-
-    // public QBEService getQBEService(){
-    //     return this.qbeService;
-    // }
-
-    // public RORService getRORService(){
-    //     return this.rorService;
-    // }
-
 
     public QBERepository(String ntPath) {
         this.qbeService = new QBEServiceImpl(ntPath);
@@ -77,17 +67,13 @@ public abstract class QBERepository {
     }
 
     public abstract Iterable<ResultQuery> applyQuery(String sparql);
-    //public abstract Iterator<QuerySolution> applyQuery(String sparql) throws Exception;
 
-    //public abstract List<WebResultItem> mapResults(Iterator<QuerySolution> resultSet);
-    //public abstract List<WebResultItem> mapResults(ResultQuery resultSet);
     public List<WebResultItem> mapResults(Iterable<ResultQuery> results){
         List<WebResultItem> resultsList = new LinkedList<>();
 
         int i = 0;
 
         for(ResultQuery result : results){
-            //resultsList.add(++i,new WebResultItem(result));
             ((LinkedList<WebResultItem>) resultsList).addLast(new WebResultItem(result));
         }
 

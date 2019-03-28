@@ -1,14 +1,13 @@
 package br.ufc.insightlab.vonqbe.controller;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
+import br.ufc.insightlab.vonqbe.exception.HttpVirtuosoException;
 import br.ufc.insightlab.vonqbe.model.ReturnVirtuosoUpload;
 import br.ufc.insightlab.vonqbe.model.UploadFileResponse;
 import br.ufc.insightlab.vonqbe.repository.VirtuosoRepository;
 import br.ufc.insightlab.vonqbe.service.FileStorageService;
 import br.ufc.insightlab.vonqbe.service.VirtuosoService;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.json.JSONObject;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.*;
-import java.util.Iterator;
 
 @RestController
 public class VirtuosoController {
@@ -31,6 +29,8 @@ public class VirtuosoController {
     private static Logger logger = LoggerFactory.getLogger(VirtuosoController.class);
     private static String directory = "./von-qbe-databases/";
     //private  String directory = super.directory;
+
+    QBEControler qbe = new QBEControler();
 
     VirtuosoService virtuosoService;
 
@@ -42,90 +42,91 @@ public class VirtuosoController {
             @RequestParam("name") String name,
             @RequestParam("linkURL") String linkURL,
             @RequestParam("baseURI") String baseURI,
-            @RequestParam("squema") MultipartFile squema)
-
-    {
+            @RequestParam("squema") MultipartFile squema) throws IOException {
 
         logger.info("Name virtuoso : {}", name);
         logger.info("Receiving linkURL {}", linkURL);
         logger.info("Receiving baseURI {}", baseURI);
 
         String fileNameFile2 = nameFile(squema);
-        logger.info("Receiving linkURL {}",fileNameFile2);
+        logger.info("Receiving file {}",fileNameFile2);
         String fileDownloadUri2 = uriFile( name, fileNameFile2 );
 
 
         ReturnVirtuosoUpload retorno =  new ReturnVirtuosoUpload();
 
-        /* Name database*/
-        retorno.setName(name);
-        retorno.setLinkURL(linkURL);
-        retorno.setBaseURI(baseURI);
+
+        if(qbe.validarLink(linkURL)){
+            /* Name database*/
+            retorno.setName(name);
+            retorno.setLinkURL(linkURL);
+            retorno.setBaseURI(baseURI);
+
+            /* File2 */
+            if(fileNameFile2.endsWith(".nt")) {
+                retorno.setSquema(new UploadFileResponse("schema.nt", fileDownloadUri2,
+                        squema.getContentType(), squema.getSize()));
+                changeDirecotryFile(squema, name, "schema.nt");
 
 
-        /* File2 */
-        if(fileNameFile2.endsWith(".nt")) {
-            retorno.setSquema(new UploadFileResponse("schema.nt", fileDownloadUri2,
-                    squema.getContentType(), squema.getSize()));
-            changeDirecotryFile(squema, name, "schema.nt");
+                Model model = ModelFactory.createDefaultModel();
+                model.read(directory+name+"/schema.nt","NT");
+                try {
+                    model.write(new FileOutputStream(new File(directory+name+"/schema.owl")), "RDF/XML");
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            else {
+                retorno.setSquema(new UploadFileResponse("schema.owl", fileDownloadUri2,
+                        squema.getContentType(), squema.getSize()));
+                changeDirecotryFile(squema, name, "schema.owl");
+
+                Model model = ModelFactory.createDefaultModel();
+                model.read(directory+name+"/schema.owl","RDF/XML");
+                try {
+                    model.write(new FileOutputStream(new File(directory+name+"/schema.nt")), "NT");
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
 
 
-            Model model = ModelFactory.createDefaultModel();
-            model.read(directory+name+"/schema.nt","NT");
             try {
-                model.write(new FileOutputStream(new File(directory+name+"/schema.owl")), "RDF/XML");
+                virtuosoService = new VirtuosoService(linkURL, baseURI);
+                String newsparql = insertFromOnSPARQL("select ?s ?p ?o where{?s ?p ?o} LIMIT 10", baseURI);
+                //Iterable<ResultQuery> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
+                Iterable<ResultQuery> results = virtuosoService.run(newsparql);
+                if (results == null) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                logger.warn("Failed to load database {}. Error");
             }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        else {
-            retorno.setSquema(new UploadFileResponse("schema.owl", fileDownloadUri2,
-                    squema.getContentType(), squema.getSize()));
-            changeDirecotryFile(squema, name, "schema.owl");
 
-            Model model = ModelFactory.createDefaultModel();
-            model.read(directory+name+"/schema.owl","RDF/XML");
+
             try {
-                model.write(new FileOutputStream(new File(directory+name+"/schema.nt")), "NT");
-            }
-            catch(Exception e){
-                e.printStackTrace();
+                VirtuosoRepository.createVirtuosoRepository(name,
+                        /*linkURL*/
+                        linkURL,
+                        /*baseURI*/
+                        baseURI,
+                        /*Schema*/
+                        directory + name + "/schema.nt");
+                createJSON(name,linkURL,baseURI);
+
+                return retorno;
+            } catch (Exception e){
+                FileSystemUtils.deleteRecursively(new File(directory+name));
+                throw e;
             }
         }
-
-
-        try {
-            virtuosoService = new VirtuosoService(linkURL, baseURI);
-            Iterable<ResultQuery> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
-            //Iterator<QuerySolution> results = virtuosoService.run("select ?s ?p ?o where{?s ?p ?o} LIMIT 10");
-            if (results == null) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            logger.warn("Failed to load database {}. Error");
+        else{
+            throw new HttpVirtuosoException("Invalid SPARQL Endpoint! Input a valid one.");
         }
 
-
-        try {
-            VirtuosoRepository.createVirtuosoRepository(name,
-                    /*linkURL*/
-                    linkURL,
-                    /*baseURI*/
-                    baseURI,
-                    /*Schema*/
-                    directory + name + "/schema.nt");
-            createJSON(name,linkURL,baseURI);
-
-            return retorno;
-        } catch (Exception e){
-            FileSystemUtils.deleteRecursively(new File(directory+name));
-            throw e;
-        }
-
-
-        //VirtuosoRepository.createVirtuosoRepository(name, linkURL, baseURI, squema);
-        //VirtuosoRepository.createVirtuosoRepository(name, linkURL, baseURI, directory + name + "/schema.nt");
 
     }
 
@@ -180,7 +181,7 @@ public class VirtuosoController {
         }
     }
 
-    private static String insertFromOnSPARQL(String sparql, String uri){
+    private static String insertFromOnSPARQL(String sparql, String uri) {
         int idx = sparql.toLowerCase().indexOf("where");
 
         return sparql.substring(0, idx) + "from <"+uri+"> "+sparql.substring(idx);
@@ -192,9 +193,6 @@ public class VirtuosoController {
 
         FileWriter writeFile = null;
 
-        System.out.println(url);
-        System.out.println(uri);
-
         //Armazena dados em um Objeto JSON
         obj.put("database_name",name);
         obj.put("url", url);
@@ -202,8 +200,6 @@ public class VirtuosoController {
 
         //serializa para uma string e imprime
         String json_string = obj.toString();
-        System.out.println("objeto original -> " + json_string);
-        System.out.println();
 
         try {
             writeFile = new FileWriter(directory + name + "/databaseinfo.json");
@@ -214,7 +210,7 @@ public class VirtuosoController {
             e.printStackTrace();
         }
 
-        //Imprime na Tela o Objeto JSON para vizualização
-        System.out.println(obj);
     }
+
+
 }

@@ -31,8 +31,8 @@ Form.create()(
         super(props);
     this.state = {
       name: '',
-      database_link: '',
-      database_uri: '',
+      databaseURL: '',
+      databaseURI: '',
       squema: null,
       file1: null,
       file2: null,
@@ -59,7 +59,7 @@ Form.create()(
 
 
     render() {
-      const { onCancel, loading, visible} = this.props;
+      const { onCancel, loading, visible } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { file1, file2 } = this.state;
 
@@ -83,7 +83,7 @@ Form.create()(
                     {getFieldDecorator('name', {
                         rules: [{
                             required: true,
-                            message: 'Please input your name',
+                            message: 'Please input a name',
                         }],
                     })(
                         <Input
@@ -92,16 +92,16 @@ Form.create()(
                     )}
                 </FormItem>
                 <FormItem
-                    label="Database URL"
+                    label="SPARQL Endpoint"
                 >
                     {getFieldDecorator('databaseURL', {
                         rules: [{
                             required: true,
-                            message: 'Please input your database link',
+                            message: 'Please input a SPARQL Endpoint',
                         }],
                     })(
                         <Input
-                            placeholder="Database Link" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURL')}
+                            placeholder="SPARQL Endpoint" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURL')}
                         />
                     )}
                 </FormItem>
@@ -111,7 +111,7 @@ Form.create()(
                     {getFieldDecorator('databaseURI', {
                         rules: [{
                             required: true,
-                            message: 'Please input your database uri',
+                            message: 'Please input a database uri',
                         }],
                     })(
                         <Input
@@ -123,7 +123,7 @@ Form.create()(
               label="RDF/XML Ontology Schema (.nt, .xml, .owl, .rdf)"
               >
               <div className="dropbox">
-                {getFieldDecorator('file2', {
+                {getFieldDecorator('squema', {
                    rules: [{
                     required: true,
                     message: 'Please input your File 2',
@@ -147,7 +147,7 @@ Form.create()(
               {getFieldDecorator('name', {
                    rules: [{
                     required: true,
-                    message: 'Please input your name',
+                    message: 'Please input a name',
                   }],
                 })(
                 <Input
@@ -212,7 +212,7 @@ Form.create()(
               setFields({
                   name: {
                       value: null,
-                      errors: [new Error('Please input your name')],
+                      errors: [new Error('Please input a name')],
                   },
               });
               return;
@@ -272,9 +272,9 @@ Form.create()(
 
           if (!databaseURL) {
               setFields({
-                  name: {
+                databaseURL: {
                       value: null,
-                      errors: [new Error('Please input your database link')],
+                      errors: [new Error('Please input a database link')],
                   },
               });
               return;
@@ -282,7 +282,7 @@ Form.create()(
 
           if (!databaseURI) {
             setFields({
-                name: {
+              databaseURI: {
                     value: null,
                     errors: [new Error('Please input your database URI')],
                 },
@@ -295,8 +295,8 @@ Form.create()(
           onOk();
           ServiceApiFile.addVirtuoso({name, databaseURL, databaseURI, squema}).then(
               (response) => {
-                  const nameDatabase = response.data.name;
-                  onAddBase(nameDatabase);
+                  const name = response.data.name;
+                  onAddBase(name);
                   this.emptyStateVirtuoso();
                   onSucess();
                   success();

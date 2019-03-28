@@ -1,14 +1,21 @@
 package br.ufc.insightlab.vonqbe.service;
 
 import br.ufc.insightlab.ror.entities.ResultQuery;
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
+import br.ufc.insightlab.vonqbe.exception.HttpVirtuosoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.jena.query.*;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+//import java.net.MalformedURLException;
+//import java.net.ProtocolException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
 
 public class VirtuosoService{
 
@@ -17,15 +24,13 @@ public class VirtuosoService{
     private String uri;
 
     public VirtuosoService(String link, String uri) {
-        this.link = link;
-        this.uri = uri;
+            this.link = link;
+            this.uri = uri;
+
     }
 
-    // TODO o erro ta aqui
     public Iterable<ResultQuery> run(String sparql) {
-    //public Iterator<QuerySolution> run(String sparql){
 
-        // ResultSet é um Iterator<QuerySolution>
         Query query = QueryFactory.create(sparql);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(link, query);
         ResultSet results = qexec.execSelect();
