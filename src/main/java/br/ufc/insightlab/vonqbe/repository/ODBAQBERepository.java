@@ -59,8 +59,8 @@ public class ODBAQBERepository extends QBERepository {
     }
 
 
-    public List<WebResultItem> runQuery(String text, int limit){
-        return mapResults(applyQuery(getSPARQL(text, limit)));
-    }
+//    public List<WebResultItem> runQuery(String text, int limit, boolean withNER){
+//        return mapResults(applyQuery(getSPARQL(text, limit, withNER)));
+//    }
 
 }

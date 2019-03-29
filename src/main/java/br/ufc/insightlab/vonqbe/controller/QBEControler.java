@@ -108,7 +108,7 @@ public class QBEControler {
 	}
 	
 	@RequestMapping("/query")
-	public List<WebResultItem> query(String database, String text, int limit) throws Exception{
+	public List<WebResultItem> query(String database, String text, int limit, boolean withNER) throws Exception{
 		
 		logger.info("database: {}, text: {}",database, text);
 		String textDecoder= decoderText(text);
@@ -118,7 +118,7 @@ public class QBEControler {
 			return new LinkedList<>();
 		}
 		else{
-			return controler.runQuery(textDecoder, limit);
+			return controler.runQuery(textDecoder, limit, withNER);
 		}
 
 	}

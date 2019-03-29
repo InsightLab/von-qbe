@@ -51,15 +51,17 @@ public abstract class QBERepository {
         return containers.containsKey(name);
     }
 
-    public abstract List<WebResultItem> runQuery(String textDecoder, int limit) throws Exception;
+    //public abstract List<WebResultItem> runQuery(String textDecoder, int limit, boolean withNER) throws Exception;
     
-    public String getSPARQL(String text, int limit){
-        try{
-            if (limit <= 0) {
-                return qbeService.query(text);
-            }else {
-                return qbeService.query(text)+"LIMIT " + limit;
-            }
+
+    public String getSPARQL(String text, int limit, boolean withNER){
+
+    	try{
+        	if (limit <= 0) { 
+        		return qbeService.query(text, withNER);
+        	}else {
+        		 return qbeService.query(text, withNER)+"LIMIT " + limit;
+        	}
         }
         catch(Exception e){
             return "";
@@ -68,17 +70,21 @@ public abstract class QBERepository {
 
     public abstract Iterable<ResultQuery> applyQuery(String sparql);
 
-    public List<WebResultItem> mapResults(Iterable<ResultQuery> results){
+    public List<WebResultItem> mapResults(Iterable<ResultQuery> results) {
         List<WebResultItem> resultsList = new LinkedList<>();
 
         int i = 0;
 
-        for(ResultQuery result : results){
+        for (ResultQuery result : results) {
             ((LinkedList<WebResultItem>) resultsList).addLast(new WebResultItem(result));
         }
 
         return resultsList;
+    }
 
+
+    public List<WebResultItem> runQuery(String text, int limit, boolean withNER){
+        return mapResults(applyQuery(getSPARQL(text, limit, withNER)));
     }
 
 

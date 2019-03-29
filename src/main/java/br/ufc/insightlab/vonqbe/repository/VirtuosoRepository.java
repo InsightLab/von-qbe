@@ -38,12 +38,12 @@ public class VirtuosoRepository extends QBERepository{
             return rs;
         } catch (Exception e) {
             logger.error(e.toString());
-            return new ResultQuerySet(null,null);
+            return new LinkedList<>();
         }
     }
 
-    public List<WebResultItem> runQuery(String text, int limit) throws Exception{
-        return mapResults(applyQuery(getSPARQL(text, limit)));
-    }
+//    public List<WebResultItem> runQuery(String text, int limit, boolean withNER) throws Exception{
+//        return mapResults(applyQuery(getSPARQL(text, limit, withNER)));
+//    }
 
 }
