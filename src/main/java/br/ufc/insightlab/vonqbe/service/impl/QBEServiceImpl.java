@@ -5,7 +5,6 @@ import java.util.List;
 
 import br.ufc.insightlab.graphast.structure.DefaultGraphStructure;
 import br.ufc.insightlab.linkedgraphast.model.graph.LinkedGraph;
-import br.ufc.insightlab.linkedgraphast.modules.figer.Figer;
 import br.ufc.insightlab.linkedgraphast.modules.fragmentexpansor.FragmentExpansor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBEFragmentExtractor;
 import br.ufc.insightlab.linkedgraphast.modules.vonqbe.VonQBESparqlBuilder;
@@ -38,8 +37,8 @@ public class QBEServiceImpl implements QBEService {
         schema = new LinkedGraph(new DefaultGraphStructure());
 		NTripleParser.parse(nt, schema);
 	
-		extractor = new VonQBEFragmentExtractor(schema); 
-		sparqlBuilder = new VonQBESparqlBuilder(schema, false);
+		extractor = new VonQBEFragmentExtractor(schema);
+		sparqlBuilder = new VonQBESparqlBuilder(schema);
 		
 		logger.info("[QBE API] Graph load success!");
 	}
