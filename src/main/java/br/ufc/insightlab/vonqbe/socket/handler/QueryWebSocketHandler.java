@@ -19,13 +19,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jena.query.*;
+import java.util.Iterator;
+
+
 public class QueryWebSocketHandler extends TextWebSocketHandler{
 
     private static Logger logger = LoggerFactory.getLogger(QueryWebSocketHandler.class);
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
-            throws InterruptedException, IOException {
+            throws Exception {
         JSONObject msg = new JSONObject(message.getPayload());
         String database = msg.get("database").toString();
         String text = msg.get("text").toString();
@@ -53,7 +57,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
         session.sendMessage(QueryMessageFactory.generateSPARQLMessage(sparql, end-start));
 
         start = System.currentTimeMillis();
-        ResultQuerySet resultSet = controler.applyQuery(sparql);
+        Iterable<ResultQuery> resultSet = controler.applyQuery(sparql);
         end = System.currentTimeMillis();
 
         session.sendMessage(QueryMessageFactory.generateRunMessage(end-start));
@@ -107,7 +111,6 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
             return getfromFile().iterator();
         }
     }
-
 
     public ResultQuerySet run(String sparql) {
 

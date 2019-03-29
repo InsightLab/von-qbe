@@ -1,10 +1,10 @@
 package br.ufc.insightlab.vonqbe.service.impl;
 
 
+import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.ufc.insightlab.ror.entities.ResultQuerySet;
 import br.ufc.insightlab.ror.implementations.OntopROR;
 import br.ufc.insightlab.vonqbe.service.RORService;
 

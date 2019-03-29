@@ -27,12 +27,21 @@ Form.create()(
       onAddBase: PropTypes.func
     };
 
-    state = {
+    constructor(props){
+        super(props);
+    this.state = {
       name: '',
+      databaseURL: '',
+      databaseURI: '',
+      squema: null,
       file1: null,
       file2: null,
+      isUsingVirtuoso: false,
       clearFiles: true,
       error: undefined
+    }
+
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
     errorMessage = ( msg ) => {
@@ -41,8 +50,16 @@ Form.create()(
       this.setState({error: msg})
     };
 
+    handleCheckboxChange(e){
+        var isChecked = e.target.checked;
+        if (!(isChecked  === this.state.isUsingVirtuoso)){
+            this.setState({isUsingVirtuoso : isChecked});
+        }
+    };
+
+
     render() {
-      const { onCancel, loading, visible} = this.props;
+      const { onCancel, loading, visible } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { file1, file2 } = this.state;
 
@@ -58,17 +75,82 @@ Form.create()(
               Save
             </Button>
           ]}>
-          <Form>
+           <div id="checkbox-virtuoso"><input type="checkbox" onChange={this.handleCheckboxChange}/> Virtuoso</div>
+            <Form hidden={!this.state.isUsingVirtuoso}>
+                <FormItem
+                    label="Name"
+                >
+                    {getFieldDecorator('name', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input a name',
+                        }],
+                    })(
+                        <Input
+                            placeholder="Database Name" onChange={ (e) => this.handleChange(e, 'name')}
+                        />
+                    )}
+                </FormItem>
+                <FormItem
+                    label="SPARQL Endpoint"
+                >
+                    {getFieldDecorator('databaseURL', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input a SPARQL Endpoint',
+                        }],
+                    })(
+                        <Input
+                            placeholder="SPARQL Endpoint" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURL')}
+                        />
+                    )}
+                </FormItem>
+                <FormItem
+                    label="Database URI"
+                >
+                    {getFieldDecorator('databaseURI', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input a database uri',
+                        }],
+                    })(
+                        <Input
+                            placeholder="Database Link" onChange={ (e) => this.handleChangeDatabase(e, 'databaseURI')}
+                        />
+                    )}
+                </FormItem>
+                <FormItem
+              label="RDF/XML Ontology Schema (.nt, .xml, .owl, .rdf)"
+              >
+              <div className="dropbox">
+                {getFieldDecorator('squema', {
+                   rules: [{
+                    required: true,
+                    message: 'Please input your File 2',
+                  }],
+                })(
+                  <UploadUi 
+                    visible
+                    onChangeFile={(file) => this.handleSetFile(file, 'squema')} 
+                    filelist={file2}
+                    accept=".nt,.xml,.owl,.rdf"
+                    clear={this.state.clearFiles}
+                    />
+                )}
+              </div>
+            </FormItem>
+            </Form>
+            <Form hidden={this.state.isUsingVirtuoso}>
             <FormItem
               label="Name"
             >
               {getFieldDecorator('name', {
                    rules: [{
                     required: true,
-                    message: 'Please input your name',
+                    message: 'Please input a name',
                   }],
                 })(
-                <Input 
+                <Input
                   placeholder="Database Name" onChange={ (e) => this.handleChange(e, 'name')}
                   />
               )}
@@ -120,64 +202,142 @@ Form.create()(
     }
 
     handleButtonOk = () =>{
-      const {onOk, onSucess, onAddBase, onFail} = this.props;
-      const { setFields } = this.props.form;
-      const{ name, file1, file2} = this.state;
 
-      if ( !name ){
-        setFields({
-          name: {
-            value: null,
-            errors: [new Error('Please input your name')],
-          },
-        });
-        return;
-      };
+      if(!this.state.isUsingVirtuoso) {
+          const {onOk, onSucess, onAddBase, onFail} = this.props;
+          const {setFields} = this.props.form;
+          const {name, file1, file2} = this.state;
 
-      if (this.validateFile(file1 , file2))return;
-     
-      onOk();
-      ServiceApiFile.addFile( {name, file1, file2})
-        .then(
-          ( response ) =>{
-            const nameDatabase = response.data.name;
-            onAddBase(nameDatabase);
-            this.emptyState();
-            onSucess();
-            success();
-            this.setState({
-              clearFiles: true,
-              visible: false
-            });
-          })
-        .catch((error) => {
-          //message.error();
-          if (error.response) {
-              // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
-              this.errorMessage("SERVER ERROR: "+error.response.data.message);
-          } else if (error.request) {
-              // The request was made but no response was received
-              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
-              console.log(error);
-              this.errorMessage("Something went wrong at HTTP requisition. Check the console log for details")
-          } else {
-              // Something happened in setting up the request that triggered an Error
-              this.errorMessage("Something went wrong. Check the console log for details")
-              console.log('Error', error);
+          if (!name) {
+              setFields({
+                  name: {
+                      value: null,
+                      errors: [new Error('Please input a name')],
+                  },
+              });
+              return;
           }
-          onFail();
-      });
-      //this.forceUpdate();
+
+
+          if (this.validateFile(file1, file2)) return;
+
+          onOk();
+          ServiceApiFile.addFile({name, file1, file2})
+              .then(
+                  (response) => {
+                      const nameDatabase = response.data.name;
+                      onAddBase(nameDatabase);
+                      this.emptyState();
+                      onSucess();
+                      success();
+                      this.setState({
+                          clearFiles: true,
+                          visible: false
+                      });
+                  })
+              .catch((error) => {
+                  //message.error();
+                  if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+                      this.errorMessage("SERVER ERROR: " + error.response.data.message);
+                  } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+                      console.log(error);
+                      this.errorMessage("Something went wrong at HTTP requisition. Check the console log for details")
+                  } else {
+                      // Something happened in setting up the request that triggered an Error
+                      this.errorMessage("Something went wrong. Check the console log for details")
+                      console.log('Error', error);
+                  }
+                  onFail();
+              });
+          //this.forceUpdate();
+      }else{
+          const {onOk, onSucess, onAddBase, onFail} = this.props;
+          const {setFields} = this.props.form;
+          const {name, databaseURL, databaseURI, squema} = this.state;
+
+          if (!name) {
+              setFields({
+                  name: {
+                      value: null,
+                      errors: [new Error('Please input your name')],
+                  },
+              });
+              return;
+          }
+
+          if (!databaseURL) {
+              setFields({
+                databaseURL: {
+                      value: null,
+                      errors: [new Error('Please input a database link')],
+                  },
+              });
+              return;
+          }
+
+          if (!databaseURI) {
+            setFields({
+              databaseURI: {
+                    value: null,
+                    errors: [new Error('Please input your database URI')],
+                },
+            });
+            return;
+        }
+
+        if (this.validateFileNt(squema)) return;
+
+          onOk();
+          ServiceApiFile.addVirtuoso({name, databaseURL, databaseURI, squema}).then(
+              (response) => {
+                  const name = response.data.name;
+                  onAddBase(name);
+                  this.emptyStateVirtuoso();
+                  onSucess();
+                  success();
+                  this.setState({
+                      visible: false
+                  });
+              })
+              .catch((error) => {
+                  //message.error();
+                  if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+                      this.errorMessage("SERVER ERROR: " + error.response.data.message);
+                  } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+                      console.log(error);
+                      this.errorMessage("Something went wrong at HTTP requisition. Check the console log for details")
+                  } else {
+                      // Something happened in setting up the request that triggered an Error
+                      this.errorMessage("Something went wrong. Check the console log for details")
+                      console.log('Error', error);
+                  }
+                  onFail();
+              });
+      }
+
     }
 
     
-
     handleChange = (e, name)=>{
       var campoSendoAlterado = {"clearFiles": false};
       campoSendoAlterado[name] = e.target.value;
       this.setState(campoSendoAlterado);
+    }
+
+    handleChangeDatabase = (e, databaseLink)=>{
+        var campoSendoAlterado = {"clearFiles": false};
+        campoSendoAlterado[databaseLink] = e.target.value;
+        this.setState(campoSendoAlterado);
     }
 
     handleSetFile = ( value, name ) =>{
@@ -197,6 +357,17 @@ Form.create()(
       })
     }
     
+    emptyStateVirtuoso = () =>{
+      const { setFields } = this.props.form;
+      setFields({name: {value: null}, databaseURL: {value: null}, databaseURI: {value:null}, squema: {value: null}});
+      this.setState({
+          name: '',
+          databaseURL: '',
+          databaseURI: '',
+          error: undefined
+      })
+    }
+
     validateFile=( file1, file2)=>{
       const { setFields } = this.props.form;
       if ( !file1 ){  
@@ -217,11 +388,19 @@ Form.create()(
       }
       return false;
     }
+
+    validateFileNt=( file1 )=>{
+      const { setFields } = this.props.form;
+      if ( !file1 ){  
+        setFields({
+          file1: {
+            errors: [new Error('Please input file')],
+          },
+        });
+        return true;
+      }
+      return false;
+    }
   }
 
-
-
-  
-
-  
 )//form
