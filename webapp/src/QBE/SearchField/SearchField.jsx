@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Suggestions} from './Suggestions/Suggestions';
-import {Input} from 'antd';
+import {Input}  from 'antd';
 import PropTypes from 'prop-types';
 
 import './SearchField.css';
@@ -14,12 +14,14 @@ export class SearchField extends Component{
 
     this.state = {
       inputValue: props.text,
-      number: 30,
+      number: props.limit,
+      isUsingNER: false
     };
 
     this.handleChangValue = this.handleChangValue.bind(this);
     this.triggerChange = this.triggerChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
   static propTypes = {
@@ -46,12 +48,19 @@ export class SearchField extends Component{
   handleSubmit(e){
     e.preventDefault();
     e.stopPropagation();
-    this.props.onSubmit(this.state.inputValue)
+    this.props.onSubmit(this.state.inputValue, this.state.isUsingNER ,false)
   }
 
   triggerChange({text, isViewSugestion}){
     this.props.handleTextChange(text);
     this.props.onChangeLimit(this.state.number, isViewSugestion);
+  }
+
+  handleCheckboxChange(e){
+      var isChecked = e.target.checked;
+      if (!(isChecked  === this.state.isUsingNER)){
+        this.setState({isUsingNER : isChecked});
+      } 
   }
 
   render(){
@@ -66,8 +75,9 @@ export class SearchField extends Component{
           disabled={(this.props.disabled) ? "disabled" : ""}
           />
 
-        <input id="run" type="submit" value="" title="Click to execute the search."/>
-        
+        <div id="label-limit">
+          Limit:
+        </div>
         <Input
           type="text"
           title="Limit"
@@ -75,7 +85,9 @@ export class SearchField extends Component{
           value={this.state.number}
           onChange={this.handleNumberChange}
           style={{ width: '5%', height: 40, marginLeft: 10 }}
-          />
+        />
+
+        <input id="run" type="submit" value="" title="Click to execute the search."/>
 
         {(this.props.suggestions && this.props.suggestions.length > 0) && 
           <Suggestions>
@@ -83,8 +95,22 @@ export class SearchField extends Component{
           </Suggestions>
         }
 
-      
-      
+        <br />
+        <div id="input-options">
+
+          <div id="ner">
+
+            <Input
+               id="checkbox-ner"
+               type="checkbox"
+               onChange={this.handleCheckboxChange} 
+            />
+            <div id="label-ner">
+                Using NER
+            </div>
+
+          </div>
+        </div>
       </form>
     );
   }

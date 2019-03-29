@@ -10,10 +10,37 @@ export class Results extends Component{
     results: PropTypes.array
   };
 
+  reverseString(s){
+    return s.split("").reverse().join("")
+  }
+
+  clearURI(uri){
+    let reverseURI = this.reverseString(uri)
+    let clean = ""
+    let i = 1
+    while(i < reverseURI.length && reverseURI[i] !== '/' && reverseURI[i] !== '#'){
+      clean += reverseURI[i]
+      i += 1
+    }
+
+    return this.reverseString(clean)
+
+  }
+
+  generateTableCell(value){
+    if(value.startsWith("<http://"))
+      return <a href={value.substring(1, value.length - 1)}>{this.clearURI(value)}</a>
+    else return value
+  }
+
   render(){
     //take the values keys from the first result, defining the table's header 
-    const headerValues = Object.keys(this.props.results[0].values)
-    const headerElements = headerValues.map((h,i) => <td key={i}>{h}</td>)
+    let willRender = this.props.results.length > 0;
+
+    
+    const headerValues = willRender ? Object.keys(this.props.results[0].values) : []
+    const headerElements = willRender ? headerValues.map((h,i) => <td key={i}>{h}</td>): []
+    
 
     //map the elements from the results following the header's order
     const rows = this.props.results.map((element,i) => {
@@ -21,12 +48,11 @@ export class Results extends Component{
 
       return (
         <tr className="nome" key={i}>
-            {headerValues.map((h,i) => <td key={i}>{values[h]}</td>)}
+            {headerValues.map((h,i) => <td key={i}>{this.generateTableCell(values[h])}</td>)}
         </tr>
       );
     });
 
-    let willRender = this.props.results.length > 0;
 
     let copyText = 
       headerValues.join("\t")+"\n" +

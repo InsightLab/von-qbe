@@ -1,5 +1,6 @@
 # Created by https://www.gitignore.io/api/eclipse,java,bower,node,maven,osx,linux,tomcat,jboss
 von-qbe-databases/
+src/main/resources/figer.new.model.gz
 src/main/resources/static/
 src/main/webapp/.env
 .idea/

@@ -10,8 +10,9 @@ export class QBEContainer extends Component{
 
     this.state = {
       text: "",
-      limit: null,
-      isViewSugestion: true,
+      limit: 30,
+      isUsingNER: false,
+      isViewSugestion: true
     }
     
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this);
@@ -72,12 +73,14 @@ export class QBEContainer extends Component{
         isRequesting: false,
         queryStatus: id,
         results: data.results,
+        isViewSugestion: true
       }); 
   }
 
-  handleSubmit(text, isViewSugestion){
+  handleSubmit(text, isUsingNER, isViewSugestion){
     this.setState({
       text: text,
+      isUsingNER: isUsingNER,
       suggestions: undefined,
       disabled: true,
       isRequesting: true,
@@ -97,7 +100,7 @@ export class QBEContainer extends Component{
     //     }); 
     // });
     
-    let msg = {"database":this.props.database, "text": text, "limit": this.state.limit };
+    let msg = {"database":this.props.database, "text": text, "limit": this.state.limit, "isUsingNER": isUsingNER};
     this.sendMessage(this.socket,JSON.stringify(msg));
 
   }

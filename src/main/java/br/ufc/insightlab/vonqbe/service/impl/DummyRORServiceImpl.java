@@ -57,7 +57,8 @@ public class DummyRORServiceImpl implements RORService {
 
 
     @Override
-    public ResultQuerySet run(String sparql) {
+    //public ResultQuerySet run(String sparql) {
+    public ResultQuerySet run(String sparql){
         return new FileResultQuerySet();
     }
 }

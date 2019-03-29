@@ -51,7 +51,6 @@
 }
 
 #search-results > div {
-	width: 100%;
 	padding: 6px;
 	text-align: left;
 	line-height: 18px;
@@ -60,4 +59,29 @@
 #search-results > div:hover {
 	cursor: pointer;
 	font-weight: bold;
+}
+
+#label-limit{
+	margin-left: 20px;
+	font-size: 15px;
+}
+
+#ner{
+	text-align: left;
+	font-size: 15px;
+}
+
+#label-ner{
+	margin-left: 8px;
+}
+
+#checkbox-ner{
+	margin-bottom: 4px;
+}
+
+#input-options{
+	width: 100%;
+	text-align: left;
+	padding: 15px 15px 0px 0px;
+	margin-left: -10%;
 }

@@ -37,7 +37,7 @@ public class QBEServiceImpl implements QBEService {
         schema = new LinkedGraph(new DefaultGraphStructure());
 		NTripleParser.parse(nt, schema);
 	
-		extractor = new VonQBEFragmentExtractor(schema); 
+		extractor = new VonQBEFragmentExtractor(schema);
 		sparqlBuilder = new VonQBESparqlBuilder(schema);
 		
 		logger.info("[QBE API] Graph load success!");
@@ -63,7 +63,7 @@ public class QBEServiceImpl implements QBEService {
 	}
 
 	@Override
-	public String query(String text) {
-		return sparqlBuilder.generateSPARQL(text);
+	public String query(String text, boolean withNER) {
+		return sparqlBuilder.generateSPARQL(text, withNER);
 	}
 }

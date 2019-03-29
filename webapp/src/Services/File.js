@@ -10,4 +10,12 @@ export const ServiceApiFile = {
     return api.post("uploadFile", data);
   },
 
+  addVirtuoso: ( { name, databaseURL , databaseURI, squema} ) => {
+      let data = new FormData();
+      data.append("name", name);
+      data.append("linkURL", databaseURL);
+      data.append("baseURI", databaseURI);
+      data.append("squema", squema);
+      return api.post("uploadLink", data);
+  }
 };
