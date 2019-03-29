@@ -30,6 +30,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
         String database = msg.get("database").toString();
         String text = msg.get("text").toString();
         int limit = Integer.parseInt(msg.get("limit").toString());
+        boolean withNER = Boolean.parseBoolean(msg.get("isUsingNER").toString());
         logger.info("database: {}, text: {}",database, text);
         QBERepository controler = QBERepository.getRepository(database);
 
@@ -46,7 +47,7 @@ public class QueryWebSocketHandler extends TextWebSocketHandler{
                 end = 0;
 
         start = System.currentTimeMillis();
-        String sparql = controler.getSPARQL(text, limit);
+        String sparql = controler.getSPARQL(text, limit, withNER);
         end = System.currentTimeMillis();
 
         session.sendMessage(QueryMessageFactory.generateSPARQLMessage(sparql, end-start));
