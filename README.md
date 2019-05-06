@@ -12,7 +12,7 @@ To run the application, you must have installed:
 * Nodejs
 * NPM
 
-To execute this system first you need to install at your local maven repository both [Linked-Graphast](https://github.com/InsightLab/linked-graphast) and [RoR](https://github.com/InsightLab/rdf-over-rdbms).
+To execute this system first you need to install at your local maven scala.br.ufc.insightlab.vonqbe.repository both [Linked-Graphast](https://github.com/InsightLab/linked-graphast) and [RoR](https://github.com/InsightLab/rdf-over-rdbms).
 
 At the first time you run the system(or every time that anything is changed at the front-end), you will need to run:
 
