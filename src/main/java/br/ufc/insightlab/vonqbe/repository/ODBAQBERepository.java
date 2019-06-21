@@ -39,18 +39,7 @@ public class ODBAQBERepository extends QBERepository {
 
     public Iterable<ResultQuery> applyQuery(String sparql){
         try {
-            Iterable<ResultQuery> iterator = (Iterable<ResultQuery>) rorService.run(sparql);
-            ResultQuerySet rs = (ResultQuerySet) iterator.iterator();
-            //ResultQuery rq = rs.iterator().next();
-
-//            while (iterator.iterator().hasNext()){
-//
-//                for (String projection : iterator.iterator().next().getProjections()){
-//                    rq.addValue(projection, iterator.iterator().next().getValue(projection));
-//                }
-//            }
-
-            return rs;
+            return rorService.run(sparql);
         } catch (Exception e) {
             logger.error(e.toString());
             return new ResultQuerySet(null,null);
