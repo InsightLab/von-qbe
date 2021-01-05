@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.11.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "dotenv": "^6.2.0",
     "react": "^16.6.3",
     "react-copy-to-clipboard": "^5.0.1",
